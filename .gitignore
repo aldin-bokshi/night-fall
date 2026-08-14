@@ -1,21 +1,58 @@
-# Godot 4+ specific ignores
+# =========================
+# Godot
+# =========================
+
+# Godot 4 generated project data
 .godot/
-<<<<<<< HEAD
-/android/
-=======
-.nomedia
 
-# Godot-specific ignores
+# Godot editor metadata / generated files
 .import/
-export.cfg
-export_credentials.cfg
-*.tmp
 
-# Imported translations (automatically generated from CSV files)
-*.translation
+# =========================
+# C# / .NET
+# =========================
 
-# Mono-specific ignores
-.mono/
-data_*/
-mono_crash.*.json
->>>>>>> 02deddcdd7d08895658bc386d40656455c1ad482
+# Build output
+bin/
+obj/
+
+# .NET generated files
+*.user
+*.userprefs
+*.suo
+
+# =========================
+# Visual Studio / VS Code
+# =========================
+
+# Visual Studio
+.vs/
+
+# VS Code workspace settings
+.vscode/
+
+# =========================
+# ReSharper
+# =========================
+
+# ReSharper caches / generated data
+_ReSharper*/
+*.[Rr]esharper*
+.idea/
+
+# =========================
+# OS
+# =========================
+
+# Windows
+Thumbs.db
+Desktop.ini
+
+# macOS
+.DS_Store
+
+# =========================
+# Logs
+# =========================
+
+*.log
