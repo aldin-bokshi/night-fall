@@ -1,0 +1,16 @@
+[gd_scene format=3 uid="uid://cwjwdt6xt3sjm"]
+
+[ext_resource type="Script" uid="uid://btq6j2er6xk8y" path="res://Core/RoomManager.cs" id="1_0prrp"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_7eeh3"]
+size = Vector2(78, 72)
+
+[node name="Hub" type="Node2D" unique_id=793288335]
+
+[node name="RoomActivationZone" type="Area2D" parent="." unique_id=694953308]
+script = ExtResource("1_0prrp")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="RoomActivationZone" unique_id=619862466]
+shape = SubResource("RectangleShape2D_7eeh3")
+
+[connection signal="body_entered" from="RoomActivationZone" to="RoomActivationZone" method="OnBodyEntered"]
