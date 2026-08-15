@@ -12,6 +12,27 @@ public partial class PlayerStats : Node
     [Export] public float DashDuration { get; set; } = 0.15f;
     [Export] public float DashCooldown { get; set; } = 1f;
 
+    public int Gold { get; private set; }
+
+    public void AddGold(int amount)
+    {
+        Gold += amount;
+    }
+
+    public bool CanAfford(int price)
+    {
+        return Gold >= price;
+    }
+
+    public bool SpendGold(int amount)
+    {
+        if (!CanAfford(amount))
+            return false;
+
+        Gold -= amount;
+        return true;
+    }
+
     public float Health { get; private set; }
 
     public override void _Ready()

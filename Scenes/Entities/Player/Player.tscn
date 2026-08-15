@@ -46,3 +46,6 @@ shape = SubResource("RectangleShape2D_7eeh3")
 [node name="CollisionShape2D" type="CollisionShape2D" parent="AttackHitbox" unique_id=654124776]
 shape = SubResource("RectangleShape2D_hi4ft")
 debug_color = Color(0.96862745, 0, 0, 0.49411765)
+
+[node name="Camera2D" type="Camera2D" parent="." unique_id=489290889]
+position_smoothing_enabled = true
