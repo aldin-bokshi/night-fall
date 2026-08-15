@@ -37,7 +37,7 @@ grow_vertical = 2
 [node name="Label" type="Label" parent="ColorRect/VBoxContainer" unique_id=359369628]
 layout_mode = 2
 theme_override_font_sizes/font_size = 25
-text = "Rougle Like Game"
+text = "Night Fall"
 horizontal_alignment = 1
 
 [node name="StartButton" type="Button" parent="ColorRect/VBoxContainer" unique_id=1346452155]
