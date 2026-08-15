@@ -16,7 +16,6 @@ offset_right = 331.0
 offset_bottom = 186.0
 grow_horizontal = 2
 grow_vertical = 2
-script = ExtResource("2_ora3x")
 
 [node name="Panel" type="Panel" parent="." unique_id=1644003107]
 layout_mode = 1
