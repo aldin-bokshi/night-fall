@@ -5,4 +5,7 @@
     <EnableDynamicLoading>true</EnableDynamicLoading>
     <RootNamespace>NightFall</RootNamespace>
   </PropertyGroup>
+  <ItemGroup>
+    <Content Include="Scripts\Shop\ShopItemDatabase.json" />
+  </ItemGroup>
 </Project>
