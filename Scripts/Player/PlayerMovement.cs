@@ -6,7 +6,7 @@ public partial class PlayerMovement : Node
 {
     [Export] public float Speed = 150f;
 
-    private PlayerStats _stats;
+    private PlayerStats? _stats;
 
     public void Initialize(PlayerStats stats)
     {

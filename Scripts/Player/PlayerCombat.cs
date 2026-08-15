@@ -7,16 +7,16 @@ public partial class PlayerCombat : Node
     [Export] public float AttackDamage = 10f;
     [Export] public float AttackCooldown = 1f;
     [Export] public float AttackDuration = 0.5f;
-    [Export] public Area2D AttackHitbox;
+    [Export] public Area2D? AttackHitbox;
     [Export] public Vector2 AttackkDirection;
-    [Export] public Animation AttackAnimation;
+    [Export] public Animation? AttackAnimation;
     
-    private PlayerStats _stats;
+    private PlayerStats? _stats;
     private float _attackTimer;
     private float _cooldownTimer;
     private Vector2 _facingDirection = Vector2.Right;
     private Vector2 _hitboxNeutralPosition;
-    private Area2D _attackHitboxTemplate;
+    private Area2D? _attackHitboxTemplate;
 
     public bool IsAttacking { get; private set; }
 
@@ -63,7 +63,7 @@ public partial class PlayerCombat : Node
 
         IsAttacking = true;
         _attackTimer = AttackDuration;
-        _cooldownTimer = _stats?.AttackCooldown ?? AttackCooldown;
+        _cooldownTimer = _stats != null ? _stats.AttackCooldown : AttackCooldown;
 
         SpawnAttackHitbox();
         ConfigureHitboxForFacing();
@@ -74,7 +74,7 @@ public partial class PlayerCombat : Node
             AttackHitbox.Visible = true;
         }
 
-        var damage = _stats?.AttackDamage ?? AttackDamage;
+        var damage = _stats != null ? _stats.AttackDamage : AttackDamage;
         GD.Print($"Player attacked for {damage} damage!");
 
         // play animation

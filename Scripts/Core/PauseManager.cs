@@ -4,12 +4,13 @@ namespace NightFall.Scripts.Core;
 
 public partial class PauseManager : Node
 {
-    [Export] public Control PauseMenu { get; private set; }
+    [Export] public Control? PauseMenu { get; private set; }
 
     public override void _Ready()
     {
         ProcessMode = ProcessModeEnum.Always;
-        PauseMenu.Hide();
+        if (PauseMenu != null)
+            PauseMenu.Hide();
     }
 
     public override void _Process(double delta)
@@ -23,6 +24,9 @@ public partial class PauseManager : Node
     private void TogglePause()
     {
         GetTree().Paused = !GetTree().Paused;
+
+        if (PauseMenu == null)
+            return;
 
         if (GetTree().Paused)
         {

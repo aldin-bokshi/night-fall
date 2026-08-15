@@ -3,15 +3,16 @@ namespace NightFall.Scripts.Core;
 
 public partial class RoomManager : Node
 {
-    [Export] public Area2D RoomActivationZone { get; private set; }
-    [Export] public Node2D Room { get; private set; }
+    [Export] public Area2D? RoomActivationZone { get; private set; }
+    [Export] public Node2D? Room { get; private set; }
 
     public override void _Ready()
     {
-        RoomActivationZone.BodyEntered += OnBodyEntered;
+        if (RoomActivationZone != null)
+            RoomActivationZone.BodyEntered += OnBodyEntered;
     }
 
-    private void ActivateEnemiesInRoom(int roomId)
+    private void ActivateEnemiesInRoom(int _)
     {
         // var enemies = GetEnemiesInRoom(roomId);
         // foreach (var enemy in enemies)

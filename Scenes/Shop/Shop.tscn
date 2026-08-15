@@ -10,14 +10,14 @@ anchor_left = 0.5
 anchor_top = 0.5
 anchor_right = 0.5
 anchor_bottom = 0.5
-offset_left = -331.0
-offset_top = -186.0
-offset_right = 331.0
-offset_bottom = 186.0
+offset_left = -500.0
+offset_top = -250.0
+offset_right = 500.0
+offset_bottom = 250.0
 grow_horizontal = 2
 grow_vertical = 2
 
-[node name="Panel" type="Panel" parent="." unique_id=1644003107]
+[node name="Panel" type="Panel" parent="." unique_id=141489275]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
@@ -25,48 +25,49 @@ anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 
-[node name="Label" type="Label" parent="." unique_id=1421959629]
+[node name="HeaderLine" type="HSeparator" parent="." unique_id=701271442]
 layout_mode = 1
-anchors_preset = 5
-anchor_left = 0.5
-anchor_right = 0.5
-offset_left = -48.5
-offset_right = 48.5
-offset_bottom = 55.0
+anchors_preset = 10
+anchor_right = 1.0
+offset_left = 35.0
+offset_top = 82.0
+offset_right = -35.0
+offset_bottom = 84.0
 grow_horizontal = 2
-theme_override_font_sizes/font_size = 40
-text = "Shop"
-horizontal_alignment = 1
 
-[node name="Gold" type="Label" parent="." unique_id=1595113593]
+[node name="Title" type="Label" parent="." unique_id=1581827405]
 layout_mode = 1
-anchors_preset = 5
-anchor_left = 0.5
-anchor_right = 0.5
-offset_left = -54.0
-offset_top = 58.0
-offset_right = 63.0
-offset_bottom = 107.0
+anchors_preset = 10
+anchor_right = 1.0
+offset_top = 20.0
+offset_bottom = 70.0
 grow_horizontal = 2
-theme_override_font_sizes/font_size = 25
+theme_override_font_sizes/font_size = 46
+text = "SHOP"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="Gold" type="Label" parent="." unique_id=1559394754]
+layout_mode = 1
+offset_left = 35.0
+offset_top = 30.0
+offset_right = 220.0
+offset_bottom = 70.0
+theme_override_font_sizes/font_size = 24
 text = "Gold: 0"
-horizontal_alignment = 1
+vertical_alignment = 1
 
-[node name="Leave" type="Button" parent="." unique_id=487853269]
+[node name="ItemsLabel" type="Label" parent="." unique_id=1459783476]
 layout_mode = 1
-anchors_preset = 7
-anchor_left = 0.5
-anchor_top = 1.0
-anchor_right = 0.5
-anchor_bottom = 1.0
-offset_left = -53.0
-offset_top = -98.0
-offset_right = 53.0
-offset_bottom = -40.99951
+anchors_preset = 10
+anchor_right = 1.0
+offset_top = 98.0
+offset_bottom = 125.0
 grow_horizontal = 2
-grow_vertical = 0
-theme_override_font_sizes/font_size = 35
-text = "Leave"
+theme_override_font_sizes/font_size = 16
+text = "AVAILABLE ITEMS"
+horizontal_alignment = 1
+vertical_alignment = 1
 
 [node name="HBoxContainer" type="HBoxContainer" parent="." unique_id=539928142]
 layout_mode = 1
@@ -75,15 +76,16 @@ anchor_left = 0.5
 anchor_top = 0.5
 anchor_right = 0.5
 anchor_bottom = 0.5
-offset_left = -206.0
-offset_top = -64.0
-offset_right = 234.0
-offset_bottom = 83.0
+offset_left = -280.0
+offset_top = -55.0
+offset_right = 280.0
+offset_bottom = 145.0
 grow_horizontal = 2
 grow_vertical = 2
-theme_override_constants/separation = 16
+theme_override_constants/separation = 30
+alignment = 1
 
-[node name="ShopItem" parent="HBoxContainer" unique_id=1771981929 instance=ExtResource("1_4kyni")]
+[node name="ShopItem1" parent="HBoxContainer" unique_id=1771981929 instance=ExtResource("1_4kyni")]
 layout_mode = 2
 
 [node name="ShopItem2" parent="HBoxContainer" unique_id=1216808657 instance=ExtResource("1_4kyni")]
@@ -92,5 +94,38 @@ layout_mode = 2
 [node name="ShopItem3" parent="HBoxContainer" unique_id=1434282810 instance=ExtResource("1_4kyni")]
 layout_mode = 2
 
-[node name="Node" type="Node" parent="." unique_id=1373668460]
+[node name="FooterLine" type="HSeparator" parent="." unique_id=283415211]
+layout_mode = 1
+anchors_preset = 7
+anchor_left = 0.5
+anchor_top = 1.0
+anchor_right = 0.5
+anchor_bottom = 1.0
+offset_left = -465.0
+offset_top = -100.0
+offset_right = 465.0
+offset_bottom = -98.0
+grow_horizontal = 2
+grow_vertical = 0
+
+[node name="Leave" type="Button" parent="." unique_id=487853269]
+layout_mode = 1
+anchors_preset = 7
+anchor_left = 0.5
+anchor_top = 1.0
+anchor_right = 0.5
+anchor_bottom = 1.0
+offset_left = -75.0
+offset_top = -80.0
+offset_right = 75.0
+offset_bottom = -30.0
+grow_horizontal = 2
+grow_vertical = 0
+theme_override_font_sizes/font_size = 22
+text = "Leave"
+
+[node name="ShopManager" type="Node" parent="." unique_id=1373668460 node_paths=PackedStringArray("_shopItem1", "_shopItem2", "_shopItem3")]
 script = ExtResource("2_ora3x")
+_shopItem1 = NodePath("../HBoxContainer/ShopItem1")
+_shopItem2 = NodePath("../HBoxContainer/ShopItem2")
+_shopItem3 = NodePath("../HBoxContainer/ShopItem3")

@@ -6,7 +6,7 @@ public partial class EnemyMovement : Node
 {
     [Export] public float Speed = 150f;
 
-    private EnemyStats _stats;
+    private EnemyStats? _stats;
 
     public void Initialize(EnemyStats stats)
     {

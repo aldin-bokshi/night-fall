@@ -1,41 +1,61 @@
 [gd_scene format=3 uid="uid://b0fg1oe2yvsux"]
 
+[ext_resource type="Script" uid="uid://qte65xebb44f" path="res://Scripts/Shop/ShopItem.cs" id="1_4rgw3"]
+
 [node name="ShopItem" type="Control" unique_id=1771981929]
-z_index = 1
-custom_minimum_size = Vector2(136, 147)
+custom_minimum_size = Vector2(160, 190)
 layout_mode = 3
+anchors_preset = 0
+script = ExtResource("1_4rgw3")
+
+[node name="Panel" type="PanelContainer" parent="." unique_id=1524278597]
+layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 
-[node name="Panel" type="PanelContainer" parent="." unique_id=1524278597]
-layout_mode = 0
-offset_right = 109.0
-offset_bottom = 116.0
-
-[node name="VBoxContainer" type="VBoxContainer" parent="Panel" unique_id=366181223]
+[node name="MarginContainer" type="MarginContainer" parent="Panel" unique_id=-482488195]
 layout_mode = 2
+theme_override_constants/margin_left = 10
+theme_override_constants/margin_top = 10
+theme_override_constants/margin_right = 10
+theme_override_constants/margin_bottom = 10
 
-[node name="Icon" type="TextureRect" parent="Panel/VBoxContainer" unique_id=2122336441]
+[node name="VBoxContainer" type="VBoxContainer" parent="Panel/MarginContainer" unique_id=366181223]
 layout_mode = 2
+theme_override_constants/separation = 6
 
-[node name="NameLabel" type="Label" parent="Panel/VBoxContainer" unique_id=208227873]
+[node name="NameLabel" type="Label" parent="Panel/MarginContainer/VBoxContainer" unique_id=208227873]
+custom_minimum_size = Vector2(0, 30)
 layout_mode = 2
+theme_override_font_sizes/font_size = 20
 text = "Name"
 horizontal_alignment = 1
+vertical_alignment = 1
 
-[node name="DescriptionLabel" type="Label" parent="Panel/VBoxContainer" unique_id=594147783]
+[node name="Separator" type="HSeparator" parent="Panel/MarginContainer/VBoxContainer" unique_id=1930737877]
 layout_mode = 2
+
+[node name="DescriptionLabel" type="Label" parent="Panel/MarginContainer/VBoxContainer" unique_id=594147783]
+custom_minimum_size = Vector2(0, 65)
+layout_mode = 2
+size_flags_vertical = 3
 text = "Stat Upgrades"
 horizontal_alignment = 1
+vertical_alignment = 1
+autowrap_mode = 2
 
-[node name="PriceLabel" type="Label" parent="Panel/VBoxContainer" unique_id=1220149023]
+[node name="PriceLabel" type="Label" parent="Panel/MarginContainer/VBoxContainer" unique_id=1220149023]
+custom_minimum_size = Vector2(0, 25)
 layout_mode = 2
+theme_override_font_sizes/font_size = 18
 text = "100G"
 horizontal_alignment = 1
+vertical_alignment = 1
 
-[node name="BuyButton" type="Button" parent="Panel/VBoxContainer" unique_id=1545834925]
+[node name="BuyButton" type="Button" parent="Panel/MarginContainer/VBoxContainer" unique_id=1545834925]
+custom_minimum_size = Vector2(0, 35)
 layout_mode = 2
 text = "Buy"

@@ -8,7 +8,7 @@ public partial class PlayerDash : Node
     [Export] public float DashDuration { get; set; } = 0.15f;
     [Export] public float DashCooldown { get; set; } = 1f;
 
-    private PlayerStats _stats;
+    private PlayerStats? _stats;
     private float _dashTimer;
     private float _cooldownTimer;
     private Vector2 _direction;
@@ -36,7 +36,7 @@ public partial class PlayerDash : Node
     {
         if (!IsDashing) { return; }
 
-        var dashSpeed = _stats?.DashSpeed ?? DashSpeed;
+        var dashSpeed = _stats != null ? _stats.DashSpeed : DashSpeed;
         player.Velocity = _direction * dashSpeed;
         player.MoveAndSlide();
 
