@@ -1,6 +1,7 @@
 [gd_scene format=3 uid="uid://chewj4f3eh26h"]
 
 [ext_resource type="PackedScene" uid="uid://b0fg1oe2yvsux" path="res://Scenes/Shop/ShopItem.tscn" id="1_4kyni"]
+[ext_resource type="Script" uid="uid://cuc1qsb0xqeby" path="res://Scripts/Shop/ShopManager.cs" id="2_ora3x"]
 
 [node name="Shop" type="Control" unique_id=80487823]
 layout_mode = 3
@@ -15,6 +16,7 @@ offset_right = 331.0
 offset_bottom = 186.0
 grow_horizontal = 2
 grow_vertical = 2
+script = ExtResource("2_ora3x")
 
 [node name="Panel" type="Panel" parent="." unique_id=1644003107]
 layout_mode = 1
@@ -90,3 +92,6 @@ layout_mode = 2
 
 [node name="ShopItem3" parent="HBoxContainer" unique_id=1434282810 instance=ExtResource("1_4kyni")]
 layout_mode = 2
+
+[node name="Node" type="Node" parent="." unique_id=1373668460]
+script = ExtResource("2_ora3x")
