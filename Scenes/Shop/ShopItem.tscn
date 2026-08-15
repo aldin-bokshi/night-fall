@@ -1,0 +1,41 @@
+[gd_scene format=3 uid="uid://b0fg1oe2yvsux"]
+
+[node name="ShopItem" type="Control" unique_id=1771981929]
+z_index = 1
+custom_minimum_size = Vector2(136, 147)
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="Panel" type="PanelContainer" parent="." unique_id=1524278597]
+layout_mode = 0
+offset_right = 109.0
+offset_bottom = 116.0
+
+[node name="VBoxContainer" type="VBoxContainer" parent="Panel" unique_id=366181223]
+layout_mode = 2
+
+[node name="Icon" type="TextureRect" parent="Panel/VBoxContainer" unique_id=2122336441]
+layout_mode = 2
+
+[node name="NameLabel" type="Label" parent="Panel/VBoxContainer" unique_id=208227873]
+layout_mode = 2
+text = "Name"
+horizontal_alignment = 1
+
+[node name="DescriptionLabel" type="Label" parent="Panel/VBoxContainer" unique_id=594147783]
+layout_mode = 2
+text = "Stat Upgrades"
+horizontal_alignment = 1
+
+[node name="PriceLabel" type="Label" parent="Panel/VBoxContainer" unique_id=1220149023]
+layout_mode = 2
+text = "100G"
+horizontal_alignment = 1
+
+[node name="BuyButton" type="Button" parent="Panel/VBoxContainer" unique_id=1545834925]
+layout_mode = 2
+text = "Buy"

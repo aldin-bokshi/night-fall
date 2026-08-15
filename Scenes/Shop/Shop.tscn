@@ -1,0 +1,92 @@
+[gd_scene format=3 uid="uid://chewj4f3eh26h"]
+
+[ext_resource type="PackedScene" uid="uid://b0fg1oe2yvsux" path="res://Scenes/Shop/ShopItem.tscn" id="1_4kyni"]
+
+[node name="Shop" type="Control" unique_id=80487823]
+layout_mode = 3
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -288.0
+offset_top = -162.0
+offset_right = 288.0
+offset_bottom = 162.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="Panel" type="Panel" parent="." unique_id=1644003107]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="Label" type="Label" parent="." unique_id=1421959629]
+layout_mode = 1
+anchors_preset = 5
+anchor_left = 0.5
+anchor_right = 0.5
+offset_left = -48.5
+offset_right = 48.5
+offset_bottom = 55.0
+grow_horizontal = 2
+theme_override_font_sizes/font_size = 40
+text = "Shop"
+horizontal_alignment = 1
+
+[node name="Gold" type="Label" parent="." unique_id=1595113593]
+layout_mode = 1
+anchors_preset = 5
+anchor_left = 0.5
+anchor_right = 0.5
+offset_left = -54.0
+offset_top = 58.0
+offset_right = 63.0
+offset_bottom = 107.0
+grow_horizontal = 2
+theme_override_font_sizes/font_size = 25
+text = "Gold: 0"
+horizontal_alignment = 1
+
+[node name="Leave" type="Button" parent="." unique_id=487853269]
+layout_mode = 1
+anchors_preset = 7
+anchor_left = 0.5
+anchor_top = 1.0
+anchor_right = 0.5
+anchor_bottom = 1.0
+offset_left = -53.0
+offset_top = -98.0
+offset_right = 53.0
+offset_bottom = -40.99951
+grow_horizontal = 2
+grow_vertical = 0
+theme_override_font_sizes/font_size = 35
+text = "Leave"
+
+[node name="HBoxContainer" type="HBoxContainer" parent="." unique_id=539928142]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -206.0
+offset_top = -64.0
+offset_right = 234.0
+offset_bottom = 83.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/separation = 16
+
+[node name="ShopItem" parent="HBoxContainer" unique_id=1771981929 instance=ExtResource("1_4kyni")]
+layout_mode = 2
+
+[node name="ShopItem2" parent="HBoxContainer" unique_id=1216808657 instance=ExtResource("1_4kyni")]
+layout_mode = 2
+
+[node name="ShopItem3" parent="HBoxContainer" unique_id=1434282810 instance=ExtResource("1_4kyni")]
+layout_mode = 2

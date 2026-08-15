@@ -14,19 +14,19 @@ public partial class RoomManager : Node
 
     private void ActivateEnemiesInRoom(int roomId)
     {
-        var enemies = GetEnemiesInRoom(roomId);
-        foreach (var enemy in enemies)
-        {
-            enemy.SetProcess(true);
-            enemy.SetPhysicsProcess(true);
-        }
+        // var enemies = GetEnemiesInRoom(roomId);
+        // foreach (var enemy in enemies)
+        // {
+            // enemy.SetProcess(true);
+            // enemy.SetPhysicsProcess(true);
+        // }
     }
 
     private void OnBodyEntered(Node2D body)
     {
         if (body is Player)
         {
-            ActivateEnemiesInRoom(Room.RoomId);
+            // ActivateEnemiesInRoom(Room.RoomId);
         }
     }
 }
