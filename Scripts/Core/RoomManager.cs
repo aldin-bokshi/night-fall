@@ -1,6 +1,5 @@
 using Godot;
-using RougeLike.Scripts.Player;
-namespace RougeLike.Core;
+namespace NightFall.Scripts.Core;
 
 public partial class RoomManager : Node
 {
@@ -24,9 +23,9 @@ public partial class RoomManager : Node
 
     private void OnBodyEntered(Node2D body)
     {
-        if (body is Player)
-        {
+        // if (body is Player)
+        // {
             // ActivateEnemiesInRoom(Room.RoomId);
-        }
+        // }
     }
 }

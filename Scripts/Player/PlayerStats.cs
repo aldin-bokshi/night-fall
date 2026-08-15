@@ -1,6 +1,6 @@
 using Godot;
 
-namespace RougeLike.Scripts.Player;
+namespace NightFall.Scripts.Player;
 
 public partial class PlayerStats : Node
 {

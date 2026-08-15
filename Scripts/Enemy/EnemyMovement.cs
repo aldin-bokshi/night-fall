@@ -1,6 +1,6 @@
 using Godot;
 
-namespace RougeLike.Scripts.Enemy;
+namespace NightFall.Scripts.Enemy;
 
 public partial class EnemyMovement : Node
 {
