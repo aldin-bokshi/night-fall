@@ -12,7 +12,6 @@ public partial class AttackHitbox : Area2D
     {
         _collisionShape = GetNode<CollisionShape2D>("CollisionShape2D");
 
-        // Hitbox does NOT exist as an active hitbox until an attack starts.
         Deactivate();
     }
 
@@ -31,8 +30,7 @@ public partial class AttackHitbox : Area2D
         Monitoring = true;
         Monitorable = true;
 
-        if (_collisionShape != null)
-            _collisionShape.Disabled = false;
+        _collisionShape.Disabled = false;
     }
 
     public void Deactivate()
@@ -41,7 +39,6 @@ public partial class AttackHitbox : Area2D
         Monitoring = false;
         Monitorable = false;
 
-        if (_collisionShape != null)
-            _collisionShape.Disabled = true;
+        _collisionShape.Disabled = true;
     }
 }

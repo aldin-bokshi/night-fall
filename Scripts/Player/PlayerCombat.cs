@@ -15,6 +15,11 @@ public partial class PlayerCombat : Node
 
     public bool IsAttacking { get; private set; }
 
+    public bool CanAttack()
+    {
+        return !IsAttacking && _cooldownTimer <= 0f;
+    }
+
     public void Initialize(PlayerStats stats, AttackHitbox attackHitbox)
     {
         _stats = stats;
@@ -25,14 +30,12 @@ public partial class PlayerCombat : Node
 
     public void Attack(Vector2 direction)
     {
-        if (IsAttacking || _cooldownTimer > 0f)
-            return;
+        if (!CanAttack()) return;
+        if (direction == Vector2.Zero) return;
 
         IsAttacking = true;
 
         _cooldownTimer = _stats?.AttackCooldown ?? AttackCooldown;
-
-        // Hitbox stays active for the attack duration.
         _attackTimer = AttackDuration;
 
         _attackHitbox.Configure(direction);
@@ -43,7 +46,6 @@ public partial class PlayerCombat : Node
     {
         float dt = (float)delta;
 
-        // Attack cooldown
         if (_cooldownTimer > 0f)
         {
             _cooldownTimer = Mathf.Max(
@@ -52,21 +54,20 @@ public partial class PlayerCombat : Node
             );
         }
 
-        // Hitbox duration
         if (IsAttacking)
         {
             _attackTimer -= dt;
 
             if (_attackTimer <= 0f)
-            {
                 FinishAttack();
-            }
         }
     }
 
     private void FinishAttack()
     {
         IsAttacking = false;
+        _attackTimer = 0f;
+
         _attackHitbox.Deactivate();
     }
 }

@@ -59,24 +59,25 @@ public partial class Player : CharacterBody2D
         if (_input.DashPressed)
         {
             _dash.StartDash(_input.MovementInput);
+            _input.ConsumeDash();
         }
 
-        if (!_dash.IsDashing)
-            return false;
+        if (!_dash.IsDashing) return false;
 
         _dash.UpdateDash(this, delta);
 
         return true;
     }
 
-    private void HandleAttack()
+private void HandleAttack()
     {
-        if (_input.AttackPressed)
-        {
-            _combat.Attack(_input.FacingDirection);
-        }
-    }
+        if (!_input.AttackPressed) return;
+        if (_input.FacingDirection == Vector2.Zero) return;
+        if (!_combat.CanAttack()) return;
 
+        _combat.Attack(_input.FacingDirection);
+        _input.ConsumeAttack();
+    }
     private void HandleMovement()
     {
         _movement.Move(this, _input.MovementInput);
