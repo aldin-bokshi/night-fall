@@ -7,17 +7,60 @@ public partial class Hud : CanvasLayer
     [Export] private Label? _goldLabel;
     [Export] private ProgressBar? _healthBar;
     [Export] private Control? _wheel;
-    private Control? _pointerPivot;
+
+    [Export] private float _dashCooldownTime = 2.0f;
+
+    // TESTING ONLY
+    [Export] private bool _testDashCooldown = false;
+
+    private TextureProgressBar? _dashCooldown;
+    private Tween? _dashCooldownTween;
 
     public override void _Ready()
     {
-        _pointerPivot = GetNode<Control>(
-            "Panel/MarginContainer/VBoxContainer/Wheel/PointerPivot"
+        _dashCooldown = GetNode<TextureProgressBar>(
+            "Panel/MarginContainer/VBoxContainer/DashCooldown"
         );
+
+        _dashCooldown.Value = 100.0f;
+
+        // TESTING ONLY:
+        // Automatically trigger the cooldown when the HUD starts.
+        if (_testDashCooldown)
+            StartDashCooldown();
     }
 
-    public override void _Process(double delta)
+    public void StartDashCooldown()
     {
-        if(_pointerPivot!=null)_pointerPivot.Rotation += (float)delta * 2;
+        if (_dashCooldown == null)
+            return;
+
+        _dashCooldownTween?.Kill();
+
+        _dashCooldownTween = CreateTween();
+
+        // Quickly and smoothly drain to 0%.
+        _dashCooldownTween.TweenProperty(
+                _dashCooldown,
+                "value",
+                0.0f,
+                0.15f
+            )
+            .SetTrans(Tween.TransitionType.Quad)
+            .SetEase(Tween.EaseType.Out);
+
+        // Slowly recharge to 100%.
+        _dashCooldownTween.TweenProperty(
+                _dashCooldown,
+                "value",
+                100.0f,
+                _dashCooldownTime
+            )
+            .SetTrans(Tween.TransitionType.Linear);
+
+        // TESTING ONLY:
+        // Repeat the cooldown forever.
+        if (_testDashCooldown)
+            _dashCooldownTween.SetLoops();
     }
 }

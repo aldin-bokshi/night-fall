@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://s6k48434tu04"
-path="res://.godot/imported/image-removebg-preview.png-91d127fc7fc5db7f3fb81ef78b762b84.ctex"
+uid="uid://i6dp5rdv84mv"
+path="res://.godot/imported/CircleEmpty.png-1cc3b42e1526d4805d9b9e9cb22c5ca3.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://Assets/Vfx/DashCd/image-removebg-preview.png"
-dest_files=["res://.godot/imported/image-removebg-preview.png-91d127fc7fc5db7f3fb81ef78b762b84.ctex"]
+source_file="res://Assets/Vfx/DashCd/CircleEmpty.png"
+dest_files=["res://.godot/imported/CircleEmpty.png-1cc3b42e1526d4805d9b9e9cb22c5ca3.ctex"]
 
 [params]
 
