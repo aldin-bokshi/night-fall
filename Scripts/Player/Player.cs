@@ -81,6 +81,7 @@ public partial class Player : CharacterBody2D
 
     private void Die()
     {
+        GetTree().ChangeSceneToFile("res://Scenes/UI/DeathScreen/DeathScreen.tscn");
         QueueFree();
     }
 }
