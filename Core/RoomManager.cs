@@ -1,6 +1,6 @@
 using Godot;
-using RougeLike.Scripts.Player;
-namespace RougeLike.Core;
+using NightFall.Scripts.Player;
+namespace NightFall.Core;
 
 public partial class RoomManager : Node
 {

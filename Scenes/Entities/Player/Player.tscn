@@ -9,13 +9,15 @@
 [ext_resource type="Script" uid="uid://8030dn4cne8s" path="res://Scripts/Player/PlayerStats.cs" id="6"]
 [ext_resource type="Script" uid="uid://c2r7ka3xadser" path="res://Scripts/Player/AttackHitbox.cs" id="8_vgr12"]
 
-[sub_resource type="RectangleShape2D" id="RectangleShape2D_7eeh3"]
-size = Vector2(105, 96)
-
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_hi4ft"]
 size = Vector2(120, 60)
 
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_7eeh3"]
+size = Vector2(105, 96)
+
 [node name="Player" type="CharacterBody2D" unique_id=2146797552]
+collision_layer = 2
+collision_mask = 5
 script = ExtResource("1")
 
 [node name="PlayerInput" type="Node" parent="." unique_id=123456789]
@@ -38,15 +40,28 @@ DashSpeed = 600.0
 [node name="Sprite2D" type="Sprite2D" parent="." unique_id=527130436]
 texture = ExtResource("1_7kpwk")
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=58193021]
-position = Vector2(-0.5, -1)
-shape = SubResource("RectangleShape2D_7eeh3")
-
 [node name="AttackHitbox" type="Area2D" parent="." unique_id=1315799238]
+collision_layer = 32
+collision_mask = 16
 script = ExtResource("8_vgr12")
-Distance = 75.0
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="AttackHitbox" unique_id=654124776]
 position = Vector2(1, -2.5)
 shape = SubResource("RectangleShape2D_hi4ft")
 debug_color = Color(0.96862745, 0, 0, 0.49411765)
+
+[node name="Sprite2D" type="Sprite2D" parent="AttackHitbox/CollisionShape2D" unique_id=432637568]
+position = Vector2(-1, 2.5)
+scale = Vector2(0.5, 0.5)
+texture = ExtResource("1_7kpwk")
+offset = Vector2(10, 10)
+flip_v = true
+
+[node name="Hurtbox" type="Area2D" parent="." unique_id=153235879]
+position = Vector2(-0.5, -1)
+scale = Vector2(0.5, 0.5)
+collision_layer = 8
+collision_mask = 64
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Hurtbox" unique_id=58193021]
+shape = SubResource("RectangleShape2D_7eeh3")

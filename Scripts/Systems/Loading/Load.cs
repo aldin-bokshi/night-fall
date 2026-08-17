@@ -1,6 +1,6 @@
 using Godot;
 
-namespace RougeLike.Systems.Loading;
+namespace NightFall.Systems.Loading;
 
 public partial class Load : Node
 {

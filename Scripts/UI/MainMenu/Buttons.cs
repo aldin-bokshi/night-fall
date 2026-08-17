@@ -1,6 +1,6 @@
 using Godot;
 
-namespace RougeLike.Scripts.UI.MainMenu;
+namespace NightFall.Scripts.UI.MainMenu;
 
 public partial class Buttons : Control
 {

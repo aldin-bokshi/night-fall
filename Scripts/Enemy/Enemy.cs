@@ -1,30 +1,31 @@
 using Godot;
 
-namespace RougeLike.Scripts.Enemy;
+namespace NightFall.Scripts.Enemy;
 
 public partial class Enemy : CharacterBody2D
 {
     private EnemyMovement _movement;
     private EnemyCombat _combat;
     private EnemyStats _stats;
-    private Sprite2D _sprite;
+    private EnemyAi _ai;
 
     public int RoomId { get; private set; }
-
-    public void Initialize(int roomId)
-    {
-        RoomId = roomId;
-    }
 
     public override void _Ready()
     {
         _movement = GetNode<EnemyMovement>("EnemyMovement");
         _combat = GetNode<EnemyCombat>("EnemyCombat");
         _stats = GetNode<EnemyStats>("EnemyStats");
-        _sprite = GetNode<Sprite2D>("Sprite2D");
+        _ai = GetNode<EnemyAi>("EnemyAi");
 
         _movement.Initialize(_stats);
         _combat.Initialize(_stats);
+        _ai.Initialize(_stats);
+    }
+
+    public void Initialize(int roomId)
+    {
+        RoomId = roomId;
     }
 
     public override void _PhysicsProcess(double delta)

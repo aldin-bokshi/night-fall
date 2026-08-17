@@ -1,6 +1,6 @@
 using Godot;
 
-namespace RougeLike.Scripts.Player;
+namespace NightFall.Scripts.Player;
 
 public partial class PlayerCombat : Node
 {
@@ -48,19 +48,13 @@ public partial class PlayerCombat : Node
 
         if (_cooldownTimer > 0f)
         {
-            _cooldownTimer = Mathf.Max(
-                _cooldownTimer - dt,
-                0f
-            );
+            _cooldownTimer = Mathf.Max(_cooldownTimer - dt,0f);
         }
 
-        if (IsAttacking)
-        {
-            _attackTimer -= dt;
+        if (!IsAttacking) return;
+        _attackTimer -= dt;
 
-            if (_attackTimer <= 0f)
-                FinishAttack();
-        }
+        if (_attackTimer <= 0f) FinishAttack();
     }
 
     private void FinishAttack()
