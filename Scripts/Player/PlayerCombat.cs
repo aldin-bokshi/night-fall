@@ -4,9 +4,6 @@ namespace NightFall.Scripts.Player;
 
 public partial class PlayerCombat : Node
 {
-    [Export] public float AttackCooldown = 0.5f;
-    [Export] public float AttackDuration = 0.15f;
-
     private PlayerStats _stats;
     private AttackHitbox _attackHitbox;
 
@@ -17,7 +14,7 @@ public partial class PlayerCombat : Node
 
     public bool CanAttack()
     {
-        return !IsAttacking && _cooldownTimer <= 0f;
+        return _stats != null && !IsAttacking && _cooldownTimer <= 0f;
     }
 
     public void Initialize(PlayerStats stats, AttackHitbox attackHitbox)
@@ -30,15 +27,16 @@ public partial class PlayerCombat : Node
 
     public void Attack(Vector2 direction)
     {
+        if (_stats == null) return;
         if (!CanAttack()) return;
         if (direction == Vector2.Zero) return;
 
         IsAttacking = true;
 
-        _cooldownTimer = _stats?.AttackCooldown ?? AttackCooldown;
-        _attackTimer = AttackDuration;
+        _cooldownTimer = _stats.AttackCooldown;
+        _attackTimer = _stats.AttackDuration;
 
-        _attackHitbox.Configure(direction);
+        _attackHitbox.Configure(direction, _stats.AttackRange);
         _attackHitbox.Activate();
     }
 

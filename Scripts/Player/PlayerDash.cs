@@ -4,10 +4,6 @@ namespace NightFall.Scripts.Player;
 
 public partial class PlayerDash : Node
 {
-    [Export] public float DashSpeed { get; set; } = 500f;
-    [Export] public float DashDuration { get; set; } = 0.15f;
-    [Export] public float DashCooldown { get; set; } = 1f;
-
     private PlayerStats _stats;
     private float _dashTimer;
     private float _cooldownTimer;
@@ -22,21 +18,22 @@ public partial class PlayerDash : Node
 
     public void StartDash(Vector2 direction)
     {
+        if (_stats == null) { return; }
         if (direction == Vector2.Zero) { return; }
         if (IsDashing) { return; }
         if (_cooldownTimer > 0f) { return; }
 
         _direction = direction;
-        _dashTimer = _stats?.DashDuration ?? DashDuration;
-        _cooldownTimer = _stats?.DashCooldown ?? DashCooldown;
+        _dashTimer = _stats.DashDuration;
+        _cooldownTimer = _stats.DashCooldown;
         IsDashing = true;
     }
 
     public void UpdateDash(CharacterBody2D player, double delta)
     {
-        if (!IsDashing) { return; }
+        if (!IsDashing || _stats == null) { return; }
 
-        var dashSpeed = _stats?.DashSpeed ?? DashSpeed;
+        var dashSpeed = _stats.DashSpeed;
         player.Velocity = _direction * dashSpeed;
         player.MoveAndSlide();
 

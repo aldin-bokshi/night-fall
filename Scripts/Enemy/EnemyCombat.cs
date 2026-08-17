@@ -5,7 +5,6 @@ namespace NightFall.Scripts.Enemy;
 
 public partial class EnemyCombat : Node
 {
-    [Export] public float AttackDuration { get; set; } = 0.5f;
     [Export] public Area2D AttackHitbox { get; set; }
 
     private EnemyStats _stats;
@@ -47,7 +46,7 @@ public partial class EnemyCombat : Node
         UpdateFacingDirection(facingDirection);
 
         IsAttacking = true;
-        _attackTimer = AttackDuration;
+        _attackTimer = _stats?.AttackDuration ?? 0f;
         _cooldownTimer = _stats?.AttackCooldown ?? 0f;
 
         SpawnAttackHitbox();

@@ -11,6 +11,9 @@ public partial class EnemyStats : Node
 
     [Export] public float AttackDamage { get; set; } = 20f;
     [Export] public float AttackCooldown { get; set; } = 0.5f;
+    [Export] public float AttackDuration { get; set; } = 0.5f;
+    [Export] public float AttackRange { get; set; } = 60f;
+    [Export] public float DetectionRange { get; set; } = 120f;
 
     private float _health;
     public float Health => _health;

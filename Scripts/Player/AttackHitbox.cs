@@ -1,5 +1,4 @@
 using System.Collections.Generic;
-using System.Globalization;
 using Godot;
 using NightFall.Scripts.Enemy;
 
@@ -7,8 +6,6 @@ namespace NightFall.Scripts.Player;
 
 public partial class AttackHitbox : Area2D
 {
-    [Export] public float Distance = 75f;
-
     private CollisionShape2D _collisionShape;
 
     private readonly HashSet<Node> _hitEnemies = [];
@@ -23,11 +20,11 @@ public partial class AttackHitbox : Area2D
         Deactivate();
     }
 
-    public void Configure(Vector2 direction)
+    public void Configure(Vector2 direction, float distance)
     {
         if (direction == Vector2.Zero) return;
 
-        Position = direction * Distance;
+        Position = direction * distance;
         Rotation = direction.Angle();
     }
 
