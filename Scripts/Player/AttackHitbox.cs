@@ -11,13 +11,13 @@ public partial class AttackHitbox : Area2D
 
     private CollisionShape2D _collisionShape;
 
-    // Enemies already hit during the current attack
     private readonly HashSet<Node> _hitEnemies = [];
 
     public override void _Ready()
     {
         _collisionShape = GetNode<CollisionShape2D>("CollisionShape2D");
 
+        AreaEntered += OnAreaEntered;
         BodyEntered += OnBodyEntered;
 
         Deactivate();
@@ -51,40 +51,35 @@ public partial class AttackHitbox : Area2D
         _collisionShape.Disabled = true;
     }
 
+    private void OnAreaEntered(Area2D area)
+    {
+        TryApplyDamage(area.GetParent() as Node2D ?? area);
+    }
+
     private void OnBodyEntered(Node2D body)
     {
-        GD.Print($"AttackHitbox collision detected with: {body.Name} (Type: {body.GetType().Name})");
+        TryApplyDamage(body);
+    }
 
-        if (_hitEnemies.Contains(body))
-        {
-            GD.Print("Already hit this enemy this attack");
+    private void TryApplyDamage(Node target)
+    {
+        var enemyRoot = target as Node2D;
+        if (enemyRoot == null)
             return;
-        }
 
-        var enemyStats = body.GetNodeOrNull<EnemyStats>("EnemyStats");
+        if (_hitEnemies.Contains(enemyRoot))
+            return;
+
+        var enemyStats = enemyRoot.GetNodeOrNull<EnemyStats>("EnemyStats");
         if (enemyStats == null)
-        {
-            GD.Print($"No EnemyStats found on {body.Name}");
             return;
-        }
 
-        GD.Print($"Found EnemyStats on {body.Name}. Current HP: {enemyStats.Health}/{enemyStats.MaxHealth}");
+        _hitEnemies.Add(enemyRoot);
 
-        _hitEnemies.Add(body);
-
-        var playerStats = GetParent().GetNodeOrNull<PlayerStats>("PlayerStats");
+        var playerStats = GetParent()?.GetNodeOrNull<PlayerStats>("PlayerStats");
         if (playerStats == null)
-        {
-            GD.Print("No PlayerStats found on parent");
             return;
-        }
 
-        GD.Print($"Player attack damage: {playerStats.AttackDamage}");
         enemyStats.TakeDamage(playerStats.AttackDamage);
-
-        GD.Print(
-            $"Player dealt {playerStats.AttackDamage.ToString(CultureInfo.InvariantCulture)} damage to {body.Name}. " +
-            $"Enemy HP: {enemyStats.Health.ToString(CultureInfo.InvariantCulture)}/{enemyStats.MaxHealth.ToString(CultureInfo.InvariantCulture)}"
-        );
     }
 }
