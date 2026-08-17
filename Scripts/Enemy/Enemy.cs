@@ -31,5 +31,18 @@ public partial class Enemy : CharacterBody2D
     public override void _PhysicsProcess(double delta)
     {
         _combat.UpdateAttack(delta);
+
+        if (_stats.IsDead)
+        {
+            Die();
+            return;
+        }
+
+        _combat.UpdateAttack(delta);
+    }
+
+    private void Die()
+    {
+        QueueFree();
     }
 }
