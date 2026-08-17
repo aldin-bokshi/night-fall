@@ -1,13 +1,15 @@
+using System;
 using Godot;
 
 namespace NightFall.Scripts.Player;
 
 public partial class PlayerMovement : Node
 {
-    private PlayerStats _stats;
+    private PlayerStats? _stats;
 
     public void Initialize(PlayerStats stats)
     {
+        ArgumentNullException.ThrowIfNull(stats);
         _stats = stats;
     }
 

@@ -1,3 +1,4 @@
+using System;
 using Godot;
 using NightFall.Scripts.Player;
 
@@ -5,163 +6,96 @@ namespace NightFall.Scripts.Enemy;
 
 public partial class EnemyCombat : Node
 {
-    [Export] public Area2D AttackHitbox { get; set; }
-
-    private EnemyStats _stats;
+    private EnemyStats _stats = null!;
+    private Area2D _attackHitbox = null!;
 
     private float _attackTimer;
     private float _cooldownTimer;
 
     private Vector2 _facingDirection = Vector2.Right;
-    private Vector2 _hitboxNeutralPosition;
-
-    private Area2D _attackHitboxTemplate;
 
     public bool IsAttacking { get; private set; }
 
     public void Initialize(EnemyStats stats)
     {
+        ArgumentNullException.ThrowIfNull(stats);
+
         _stats = stats;
+        _attackHitbox = GetParent()!.GetNode<Area2D>("AttackHitbox");
 
-        var attackHitbox = GetParent()?.GetNodeOrNull<Area2D>("AttackHitbox");
-        if (attackHitbox == null) return;
+        _attackHitbox.AreaEntered += OnTargetEntered;
 
-        _hitboxNeutralPosition = attackHitbox.Position;
-        _attackHitboxTemplate = attackHitbox.Duplicate() as Area2D;
-
-        if (_attackHitboxTemplate != null)
-        {
-            _attackHitboxTemplate.Name = "AttackHitboxTemplate";
-            _attackHitboxTemplate.Monitoring = false;
-            _attackHitboxTemplate.Visible = false;
-        }
-
-        attackHitbox.QueueFree();
+        _attackHitbox.Monitoring = false;
+        _attackHitbox.Visible = false;
     }
 
-    public void Attack(Vector2 facingDirection)
+    public bool CanAttack()
     {
-        if (IsAttacking || _cooldownTimer > 0f) return;
+        return !IsAttacking && _cooldownTimer <= 0f;
+    }
 
-        UpdateFacingDirection(facingDirection);
+    public void Attack(Vector2 direction)
+    {
+        if (!CanAttack() || direction == Vector2.Zero) return;
+
+        _facingDirection = direction.Normalized();
 
         IsAttacking = true;
-        _attackTimer = _stats?.AttackDuration ?? 0f;
-        _cooldownTimer = _stats?.AttackCooldown ?? 0f;
+        _attackTimer = _stats.AttackDuration;
+        _cooldownTimer = _stats.AttackCooldown;
 
-        SpawnAttackHitbox();
-        ConfigureHitboxForFacing();
+        _attackHitbox.Position = _facingDirection * _stats.AttackRange;
 
-        if (AttackHitbox != null)
-        {
-            AttackHitbox.Monitoring = true;
-            AttackHitbox.Visible = true;
-        }
+        _attackHitbox.Rotation = _facingDirection.Angle();
 
-        GD.Print($"Enemy attacked for {_stats?.AttackDamage ?? 0f} damage.");
+        _attackHitbox.Monitoring = true;
+        _attackHitbox.Visible = true;
     }
 
     public void UpdateAttack(double delta)
     {
-        var deltaTime = (float)delta;
+        float dt = (float)delta;
 
-        if (_cooldownTimer > 0f)
-        {
-            _cooldownTimer = Mathf.Max(
-                _cooldownTimer - deltaTime,
-                0f
-            );
-        }
+        _cooldownTimer = Mathf.Max(
+            _cooldownTimer - dt,
+            0f
+        );
 
         if (!IsAttacking) return;
 
-        _attackTimer -= deltaTime;
+        _attackTimer -= dt;
 
         if (_attackTimer <= 0f) FinishAttack();
     }
 
-    public void FinishAttack()
+    private void FinishAttack()
     {
         IsAttacking = false;
+        _attackTimer = 0f;
 
-        if (AttackHitbox == null) return;
-
-        AttackHitbox.Monitoring = false;
-        AttackHitbox.Visible = false;
-        AttackHitbox.QueueFree();
-
-        AttackHitbox = null;
+        _attackHitbox.Monitoring = false;
+        _attackHitbox.Visible = false;
     }
 
-    private void UpdateFacingDirection(Vector2 direction)
+    private void OnTargetEntered(Area2D target)
     {
-        if (direction == Vector2.Zero) return;
+        if (target.Name != "Hurtbox") return;
 
-        _facingDirection =
-            Mathf.Abs(direction.X) >= Mathf.Abs(direction.Y)
-                ? new Vector2(Mathf.Sign(direction.X), 0f)
-                : new Vector2(0f, Mathf.Sign(direction.Y));
-    }
+        var player = target.GetParent<Player.Player>();
 
-    private void SpawnAttackHitbox()
-    {
-        if (_attackHitboxTemplate == null) return;
+        if (player == null) return;
 
-        AttackHitbox = _attackHitboxTemplate.Duplicate() as Area2D;
+        var playerStats = player.GetNodeOrNull<PlayerStats>("PlayerStats");
 
-        if (AttackHitbox == null) return;
-
-        AttackHitbox.Name = "AttackHitbox";
-        AttackHitbox.Monitoring = false;
-        AttackHitbox.Visible = false;
-        AttackHitbox.Position = _hitboxNeutralPosition;
-
-        GetParent()?.AddChild(AttackHitbox);
-
-        AttackHitbox.AreaEntered += OnAttackHitboxAreaEntered;
-    }
-
-    //temp
-
-    private void OnAttackHitboxAreaEntered(Area2D area)
-    {
-        var playerStats = area.GetNodeOrNull<PlayerStats>("PlayerStats");
         if (playerStats == null) return;
 
-        playerStats.TakeDamage(_stats?.AttackDamage ?? 0f);
-
-        GD.Print(
-            $"Enemy dealt {_stats?.AttackDamage ?? 0f} damage to player. " +
-            $"Player HP: {playerStats.Health}/{playerStats.MaxHealth}"
-        );
-    }
-
-
-    private void ConfigureHitboxForFacing()
-    {
-        if (AttackHitbox == null) return;
-
-        var collisionShape =
-            AttackHitbox.GetNodeOrNull<CollisionShape2D>(
-                "CollisionShape2D"
-            );
-
-        if (collisionShape == null) return;
-
-        if (collisionShape.Shape is not RectangleShape2D shape) return;
+        playerStats.TakeDamage(_stats.AttackDamage);
         
-        shape.Size = _facingDirection.X != 0f ? new Vector2(48f, 24f) : new Vector2(24f, 48f);
-
-        var offsetX = shape.Size.X * 0.5f + 10f;
-        var offsetY = shape.Size.Y * 0.5f + 10f;
-
-        AttackHitbox.Position = new Vector2(
-            _facingDirection.X != 0f
-                ? offsetX * _facingDirection.X
-                : 0f,
-            _facingDirection.Y != 0f
-                ? offsetY * _facingDirection.Y
-                : 0f
+        GD.Print(
+            $"Enemy attacked! " +
+            $"Damage: {_stats.AttackDamage:F0} | " +
+            $"Player HP: {playerStats.Health:F0}/{playerStats.MaxHealth:F0} | " +
+            $"Cooldown: {_stats.AttackCooldown:F2}s"
         );
     }
 }

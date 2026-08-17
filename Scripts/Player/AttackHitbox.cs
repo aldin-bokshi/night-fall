@@ -6,7 +6,7 @@ namespace NightFall.Scripts.Player;
 
 public partial class AttackHitbox : Area2D
 {
-    private CollisionShape2D _collisionShape;
+    private CollisionShape2D _collisionShape = null!;
 
     private readonly HashSet<Node> _hitEnemies = [];
 

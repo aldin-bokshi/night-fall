@@ -4,10 +4,10 @@ namespace NightFall.Scripts.Enemy;
 
 public partial class Enemy : CharacterBody2D
 {
-    private EnemyMovement _movement;
-    private EnemyCombat _combat;
-    private EnemyStats _stats;
-    private EnemyAi _ai;
+    private EnemyMovement _movement = null!;
+    private EnemyCombat _combat = null!;
+    private EnemyStats _stats = null!;
+    private EnemyAi _ai = null!;
 
     public int RoomId { get; private set; }
 
@@ -20,7 +20,7 @@ public partial class Enemy : CharacterBody2D
 
         _movement.Initialize(_stats);
         _combat.Initialize(_stats);
-        _ai.Initialize(_stats);
+        _ai.Initialize(_stats, _combat);
     }
 
     public void Initialize(int roomId)

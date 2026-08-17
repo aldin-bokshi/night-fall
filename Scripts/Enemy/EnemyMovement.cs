@@ -1,13 +1,15 @@
+using System;
 using Godot;
 
 namespace NightFall.Scripts.Enemy;
 
 public partial class EnemyMovement : Node
 {
-    private EnemyStats _stats;
+    private EnemyStats? _stats;
 
     public void Initialize(EnemyStats stats)
     {
+        ArgumentNullException.ThrowIfNull(stats);
         _stats = stats;
     }
 
