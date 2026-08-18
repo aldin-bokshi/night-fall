@@ -1,0 +1,57 @@
+  Determining projects to restore...
+  All projects are up-to-date for restore.
+  NightFall -> C:\godot\night-fall\.godot\mono\temp\bin\Debug\NightFall.dll
+
+Build succeeded.
+    0 Warning(s)
+    0 Error(s)
+
+Time Elapsed 00:00:02.04
+Solution NightFall.sln
+    Project NightFall
+      Core\RoomManager.cs:6 Property 'RoomActivationZone' can be made private
+      Core\RoomManager.cs:7 Property 'Room' can be made private
+      Data\Shop\ItemData.cs:5 Class 'ItemData' is never instantiated
+      Data\Shop\ItemData.cs:7 Property 'Id' is never used
+      Data\Shop\ItemData.cs:8 Auto-property accessor 'Name.set' is never used
+      Data\Shop\ItemData.cs:9 Auto-property accessor 'Price.set' is never used
+      Data\Shop\ItemData.cs:10 Content of collection 'StatUpgrades' is never updated
+      Data\Shop\ItemData.cs:10 Auto-property can be made get-only
+      Scripts\Core\PauseManager.cs:7 Property 'PauseMenu' can be made private
+      Scripts\Core\Room.cs:7 Property 'RoomId' can be made private
+      Scripts\Core\RoomManager.cs:6 Property 'RoomActivationZone' can be made private
+      Scripts\Core\RoomManager.cs:7 Property 'Room' can be made private
+      Scripts\Enemy\Enemy.cs:12 Property 'RoomId' can be made private
+      Scripts\Enemy\Enemy.cs:26 Method 'Initialize' can be made private
+      Scripts\Enemy\EnemyAI.cs:6 Class 'EnemyAi' is never instantiated
+      Scripts\Enemy\EnemyAI.cs:13 Property 'DetectionRange' can be made private
+      Scripts\Enemy\EnemyAI.cs:14 Property 'AttackRange' can be made private
+      Scripts\Enemy\EnemyCombat.cs:17 Property 'IsAttacking' can be made private
+      Scripts\Enemy\EnemyMovement.cs:16 Method 'Move' can be made private
+      Scripts\Enemy\EnemyStats.cs:7 Property 'MaxHealth' can be made private
+      Scripts\Enemy\EnemyStats.cs:10 Accessor 'MoveSpeed.set' can be made private
+      Scripts\Enemy\EnemyStats.cs:12 Accessor 'AttackDamage.set' can be made private
+      Scripts\Enemy\EnemyStats.cs:13 Accessor 'AttackCooldown.set' can be made private
+      Scripts\Enemy\EnemyStats.cs:14 Accessor 'AttackDuration.set' can be made private
+      Scripts\Enemy\EnemyStats.cs:15 Accessor 'AttackRange.set' can be made private
+      Scripts\Enemy\EnemyStats.cs:16 Accessor 'DetectionRange.set' can be made private
+      Scripts\Enemy\EnemyStats.cs:19 Property 'Health' can be made private
+      Scripts\Player\PlayerCombat.cs:14 Property 'IsAttacking' can be made private
+      Scripts\Player\PlayerStats.cs:7 Accessor 'MaxHealth.set' can be made private
+      Scripts\Player\PlayerStats.cs:10 Accessor 'MoveSpeed.set' can be made private
+      Scripts\Player\PlayerStats.cs:12 Accessor 'AttackDamage.set' can be made private
+      Scripts\Player\PlayerStats.cs:13 Accessor 'AttackCooldown.set' can be made private
+      Scripts\Player\PlayerStats.cs:14 Accessor 'AttackDuration.set' can be made private
+      Scripts\Player\PlayerStats.cs:15 Accessor 'AttackRange.set' can be made private
+      Scripts\Player\PlayerStats.cs:17 Accessor 'DashSpeed.set' can be made private
+      Scripts\Player\PlayerStats.cs:18 Accessor 'DashDuration.set' can be made private
+      Scripts\Player\PlayerStats.cs:19 Accessor 'DashCooldown.set' can be made private
+      Scripts\Player\PlayerStats.cs:21 Property 'Gold' can be made private
+      Scripts\Player\PlayerStats.cs:26 Method 'AddGold' can be made private
+      Scripts\Player\PlayerStats.cs:31 Method 'CanAfford' can be made private
+      Scripts\Player\PlayerStats.cs:36 Method 'SpendGold' can be made private
+      Scripts\Systems\Loading\Load.cs:6 Redundant empty class declaration body
+      Scripts\UI\Hud\Hud.cs:14 Initializing field by default value is redundant
+    
+  
+

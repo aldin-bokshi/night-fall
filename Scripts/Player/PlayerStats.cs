@@ -52,7 +52,7 @@ public partial class PlayerStats : Node
         _health = Mathf.Max(_health - amount, 0f);
     }
 
-    public void Heal(float amount)
+    private void Heal(float amount)
     {
         _health = Mathf.Min(_health + amount, MaxHealth);
     }

@@ -9,7 +9,7 @@ namespace NightFall.Scripts.Shop;
 public partial class ShopManager : Node
 {
     private List<ItemData>? _allItems;
-    private List<ItemData> _currentItems = new();
+    private readonly List<ItemData> _currentItems = [];
 
     [Export] private ShopItem? _shopItem1;
     [Export] private ShopItem? _shopItem2;

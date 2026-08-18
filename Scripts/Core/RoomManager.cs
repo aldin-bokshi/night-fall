@@ -1,4 +1,5 @@
 using Godot;
+
 namespace NightFall.Scripts.Core;
 
 public partial class RoomManager : Node
@@ -8,25 +9,20 @@ public partial class RoomManager : Node
 
     public override void _Ready()
     {
-        if (RoomActivationZone != null)
-            RoomActivationZone.BodyEntered += OnBodyEntered;
-    }
+        if (RoomActivationZone == null)
+        {
+            GD.PushWarning("RoomManager.RoomActivationZone is not assigned.");
+            return;
+        }
 
-    private void ActivateEnemiesInRoom(int _)
-    {
-        // var enemies = GetEnemiesInRoom(roomId);
-        // foreach (var enemy in enemies)
-        // {
-            // enemy.SetProcess(true);
-            // enemy.SetPhysicsProcess(true);
-        // }
+        RoomActivationZone.BodyEntered += OnBodyEntered;
     }
 
     private void OnBodyEntered(Node2D body)
     {
         // if (body is Player)
         // {
-            // ActivateEnemiesInRoom(Room.RoomId);
+        //     ActivateEnemiesInRoom(...);
         // }
     }
 }

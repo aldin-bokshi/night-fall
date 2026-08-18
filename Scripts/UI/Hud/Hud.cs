@@ -11,7 +11,7 @@ public partial class Hud : CanvasLayer
     [Export] private float _dashCooldownTime = 2.0f;
 
     // TESTING ONLY
-    [Export] private bool _testDashCooldown = false;
+    [Export] private bool _testDashCooldown;
 
     private TextureProgressBar? _dashCooldown;
     private Tween? _dashCooldownTween;
@@ -30,7 +30,7 @@ public partial class Hud : CanvasLayer
             StartDashCooldown();
     }
 
-    public void StartDashCooldown()
+    private void StartDashCooldown()
     {
         if (_dashCooldown == null)
             return;
