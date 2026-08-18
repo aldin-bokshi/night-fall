@@ -25,11 +25,6 @@ public partial class EnemyStats : Node
 
     public void TakeDamage(float amount)
     {
-        var before = _health;
-        GD.Print($"EnemyStats.TakeDamage called. Amount: {amount}. Health before: {before}");
-
         _health = Mathf.Max(_health - amount, 0f);
-
-        GD.Print($"EnemyStats.TakeDamage resolved. Health after: {_health}. IsDead: {IsDead}");
     }
 }

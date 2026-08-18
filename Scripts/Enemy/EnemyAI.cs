@@ -20,34 +20,26 @@ public partial class EnemyAi : Node
 
         _stats = stats;
         _combat = combat;
-
-        GD.Print("EnemyAi initialized.");
     }
 
     public override void _Ready()
     {
         _enemy = GetParent<Enemy>();
 
-        GD.Print($"EnemyAi found enemy: {_enemy.Name}");
-
         _player = GetTree().GetFirstNodeInGroup("player") as Player.Player
                   ?? throw new InvalidOperationException("Player not found.");
-
-        GD.Print($"EnemyAi found player: {_player.Name}");
     }
 
     public override void _PhysicsProcess(double delta)
     {
-        if (IsPlayerInAttackRange())
+        if (!IsPlayerInAttackRange())
         {
-            GD.Print("EnemyAi: Player is in attack range.");
+            return;
+        }
 
-            if (_combat.CanAttack())
-            {
-                GD.Print("EnemyAi: Enemy is attacking.");
-
-                _combat.Attack(GetDirectionToPlayer());
-            }
+        if (_combat.CanAttack())
+        {
+            _combat.Attack(GetDirectionToPlayer());
         }
     }
 
@@ -56,8 +48,6 @@ public partial class EnemyAi : Node
         float distance = _enemy.GlobalPosition.DistanceTo(
             _player.GlobalPosition
         );
-
-        GD.Print($"EnemyAi: Distance to player = {distance:F1}");
 
         return distance <= _stats.AttackRange;
     }
