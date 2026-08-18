@@ -32,11 +32,7 @@ public partial class Enemy : CharacterBody2D
     {
         _combat.UpdateAttack(delta);
 
-        if (_stats.IsDead)
-        {
-            Die();
-            return;
-        }
+        if (_stats.IsDead) Die();
     }
 
     private void Die()
