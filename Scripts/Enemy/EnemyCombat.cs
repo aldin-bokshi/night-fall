@@ -1,146 +1,101 @@
+using System;
 using Godot;
+using NightFall.Scripts.Player;
 
 namespace NightFall.Scripts.Enemy;
 
 public partial class EnemyCombat : Node
 {
-    [Export] public float AttackDamage = 10f;
-    [Export] public float AttackCooldown = 1f;
-    [Export] public float AttackDuration = 0.5f;
-    [Export] public Area2D? AttackHitbox;
-    [Export] public Vector2 AttackkDirection;
-    [Export] public Animation? AttackAnimation;
-    
-    private EnemyStats? _stats;
+    private EnemyStats _stats = null!;
+    private Area2D _attackHitbox = null!;
+
     private float _attackTimer;
     private float _cooldownTimer;
+
     private Vector2 _facingDirection = Vector2.Right;
-    private Vector2 _hitboxNeutralPosition;
-    private Area2D? _attackHitboxTemplate;
 
     public bool IsAttacking { get; private set; }
 
     public void Initialize(EnemyStats stats)
     {
+        ArgumentNullException.ThrowIfNull(stats);
+
         _stats = stats;
+        _attackHitbox = GetParent()!.GetNode<Area2D>("AttackHitbox");
 
-        AttackHitbox ??= GetParent()?.GetNodeOrNull<Area2D>("AttackHitbox");
+        _attackHitbox.AreaEntered += OnTargetEntered;
 
-        if (AttackHitbox != null)
-        {
-            _hitboxNeutralPosition = AttackHitbox.Position;
-            _attackHitboxTemplate = AttackHitbox.Duplicate() as Area2D;
-            if (_attackHitboxTemplate != null)
-            {
-                _attackHitboxTemplate.Name = "AttackHitboxTemplate";
-                _attackHitboxTemplate.Monitoring = false;
-                _attackHitboxTemplate.Visible = false;
-            }
-
-            AttackHitbox.QueueFree();
-            AttackHitbox = null;
-        }
+        _attackHitbox.Monitoring = false;
+        _attackHitbox.Visible = false;
     }
 
-    public void Attack(Vector2 facingDirection)
+    public bool CanAttack()
     {
-        if (IsAttacking || _cooldownTimer > 0f) { return; }
+        return !IsAttacking && _cooldownTimer <= 0f;
+    }
 
-        if (facingDirection != Vector2.Zero)
-        {
-            _facingDirection = Mathf.Abs(facingDirection.X) >= Mathf.Abs(facingDirection.Y) ? new Vector2(Mathf.Sign(facingDirection.X), 0f) : new Vector2(0f, Mathf.Sign(facingDirection.Y));
-        }
+    public void Attack(Vector2 direction)
+    {
+        if (!CanAttack() || direction == Vector2.Zero) return;
+
+        _facingDirection = direction.Normalized();
 
         IsAttacking = true;
-        _attackTimer = AttackDuration;
-        _cooldownTimer = _stats != null ? _stats.AttackCooldown : AttackCooldown;
+        _attackTimer = _stats.AttackDuration;
+        _cooldownTimer = _stats.AttackCooldown;
 
-        SpawnAttackHitbox();
-        ConfigureHitboxForFacing();
+        _attackHitbox.Position = _facingDirection * _stats.AttackRange;
 
-        if (AttackHitbox != null)
-        {
-            AttackHitbox.Monitoring = true;
-            AttackHitbox.Visible = true;
-        }
+        _attackHitbox.Rotation = _facingDirection.Angle();
 
-        var damage = _stats != null ? _stats.AttackDamage : AttackDamage;
-        GD.Print($"Enemy attacked for {damage} damage!");
-
-        // play animation
-        // enable hitbox
-        // damage enemies
+        _attackHitbox.Monitoring = true;
+        _attackHitbox.Visible = true;
     }
 
     public void UpdateAttack(double delta)
     {
-        if (_cooldownTimer > 0f)
-        {
-            _cooldownTimer = Mathf.Max(_cooldownTimer - (float)delta, 0f);
-        }
+        float dt = (float)delta;
 
-        if (!IsAttacking) { return; }
+        _cooldownTimer = Mathf.Max(
+            _cooldownTimer - dt,
+            0f
+        );
 
-        _attackTimer -= (float)delta;
-        if (_attackTimer <= 0f)
-        {
-            FinishAttack();
-        }
+        if (!IsAttacking) return;
+
+        _attackTimer -= dt;
+
+        if (_attackTimer <= 0f) FinishAttack();
     }
 
-    public void FinishAttack()
+    private void FinishAttack()
     {
         IsAttacking = false;
-        if (AttackHitbox != null)
-        {
-            AttackHitbox.Monitoring = false;
-            AttackHitbox.Visible = false;
-            AttackHitbox.QueueFree();
-            AttackHitbox = null;
-        }
+        _attackTimer = 0f;
+
+        _attackHitbox.Monitoring = false;
+        _attackHitbox.Visible = false;
     }
 
-    private void SpawnAttackHitbox()
+    private void OnTargetEntered(Area2D target)
     {
-        if (_attackHitboxTemplate == null) { return; }
-        if (AttackHitbox != null) { AttackHitbox.QueueFree(); }
+        if (target.Name != "Hurtbox") return;
 
-        AttackHitbox = _attackHitboxTemplate.Duplicate() as Area2D;
-        if (AttackHitbox == null) { return; }
+        var player = target.GetParent<Player.Player>();
 
-        AttackHitbox.Name = "AttackHitbox";
-        AttackHitbox.Monitoring = false;
-        AttackHitbox.Visible = false;
-        AttackHitbox.Position = _hitboxNeutralPosition;
+        if (player == null) return;
 
-        GetParent()?.AddChild(AttackHitbox);
-    }
+        var playerStats = player.GetNodeOrNull<PlayerStats>("PlayerStats");
 
-    private void ConfigureHitboxForFacing()
-    {
-        if (AttackHitbox == null) { return; }
+        if (playerStats == null) return;
 
-        var collisionShape = AttackHitbox.GetNodeOrNull<CollisionShape2D>("CollisionShape2D");
-        if (collisionShape == null) { return; }
-
-        var shape = collisionShape.Shape as RectangleShape2D;
-        if (shape == null) { return; }
-
-        if (_facingDirection.X != 0f)
-        {
-            shape.Size = new Vector2(48f, 24f);
-        }
-        else if (_facingDirection.Y != 0f)
-        {
-            shape.Size = new Vector2(24f, 48f);
-        }
-
-        var offsetX = shape.Size.X * 0.5f + 10f;
-        var offsetY = shape.Size.Y * 0.5f + 10f;
-
-        AttackHitbox.Position = new Vector2(
-            _facingDirection.X != 0f ? offsetX * _facingDirection.X : 0f,
-            _facingDirection.Y != 0f ? offsetY * _facingDirection.Y : 0f
+        playerStats.TakeDamage(_stats.AttackDamage);
+        
+        GD.Print(
+            $"Enemy attacked! " +
+            $"Damage: {_stats.AttackDamage:F0} | " +
+            $"Player HP: {playerStats.Health:F0}/{playerStats.MaxHealth:F0} | " +
+            $"Cooldown: {_stats.AttackCooldown:F2}s"
         );
     }
 }

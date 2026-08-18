@@ -4,12 +4,13 @@ namespace NightFall.Scripts.Player;
 
 public partial class Player : CharacterBody2D
 {
-    private PlayerInput? _input;
-    private PlayerMovement? _movement;
-    private PlayerCombat? _combat;
-    private PlayerDash? _dash;
-    private PlayerStats? _stats;
-    private Sprite2D? _sprite;
+    private PlayerInput _input = null!;
+    private PlayerMovement _movement = null!;
+    private PlayerCombat _combat = null!;
+    private PlayerDash _dash = null!;
+    private PlayerStats _stats = null!;
+    private AttackHitbox _attackHitbox = null!;
+    private Sprite2D _sprite = null!;
 
     public override void _Ready()
     {
@@ -18,49 +19,69 @@ public partial class Player : CharacterBody2D
         _combat = GetNode<PlayerCombat>("PlayerCombat");
         _dash = GetNode<PlayerDash>("PlayerDash");
         _stats = GetNode<PlayerStats>("PlayerStats");
+        _attackHitbox = GetNode<AttackHitbox>("AttackHitbox");
         _sprite = GetNode<Sprite2D>("Sprite2D");
 
-        if (_movement != null && _stats != null)
-            _movement.Initialize(_stats);
-        if (_combat != null && _stats != null)
-            _combat.Initialize(_stats);
-        if (_dash != null && _stats != null)
-            _dash.Initialize(_stats);
+        _movement.Initialize(_stats);
+        _combat.Initialize(_stats, _attackHitbox);
+        _dash.Initialize(_stats);
     }
 
     public override void _PhysicsProcess(double delta)
     {
-        if (_combat != null)
-            _combat.UpdateAttack(delta);
-        if (_dash != null)
-            _dash.UpdateCooldown(delta);
+        UpdateSystems(delta);
+        UpdateSprite();
 
-        if (_input != null && _input.FacingDirection.X != 0f)
-        {
-            if (_sprite != null)
-                _sprite.FlipH = _input.FacingDirection.X < 0f;
-        }
+        if (HandleDash(delta)) return;
 
-        if (_input != null && _input.DashPressed && _dash != null)
-        {
-            _dash.StartDash(_input.MovementInput);
-        }
+        HandleAttack();
+        HandleMovement();
 
-        if (_dash != null && _dash.IsDashing)
-        {
-            if (_dash != null)
-                _dash.UpdateDash(this, delta);
-            return;
-        }
+        if (_stats.IsDead) Die();
+    }
 
-        if (_input != null && _input.AttackPressed && _combat != null)
-        {
-            _combat.Attack(_input.FacingDirection);
-        }
+    private void UpdateSystems(double delta)
+    {
+        _combat.UpdateAttack(delta);
+        _dash.UpdateCooldown(delta);
+    }
 
-        if (_movement != null && _input != null)
-        {
-            _movement.Move(this, _input.MovementInput);
-        }
+    private void UpdateSprite()
+    {
+        if (_input.FacingDirection.X != 0f) _sprite.FlipH = _input.FacingDirection.X < 0f;
+    }
+
+    private bool HandleDash(double delta)
+    {
+        if (!_input.DashPressed) return false;
+        _dash.StartDash(_input.MovementInput);
+        _input.ConsumeDash();
+
+        if (!_dash.IsDashing) return false;
+
+        _dash.UpdateDash(this, delta);
+
+        return true;
+    }
+
+    private void HandleAttack()
+    {
+        if (!_input.AttackPressed) return;
+        if (_input.FacingDirection == Vector2.Zero) return;
+        if (!_combat.CanAttack()) return;
+
+        _combat.Attack(_input.FacingDirection);
+        _input.ConsumeAttack();
+    }
+
+    private void HandleMovement()
+    {
+        _movement.Move(this, _input.MovementInput);
+    }
+
+    private void Die()
+    {
+        GetTree().ChangeSceneToFile("res://Scenes/UI/DeathScreen/DeathScreen.tscn");
+        QueueFree();
     }
 }

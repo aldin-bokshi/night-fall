@@ -1,0 +1,53 @@
+[gd_scene format=3 uid="uid://dul7167pwxfxl"]
+
+[ext_resource type="Texture2D" uid="uid://0ijbs582lvsf" path="res://icon.svg" id="1_154ox"]
+[ext_resource type="Script" uid="uid://cxwi4prmnlfw0" path="res://Scripts/Enemy/Enemy.cs" id="1_nardh"]
+[ext_resource type="Script" uid="uid://dg6aklirpeetr" path="res://Scripts/Enemy/EnemyAi.cs" id="2_ksb14"]
+[ext_resource type="Script" uid="uid://4ru8jkppc5m1" path="res://Scripts/Enemy/EnemyMovement.cs" id="3_54i7w"]
+[ext_resource type="Script" uid="uid://c88i3kdtfttf7" path="res://Scripts/Enemy/EnemyStats.cs" id="4_odyh0"]
+[ext_resource type="Script" uid="uid://dfkoha87vp076" path="res://Scripts/Enemy/EnemyCombat.cs" id="5_a1r25"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_c7dah"]
+size = Vector2(120, 60)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_xslkb"]
+size = Vector2(156, 163)
+
+[node name="Enemy" type="CharacterBody2D" unique_id=101112059]
+collision_layer = 4
+collision_mask = 3
+script = ExtResource("1_nardh")
+
+[node name="EnemyAi" type="Node" parent="." unique_id=1285481588]
+script = ExtResource("2_ksb14")
+
+[node name="EnemyMovement" type="Node" parent="." unique_id=2133676431]
+script = ExtResource("3_54i7w")
+
+[node name="EnemyStats" type="Node" parent="." unique_id=208229156]
+script = ExtResource("4_odyh0")
+
+[node name="EnemyCombat" type="Node" parent="." unique_id=247289788 node_paths=PackedStringArray("AttackHitbox")]
+script = ExtResource("5_a1r25")
+AttackHitbox = NodePath("../AttackHitbox")
+
+[node name="Sprite2D" type="Sprite2D" parent="." unique_id=321727398]
+texture = ExtResource("1_154ox")
+flip_v = true
+
+[node name="AttackHitbox" type="Area2D" parent="." unique_id=342033959]
+collision_layer = 64
+collision_mask = 8
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="AttackHitbox" unique_id=160650634]
+position = Vector2(1, -2.5)
+shape = SubResource("RectangleShape2D_c7dah")
+debug_color = Color(0.96862745, 0, 0, 0.49411765)
+
+[node name="Hurtbox" type="Area2D" parent="." unique_id=1135494180]
+collision_layer = 16
+collision_mask = 32
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Hurtbox" unique_id=1440063187]
+position = Vector2(-3, 2.5)
+shape = SubResource("RectangleShape2D_xslkb")

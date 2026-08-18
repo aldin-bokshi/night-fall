@@ -1,21 +1,26 @@
+using System;
 using Godot;
 
 namespace NightFall.Scripts.Player;
 
 public partial class PlayerMovement : Node
 {
-    [Export] public float Speed = 150f;
-
     private PlayerStats? _stats;
 
     public void Initialize(PlayerStats stats)
     {
+        ArgumentNullException.ThrowIfNull(stats);
         _stats = stats;
     }
 
     public void Move(CharacterBody2D player, Vector2 input)
     {
-        var speed = _stats?.MoveSpeed ?? Speed;
+        if (_stats == null)
+        {
+            return;
+        }
+
+        var speed = _stats.MoveSpeed;
 
         if (input != Vector2.Zero)
         {

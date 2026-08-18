@@ -4,34 +4,43 @@ namespace NightFall.Scripts.Enemy;
 
 public partial class Enemy : CharacterBody2D
 {
-    private EnemyMovement? _movement;
-    private EnemyCombat? _combat;
-    private EnemyStats? _stats;
-    private Sprite2D? _sprite;
+    private EnemyMovement _movement = null!;
+    private EnemyCombat _combat = null!;
+    private EnemyStats _stats = null!;
+    private EnemyAi _ai = null!;
 
     public int RoomId { get; private set; }
-
-    public void Initialize(int roomId)
-    {
-        RoomId = roomId;
-    }
 
     public override void _Ready()
     {
         _movement = GetNode<EnemyMovement>("EnemyMovement");
         _combat = GetNode<EnemyCombat>("EnemyCombat");
         _stats = GetNode<EnemyStats>("EnemyStats");
-        _sprite = GetNode<Sprite2D>("Sprite2D");
+        _ai = GetNode<EnemyAi>("EnemyAi");
 
-        if (_movement != null && _stats != null)
-            _movement.Initialize(_stats);
-        if (_combat != null && _stats != null)
-            _combat.Initialize(_stats);
+        _movement.Initialize(_stats);
+        _combat.Initialize(_stats);
+        _ai.Initialize(_stats, _combat);
+    }
+
+    public void Initialize(int roomId)
+    {
+        RoomId = roomId;
     }
 
     public override void _PhysicsProcess(double delta)
     {
-        if (_combat != null)
-            _combat.UpdateAttack(delta);
+        _combat.UpdateAttack(delta);
+
+        if (_stats.IsDead)
+        {
+            Die();
+            return;
+        }
+    }
+
+    private void Die()
+    {
+        QueueFree();
     }
 }

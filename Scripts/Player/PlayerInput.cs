@@ -22,8 +22,21 @@ public partial class PlayerInput : Node
 
         UpdateFacingDirection();
 
-        AttackPressed = Input.IsActionJustPressed("attack");
-        DashPressed = Input.IsActionJustPressed("dash");
+        if (Input.IsActionJustPressed("attack"))
+            AttackPressed = true;
+
+        if (Input.IsActionJustPressed("dash"))
+            DashPressed = true;
+    }
+
+    public void ConsumeAttack()
+    {
+        AttackPressed = false;
+    }
+
+    public void ConsumeDash()
+    {
+        DashPressed = false;
     }
 
     private void UpdateFacingDirection()
@@ -31,7 +44,6 @@ public partial class PlayerInput : Node
         if (MovementInput == Vector2.Zero)
             return;
 
-        // Horizontal
         if (Mathf.Abs(MovementInput.X) >= Mathf.Abs(MovementInput.Y))
         {
             FacingDirection = new Vector2(
@@ -39,7 +51,6 @@ public partial class PlayerInput : Node
                 0
             );
         }
-        // Vertical
         else
         {
             FacingDirection = new Vector2(

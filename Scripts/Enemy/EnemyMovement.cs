@@ -1,28 +1,31 @@
+using System;
 using Godot;
 
 namespace NightFall.Scripts.Enemy;
 
 public partial class EnemyMovement : Node
 {
-    [Export] public float Speed = 150f;
-
     private EnemyStats? _stats;
 
     public void Initialize(EnemyStats stats)
     {
+        ArgumentNullException.ThrowIfNull(stats);
         _stats = stats;
     }
 
-    // public void Move(CharacterBody2D player, Vector2 input)
-    // {
-    //     var speed = _stats?.MoveSpeed ?? Speed;
+    public void Move(CharacterBody2D enemy, Vector2 direction)
+    {
+        if (_stats == null)
+        {
+            return;
+        }
 
-    //     if (input != Vector2.Zero)
-    //     {
-    //         input = input.Normalized();
-    //     }
+        if (direction != Vector2.Zero)
+        {
+            direction = direction.Normalized();
+        }
 
-    //     player.Velocity = input * speed;
-    //     player.MoveAndSlide();
-    // }
+        enemy.Velocity = direction * _stats.MoveSpeed;
+        enemy.MoveAndSlide();
+    }
 }

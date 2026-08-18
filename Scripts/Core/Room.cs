@@ -1,6 +1,6 @@
 using Godot;
 
-namespace NightFall.Scripts.Core;
+namespace NightFall.Core;
 
 public partial class Room : Node2D
 {
