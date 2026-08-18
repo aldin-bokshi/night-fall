@@ -20,7 +20,7 @@ public partial class Enemy : CharacterBody2D
 
         _movement.Initialize(_stats);
         _combat.Initialize(_stats);
-        _ai.Initialize(_stats, _combat);
+        _ai.Initialize(_stats, _combat,_movement);
     }
 
     public void Initialize(int roomId)

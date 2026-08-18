@@ -13,7 +13,7 @@ public partial class EnemyMovement : Node
         _stats = stats;
     }
 
-    public void Move(CharacterBody2D enemy, Vector2 direction)
+    public void Move(Enemy enemy, Vector2 direction)
     {
         if (_stats == null)
         {
