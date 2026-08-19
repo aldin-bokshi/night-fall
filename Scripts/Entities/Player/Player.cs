@@ -1,6 +1,6 @@
 using Godot;
 
-namespace NightFall.Scripts.Player;
+namespace NightFall.Scripts.Entities.Player;
 
 public partial class Player : CharacterBody2D
 {

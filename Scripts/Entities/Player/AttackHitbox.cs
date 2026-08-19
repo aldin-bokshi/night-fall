@@ -1,8 +1,8 @@
 using System.Collections.Generic;
 using Godot;
-using NightFall.Scripts.Enemy;
+using NightFall.Scripts.Entities.Enemy;
 
-namespace NightFall.Scripts.Player;
+namespace NightFall.Scripts.Entities.Player;
 
 public partial class AttackHitbox : Area2D
 {

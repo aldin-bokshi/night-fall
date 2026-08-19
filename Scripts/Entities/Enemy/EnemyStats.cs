@@ -1,6 +1,6 @@
 using Godot;
 
-namespace NightFall.Scripts.Enemy;
+namespace NightFall.Scripts.Entities.Enemy;
 
 public partial class EnemyStats : Node
 {

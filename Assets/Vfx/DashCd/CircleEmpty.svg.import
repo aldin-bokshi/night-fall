@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://dm8uvjv3a5hei"
-path="res://.godot/imported/TileSheet.png-9ed1eb957cede0311c109589aa91f52d.ctex"
+uid="uid://cbkiy7aw010vm"
+path="res://.godot/imported/CircleEmpty.svg-c1b8cd4fe19a451ded7b87a0d78afd34.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://Assets/TileSheet/Placeholder/TileSheet.png"
-dest_files=["res://.godot/imported/TileSheet.png-9ed1eb957cede0311c109589aa91f52d.ctex"]
+source_file="res://Assets/Vfx/DashCd/CircleEmpty.svg"
+dest_files=["res://.godot/imported/CircleEmpty.svg-c1b8cd4fe19a451ded7b87a0d78afd34.ctex"]
 
 [params]
 
@@ -38,3 +38,6 @@ process/hdr_as_srgb=false
 process/hdr_clamp_exposure=false
 process/size_limit=0
 detect_3d/compress_to=1
+svg/scale=1.0
+editor/scale_with_editor_scale=false
+editor/convert_colors_with_editor_theme=false

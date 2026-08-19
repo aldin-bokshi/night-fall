@@ -1,8 +1,8 @@
 using System;
 using Godot;
-using NightFall.Scripts.Player;
+using NightFall.Scripts.Entities.Player;
 
-namespace NightFall.Scripts.Enemy;
+namespace NightFall.Scripts.Entities.Enemy;
 
 public partial class EnemyCombat : Node
 {

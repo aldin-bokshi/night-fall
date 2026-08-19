@@ -1,6 +1,6 @@
 using Godot;
 
-namespace NightFall.Scripts.Core;
+namespace NightFall.Scripts.Dungeon;
 
 public partial class RoomManager : Node
 {

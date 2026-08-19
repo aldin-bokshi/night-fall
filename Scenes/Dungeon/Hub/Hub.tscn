@@ -1,6 +1,6 @@
 [gd_scene format=3 uid="uid://cwjwdt6xt3sjm"]
 
-[ext_resource type="Script" uid="uid://btq6j2er6xk8y" path="res://Core/RoomManager.cs" id="1_0prrp"]
+[ext_resource type="Script" uid="uid://btq6j2er6xk8y" path="res://Scripts/Dungeon/RoomManager.cs" id="1_0prrp"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_7eeh3"]
 size = Vector2(78, 72)

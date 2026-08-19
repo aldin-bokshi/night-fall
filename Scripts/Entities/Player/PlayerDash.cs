@@ -1,7 +1,7 @@
 using System;
 using Godot;
 
-namespace NightFall.Scripts.Player;
+namespace NightFall.Scripts.Entities.Player;
 
 public partial class PlayerDash : Node
 {

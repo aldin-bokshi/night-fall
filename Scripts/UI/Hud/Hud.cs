@@ -1,6 +1,6 @@
 using Godot;
 
-namespace NightFall.Scripts.UI.HUD;
+namespace NightFall.Scripts.UI.Hud;
 
 public partial class Hud : CanvasLayer
 {

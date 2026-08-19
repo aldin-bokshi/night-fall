@@ -6,7 +6,7 @@ public partial class Buttons : Control
 {
     private void OnStartButtonPressed()
     {
-        GetTree().ChangeSceneToFile("res://Scenes/Dungeon/Hub/Hub.tscn");
+        GetTree().ChangeSceneToFile("res://Scenes/Dungeon/Dev/TestWorld.tscn");
     }
 
     private void OnQuitButtonPressed()
