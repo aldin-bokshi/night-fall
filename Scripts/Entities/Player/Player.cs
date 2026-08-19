@@ -1,4 +1,5 @@
 using Godot;
+using NightFall.Scripts.Ui;
 
 namespace NightFall.Scripts.Entities.Player;
 
@@ -88,8 +89,19 @@ public partial class Player : CharacterBody2D
 
     private void Die()
     {
-        GetTree().ChangeSceneToFile("res://Scenes/UI/DeathScreen/DeathScreen.tscn");
+        DeathScreenOverlay? deathScreen =
+            GetTree().CurrentScene?.FindChild(
+                "DeathScreen",
+                true,
+                false
+            ) as DeathScreenOverlay;
 
-        QueueFree();
+        if (deathScreen == null)
+        {
+            GD.PushError("Player could not find DeathScreen in the current scene.");
+            return;
+        }
+
+        deathScreen.ShowDeathScreen();
     }
 }
