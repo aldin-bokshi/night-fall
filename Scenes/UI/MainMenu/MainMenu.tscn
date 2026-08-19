@@ -1,57 +1,433 @@
-[gd_scene format=3 uid="uid://5dh8nrsb81px"]
+[gd_scene format=3 uid="uid://bi1bpddocralw"]
 
-[ext_resource type="Script" uid="uid://dc0od1at4av7g" path="res://Scripts/Ui/MainMenu.cs" id="1_les83"]
+[ext_resource type="Script" uid="uid://dc0od1at4av7g" path="res://Scripts/Ui/MainMenu.cs" id="1_main"]
 
-[node name="MainMenu" type="Control" unique_id=1941353342]
+[sub_resource type="StyleBoxFlat" id="Panel"]
+bg_color = Color(0.055, 0.052, 0.06, 0.96)
+border_width_left = 1
+border_width_top = 1
+border_width_right = 1
+border_width_bottom = 1
+border_color = Color(0.3, 0.25, 0.28, 0.9)
+corner_radius_top_left = 3
+corner_radius_top_right = 3
+corner_radius_bottom_right = 3
+corner_radius_bottom_left = 3
+shadow_color = Color(0, 0, 0, 0.5)
+shadow_size = 20
+
+[sub_resource type="StyleBoxFlat" id="Button"]
+bg_color = Color(0.095, 0.085, 0.1, 0.98)
+border_width_left = 1
+border_width_top = 1
+border_width_right = 1
+border_width_bottom = 1
+border_color = Color(0.25, 0.22, 0.26, 1)
+corner_radius_top_left = 2
+corner_radius_top_right = 2
+corner_radius_bottom_right = 2
+corner_radius_bottom_left = 2
+content_margin_left = 22.0
+content_margin_right = 22.0
+content_margin_top = 12.0
+content_margin_bottom = 12.0
+
+[sub_resource type="StyleBoxFlat" id="ButtonHover"]
+bg_color = Color(0.22, 0.075, 0.07, 1)
+border_width_left = 3
+border_width_top = 1
+border_width_right = 1
+border_width_bottom = 1
+border_color = Color(0.9, 0.3, 0.16, 1)
+corner_radius_top_left = 2
+corner_radius_top_right = 2
+corner_radius_bottom_right = 2
+corner_radius_bottom_left = 2
+content_margin_left = 20.0
+content_margin_right = 22.0
+content_margin_top = 12.0
+content_margin_bottom = 12.0
+
+[sub_resource type="StyleBoxFlat" id="ButtonPressed"]
+bg_color = Color(0.33, 0.1, 0.08, 1)
+border_width_left = 3
+border_width_top = 1
+border_width_right = 1
+border_width_bottom = 1
+border_color = Color(1, 0.52, 0.24, 1)
+corner_radius_top_left = 2
+corner_radius_top_right = 2
+corner_radius_bottom_right = 2
+corner_radius_bottom_left = 2
+content_margin_left = 20.0
+content_margin_right = 22.0
+content_margin_top = 12.0
+content_margin_bottom = 12.0
+
+[sub_resource type="StyleBoxFlat" id="SmallButton"]
+bg_color = Color(0.07, 0.068, 0.078, 1)
+border_width_left = 1
+border_width_top = 1
+border_width_right = 1
+border_width_bottom = 1
+border_color = Color(0.2, 0.19, 0.23, 1)
+corner_radius_top_left = 2
+corner_radius_top_right = 2
+corner_radius_bottom_right = 2
+corner_radius_bottom_left = 2
+content_margin_left = 18.0
+content_margin_right = 18.0
+content_margin_top = 9.0
+content_margin_bottom = 9.0
+
+[sub_resource type="StyleBoxFlat" id="SmallHover"]
+bg_color = Color(0.13, 0.12, 0.15, 1)
+border_width_left = 1
+border_width_top = 1
+border_width_right = 1
+border_width_bottom = 1
+border_color = Color(0.73, 0.27, 0.18, 1)
+corner_radius_top_left = 2
+corner_radius_top_right = 2
+corner_radius_bottom_right = 2
+corner_radius_bottom_left = 2
+
+[sub_resource type="StyleBoxEmpty" id="Focus"]
+
+[node name="MainMenu2" type="Control" unique_id=1596809137]
+
 layout_mode = 3
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
-script = ExtResource("1_les83")
 
-[node name="ColorRect" type="ColorRect" parent="." unique_id=746918129]
+script = ExtResource("1_main")
+
+[node name="Backdrop" type="ColorRect" parent="." unique_id=100]
+
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
-color = Color(0.13682577, 0.13682574, 0.13682571, 1)
+mouse_filter = 2
 
-[node name="VBoxContainer" type="VBoxContainer" parent="ColorRect" unique_id=1325708824]
+color = Color(0.018, 0.022, 0.031, 1)
+
+[node name="HorizonGlow" type="ColorRect" parent="." unique_id=101]
+
 layout_mode = 1
-anchors_preset = 8
-anchor_left = 0.5
+anchors_preset = 12
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_top = -250.0
+grow_horizontal = 2
+mouse_filter = 2
+
+color = Color(0.18, 0.038, 0.028, 0.28)
+
+[node name="TopLine" type="ColorRect" parent="." unique_id=102]
+
+layout_mode = 1
+anchors_preset = 10
+anchor_right = 1.0
+offset_bottom = 3.0
+grow_horizontal = 2
+mouse_filter = 2
+
+color = Color(0.75, 0.23, 0.12, 0.9)
+
+[node name="LeftRule" type="ColorRect" parent="." unique_id=103]
+
+layout_mode = 1
+anchors_preset = 6
 anchor_top = 0.5
-anchor_right = 0.5
 anchor_bottom = 0.5
-offset_left = -20.0
-offset_top = -20.0
-offset_right = 20.0
-offset_bottom = 20.0
+offset_left = 58.0
+offset_top = -250.0
+offset_right = 59.0
+offset_bottom = 250.0
+grow_vertical = 2
+mouse_filter = 2
+
+color = Color(0.65, 0.22, 0.14, 0.5)
+
+[node name="CenterContainer" type="CenterContainer" parent="." unique_id=150]
+
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+
+[node name="MainLayout" type="HBoxContainer" parent="CenterContainer" unique_id=151]
+
+custom_minimum_size = Vector2(940, 510)
+layout_mode = 2
+theme_override_constants/separation = 24
+
+[node name="MenuRail" type="Panel" parent="CenterContainer/MainLayout" unique_id=200]
+
+custom_minimum_size = Vector2(470, 510)
+layout_mode = 2
+size_flags_horizontal = 3
+
+theme_override_styles/panel = SubResource("Panel")
+
+[node name="Content" type="VBoxContainer" parent="CenterContainer/MainLayout/MenuRail" unique_id=201]
+
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 42.0
+offset_top = 38.0
+offset_right = -42.0
+offset_bottom = -34.0
 grow_horizontal = 2
 grow_vertical = 2
 
-[node name="Label" type="Label" parent="ColorRect/VBoxContainer" unique_id=359369628]
-layout_mode = 2
-theme_override_font_sizes/font_size = 25
-text = "Night Fall"
-horizontal_alignment = 1
+theme_override_constants/separation = 12
 
-[node name="StartButton" type="Button" parent="ColorRect/VBoxContainer" unique_id=1346452155]
-layout_mode = 2
-text = "Start
-"
+[node name="Eyebrow" type="Label" parent="CenterContainer/MainLayout/MenuRail/Content" unique_id=202]
 
-[node name="OptionsButton" type="Button" parent="ColorRect/VBoxContainer" unique_id=407700652]
 layout_mode = 2
-text = "Options"
 
-[node name="QuitButton" type="Button" parent="ColorRect/VBoxContainer" unique_id=194379249]
+theme_override_colors/font_color = Color(0.91, 0.38, 0.2, 1)
+theme_override_font_sizes/font_size = 13
+
+text = "A DESCENT INTO THE DARK"
+
+[node name="Title" type="Label" parent="CenterContainer/MainLayout/MenuRail/Content" unique_id=203]
+
 layout_mode = 2
-text = "Quit"
 
-[connection signal="pressed" from="ColorRect/VBoxContainer/StartButton" to="." method="OnStartButtonPressed"]
-[connection signal="pressed" from="ColorRect/VBoxContainer/QuitButton" to="." method="OnQuitButtonPressed"]
+theme_override_colors/font_color = Color(0.95, 0.91, 0.84, 1)
+theme_override_colors/font_shadow_color = Color(0, 0, 0, 0.8)
+
+theme_override_constants/shadow_offset_x = 3
+theme_override_constants/shadow_offset_y = 4
+
+theme_override_font_sizes/font_size = 58
+
+text = "NIGHTFALL"
+
+[node name="TitleRule" type="ColorRect" parent="CenterContainer/MainLayout/MenuRail/Content" unique_id=204]
+
+custom_minimum_size = Vector2(0, 2)
+layout_mode = 2
+
+color = Color(0.84, 0.26, 0.13, 0.9)
+
+[node name="Tagline" type="Label" parent="CenterContainer/MainLayout/MenuRail/Content" unique_id=205]
+
+custom_minimum_size = Vector2(0, 50)
+layout_mode = 2
+
+theme_override_colors/font_color = Color(0.57, 0.59, 0.63, 1)
+theme_override_font_sizes/font_size = 16
+
+text = "Every room remembers.\nEvery step costs something."
+
+[node name="ActionGap" type="Control" parent="CenterContainer/MainLayout/MenuRail/Content"]
+
+custom_minimum_size = Vector2(0, 18)
+layout_mode = 2
+
+[node name="StartButton" type="Button" parent="CenterContainer/MainLayout/MenuRail/Content" unique_id=207]
+
+custom_minimum_size = Vector2(0, 58)
+layout_mode = 2
+
+mouse_default_cursor_shape = 2
+
+theme_override_colors/font_color = Color(0.98, 0.94, 0.89, 1)
+theme_override_colors/font_hover_color = Color(1, 0.94, 0.84, 1)
+theme_override_colors/font_pressed_color = Color(1, 1, 1, 1)
+
+theme_override_font_sizes/font_size = 21
+
+theme_override_styles/normal = SubResource("Button")
+theme_override_styles/hover = SubResource("ButtonHover")
+theme_override_styles/pressed = SubResource("ButtonPressed")
+theme_override_styles/focus = SubResource("Focus")
+
+text = "BEGIN DESCENT"
+
+[node name="OptionsButton" type="Button" parent="CenterContainer/MainLayout/MenuRail/Content" unique_id=208]
+
+custom_minimum_size = Vector2(0, 48)
+layout_mode = 2
+
+mouse_default_cursor_shape = 2
+
+theme_override_colors/font_color = Color(0.64, 0.65, 0.69, 1)
+theme_override_colors/font_hover_color = Color(0.94, 0.78, 0.67, 1)
+theme_override_colors/font_pressed_color = Color(1, 1, 1, 1)
+
+theme_override_font_sizes/font_size = 17
+
+theme_override_styles/normal = SubResource("SmallButton")
+theme_override_styles/hover = SubResource("SmallHover")
+theme_override_styles/pressed = SubResource("ButtonPressed")
+theme_override_styles/focus = SubResource("Focus")
+
+text = "OPTIONS"
+
+[node name="QuitButton" type="Button" parent="CenterContainer/MainLayout/MenuRail/Content" unique_id=209]
+
+custom_minimum_size = Vector2(0, 48)
+layout_mode = 2
+
+mouse_default_cursor_shape = 2
+
+theme_override_colors/font_color = Color(0.64, 0.65, 0.69, 1)
+theme_override_colors/font_hover_color = Color(0.94, 0.78, 0.67, 1)
+theme_override_colors/font_pressed_color = Color(1, 1, 1, 1)
+
+theme_override_font_sizes/font_size = 17
+
+theme_override_styles/normal = SubResource("SmallButton")
+theme_override_styles/hover = SubResource("SmallHover")
+theme_override_styles/pressed = SubResource("ButtonPressed")
+theme_override_styles/focus = SubResource("Focus")
+
+text = "QUIT"
+
+[node name="FooterGap" type="Control" parent="CenterContainer/MainLayout/MenuRail/Content"]
+
+custom_minimum_size = Vector2(0, 12)
+size_flags_vertical = 3
+layout_mode = 2
+
+[node name="Footer" type="Label" parent="CenterContainer/MainLayout/MenuRail/Content" unique_id=211]
+
+layout_mode = 2
+
+theme_override_colors/font_color = Color(0.34, 0.36, 0.41, 1)
+theme_override_font_sizes/font_size = 11
+
+text = "NIGHTFALL // EARLY BUILD"
+
+[node name="StatusPanel" type="Panel" parent="CenterContainer/MainLayout" unique_id=300]
+
+custom_minimum_size = Vector2(446, 352)
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 0
+
+theme_override_styles/panel = SubResource("Panel")
+
+[node name="StatusContent" type="VBoxContainer" parent="CenterContainer/MainLayout/StatusPanel" unique_id=301]
+
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 30.0
+offset_top = 28.0
+offset_right = -30.0
+offset_bottom = -28.0
+grow_horizontal = 2
+grow_vertical = 2
+
+theme_override_constants/separation = 14
+
+[node name="StatusLabel" type="Label" parent="CenterContainer/MainLayout/StatusPanel/StatusContent" unique_id=302]
+
+layout_mode = 2
+
+theme_override_colors/font_color = Color(0.88, 0.36, 0.2, 1)
+theme_override_font_sizes/font_size = 12
+
+text = "CURRENT STATUS"
+
+[node name="StatusTitle" type="Label" parent="CenterContainer/MainLayout/StatusPanel/StatusContent" unique_id=303]
+
+layout_mode = 2
+
+theme_override_colors/font_color = Color(0.9, 0.89, 0.86, 1)
+theme_override_font_sizes/font_size = 24
+
+text = "THE NIGHT IS WAITING"
+
+[node name="StatusRule" type="ColorRect" parent="CenterContainer/MainLayout/StatusPanel/StatusContent"]
+
+custom_minimum_size = Vector2(0, 1)
+layout_mode = 2
+
+color = Color(0.38, 0.24, 0.22, 0.8)
+
+[node name="StatusText" type="Label" parent="CenterContainer/MainLayout/StatusPanel/StatusContent" unique_id=305]
+
+custom_minimum_size = Vector2(0, 72)
+layout_mode = 2
+
+theme_override_colors/font_color = Color(0.54, 0.57, 0.62, 1)
+theme_override_font_sizes/font_size = 15
+
+text = "The doors are open.\nThe halls are quiet.\nFor now."
+
+[node name="Metric" type="Label" parent="CenterContainer/MainLayout/StatusPanel/StatusContent" unique_id=306]
+
+layout_mode = 2
+
+theme_override_colors/font_color = Color(0.69, 0.7, 0.73, 1)
+theme_override_font_sizes/font_size = 12
+
+text = "THREAT LEVEL"
+
+[node name="ThreatBar" type="ProgressBar" parent="CenterContainer/MainLayout/StatusPanel/StatusContent" unique_id=307]
+
+custom_minimum_size = Vector2(0, 8)
+layout_mode = 2
+
+value = 26.0
+show_percentage = false
+
+[node name="StatusFooterGap" type="Control" parent="CenterContainer/MainLayout/StatusPanel/StatusContent"]
+
+custom_minimum_size = Vector2(0, 12)
+size_flags_vertical = 3
+layout_mode = 2
+
+[node name="StatusFooter" type="Label" parent="CenterContainer/MainLayout/StatusPanel/StatusContent" unique_id=309]
+
+layout_mode = 2
+
+theme_override_colors/font_color = Color(0.38, 0.4, 0.45, 1)
+theme_override_font_sizes/font_size = 11
+
+text = "NO RUN DATA // NEW DESCENT"
+
+[node name="CornerMark" type="Label" parent="." unique_id=400]
+
+layout_mode = 1
+
+anchors_preset = 3
+
+anchor_left = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+
+offset_left = -176.0
+offset_top = -62.0
+offset_right = -62.0
+offset_bottom = -35.0
+
+theme_override_colors/font_color = Color(0.38, 0.4, 0.45, 1)
+theme_override_font_sizes/font_size = 11
+
+text = "NF / 01"
+
+horizontal_alignment = 2
+
+[connection signal="pressed" from="CenterContainer/MainLayout/MenuRail/Content/StartButton" to="." method="OnStartButtonPressed"]
+
+[connection signal="pressed" from="CenterContainer/MainLayout/MenuRail/Content/QuitButton" to="." method="OnQuitButtonPressed"]

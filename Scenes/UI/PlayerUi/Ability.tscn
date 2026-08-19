@@ -1,0 +1,99 @@
+[gd_scene format=3]
+
+[ext_resource type="Script" path="res://Scripts/Entities/Player/Ui/Ability.cs" id="1_ability"]
+
+[sub_resource type="StyleBoxFlat" id="PanelStyle"]
+
+bg_color = Color(0.025, 0.03, 0.043, 0.91)
+
+border_width_left = 1
+border_width_top = 1
+border_width_right = 1
+border_width_bottom = 1
+
+border_color = Color(0.24, 0.25, 0.3, 0.92)
+
+corner_radius_top_left = 5
+corner_radius_top_right = 5
+corner_radius_bottom_right = 5
+corner_radius_bottom_left = 5
+
+shadow_color = Color(0, 0, 0, 0.5)
+shadow_size = 12
+
+[node name="Ability" type="Panel"]
+
+custom_minimum_size = Vector2(115, 125)
+
+theme_override_styles/panel = SubResource("PanelStyle")
+
+script = ExtResource("1_ability")
+
+[node name="MarginContainer" type="MarginContainer" parent="."]
+
+layout_mode = 1
+
+anchors_preset = 15
+
+anchor_right = 1.0
+anchor_bottom = 1.0
+
+grow_horizontal = 2
+grow_vertical = 2
+
+theme_override_constants/margin_left = 11
+theme_override_constants/margin_top = 9
+theme_override_constants/margin_right = 11
+theme_override_constants/margin_bottom = 9
+
+[node name="VBoxContainer" type="VBoxContainer" parent="MarginContainer"]
+
+layout_mode = 2
+
+theme_override_constants/separation = 6
+
+[node name="Header" type="HBoxContainer" parent="MarginContainer/VBoxContainer"]
+
+layout_mode = 2
+
+[node name="Name" type="Label" parent="MarginContainer/VBoxContainer/Header"]
+
+layout_mode = 2
+
+size_flags_horizontal = 3
+
+theme_override_colors/font_color = Color(0.96, 0.42, 0.2, 1)
+
+theme_override_font_sizes/font_size = 12
+
+text = "ABILITY"
+
+[node name="Input" type="Label" parent="MarginContainer/VBoxContainer/Header"]
+
+layout_mode = 2
+
+theme_override_colors/font_color = Color(0.48, 0.5, 0.56, 1)
+
+theme_override_font_sizes/font_size = 10
+
+text = "KEY"
+
+[node name="Cooldown" type="TextureProgressBar" parent="MarginContainer/VBoxContainer"]
+
+custom_minimum_size = Vector2(76, 76)
+custom_maximum_size = Vector2(76, 76)
+
+layout_mode = 2
+
+size_flags_horizontal = 4
+size_flags_vertical = 4
+
+mouse_filter = 2
+
+step = 0.1
+
+value = 100.0
+
+fill_mode = 4
+
+radial_initial_angle = 270.0

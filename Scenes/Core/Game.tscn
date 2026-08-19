@@ -2,7 +2,7 @@
 
 [ext_resource type="Script" uid="uid://cvrq0h8m1vc5" path="res://Scripts/Core/PauseManager.cs" id="1_0nbjp"]
 [ext_resource type="PackedScene" uid="uid://bof1fhytmmkh8" path="res://Scenes/Entities/Player/Player.tscn" id="2_xf6vi"]
-[ext_resource type="PackedScene" uid="uid://c821st41sbxaa" path="res://Scenes/UI/PauseMenu/PauseMenu.tscn" id="3_ouhkt"]
+[ext_resource type="PackedScene" uid="uid://c821st41sbxaa" path="res://Scenes/UI/PauseMenu/PauseMenu2.tscn" id="3_ouhkt"]
 [ext_resource type="PackedScene" uid="uid://dac2x8uetcxks" path="res://Scenes/UI/DeathScreen/DeathScreen.tscn" id="4_death"]
 
 [node name="Game" type="Node" unique_id=787836075]

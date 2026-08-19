@@ -1,66 +1,108 @@
 [gd_scene format=3 uid="uid://ctwyo4gehslxi"]
 
 [ext_resource type="Script" uid="uid://cytb2k04xct8b" path="res://Scripts/Entities/Player/Ui/PlayerUi.cs" id="1_evngq"]
-[ext_resource type="Texture2D" uid="uid://cbkiy7aw010vm" path="res://Assets/Vfx/DashCd/CircleEmpty.svg" id="2_uh51l"]
-[ext_resource type="Texture2D" uid="uid://ccax8xs8hkbgw" path="res://Assets/Vfx/DashCd/CircleFull.svg" id="3_uh51l"]
+[ext_resource type="PackedScene" uid="uid://bu1klb1iewjl4" path="res://Scenes/UI/PlayerUi/Ability.tscn" id="2_0o8ro"]
 
-[node name="PlayerUi" type="CanvasLayer" unique_id=1522940395 node_paths=PackedStringArray("_goldLabel", "_healthBar", "_wheel")]
+[sub_resource type="StyleBoxFlat" id="PanelStyle"]
+bg_color = Color(0.025, 0.03, 0.043, 0.91)
+border_width_left = 1
+border_width_top = 1
+border_width_right = 1
+border_width_bottom = 1
+border_color = Color(0.24, 0.25, 0.3, 0.92)
+corner_radius_top_left = 5
+corner_radius_top_right = 5
+corner_radius_bottom_right = 5
+corner_radius_bottom_left = 5
+shadow_color = Color(0, 0, 0, 0.5)
+shadow_size = 12
+
+[sub_resource type="StyleBoxFlat" id="HealthBackground"]
+bg_color = Color(0.11, 0.12, 0.15, 1)
+corner_radius_top_left = 3
+corner_radius_top_right = 3
+corner_radius_bottom_right = 3
+corner_radius_bottom_left = 3
+
+[sub_resource type="StyleBoxFlat" id="HealthFill"]
+bg_color = Color(0.72, 0.16, 0.12, 1)
+corner_radius_top_left = 3
+corner_radius_top_right = 3
+corner_radius_bottom_right = 3
+corner_radius_bottom_left = 3
+
+[node name="PlayerUi" type="CanvasLayer" unique_id=1522940395 node_paths=PackedStringArray("_goldLabel", "_healthBar", "_wheel", "_abilityContainer")]
 script = ExtResource("1_evngq")
-_goldLabel = NodePath("Panel/MarginContainer/VBoxContainer/Gold")
-_healthBar = NodePath("Panel/MarginContainer/VBoxContainer/HealthBar")
-_wheel = NodePath("Panel/MarginContainer/VBoxContainer/DashCooldown")
+_goldLabel = NodePath("PlayerPanel/MarginContainer/VBoxContainer/Gold")
+_healthBar = NodePath("PlayerPanel/MarginContainer/VBoxContainer/HealthBar")
+_wheel = NodePath("")
+_abilityContainer = NodePath("Abilities")
 
-[node name="Panel" type="Panel" parent="." unique_id=304311203]
+[node name="PlayerPanel" type="Panel" parent="." unique_id=125313411]
 offset_left = 20.0
 offset_top = 20.0
-offset_right = 220.0
-offset_bottom = 180.0
+offset_right = 226.0
+offset_bottom = 126.0
 mouse_filter = 2
+theme_override_styles/panel = SubResource("PanelStyle")
 
-[node name="MarginContainer" type="MarginContainer" parent="Panel" unique_id=1707848692]
+[node name="MarginContainer" type="MarginContainer" parent="PlayerPanel" unique_id=187138594]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
-theme_override_constants/margin_left = 12
-theme_override_constants/margin_top = 10
-theme_override_constants/margin_right = 12
-theme_override_constants/margin_bottom = 10
+theme_override_constants/margin_left = 13
+theme_override_constants/margin_top = 11
+theme_override_constants/margin_right = 13
+theme_override_constants/margin_bottom = 11
 
-[node name="VBoxContainer" type="VBoxContainer" parent="Panel/MarginContainer" unique_id=1367393557]
+[node name="VBoxContainer" type="VBoxContainer" parent="PlayerPanel/MarginContainer" unique_id=1509287509]
 layout_mode = 2
-theme_override_constants/separation = 6
+theme_override_constants/separation = 7
 
-[node name="HealthBar" type="ProgressBar" parent="Panel/MarginContainer/VBoxContainer" unique_id=314600976]
-custom_minimum_size = Vector2(0, 18)
+[node name="HealthCaption" type="Label" parent="PlayerPanel/MarginContainer/VBoxContainer" unique_id=1524426101]
 layout_mode = 2
+theme_override_colors/font_color = Color(0.54, 0.56, 0.62, 1)
+theme_override_font_sizes/font_size = 11
+text = "VITALITY"
+
+[node name="HealthBar" type="ProgressBar" parent="PlayerPanel/MarginContainer/VBoxContainer" unique_id=1027518862]
+custom_minimum_size = Vector2(0, 17)
+layout_mode = 2
+theme_override_styles/background = SubResource("HealthBackground")
+theme_override_styles/fill = SubResource("HealthFill")
 value = 100.0
 show_percentage = false
 
-[node name="Divider" type="HSeparator" parent="Panel/MarginContainer/VBoxContainer" unique_id=726467646]
-custom_minimum_size = Vector2(0, 1)
+[node name="Gold" type="Label" parent="PlayerPanel/MarginContainer/VBoxContainer" unique_id=1140615367]
+custom_minimum_size = Vector2(0, 25)
 layout_mode = 2
-theme_override_constants/separation = 6
-
-[node name="Gold" type="Label" parent="Panel/MarginContainer/VBoxContainer" unique_id=911761564]
-custom_minimum_size = Vector2(0, 24)
-layout_mode = 2
-theme_override_font_sizes/font_size = 20
+theme_override_colors/font_color = Color(0.92, 0.7, 0.3, 1)
+theme_override_font_sizes/font_size = 19
 text = "◆ 0"
 vertical_alignment = 1
 
-[node name="DashCooldown" type="TextureProgressBar" parent="Panel/MarginContainer/VBoxContainer" unique_id=1576951322]
-custom_minimum_size = Vector2(64, 64)
-custom_maximum_size = Vector2(64, 64)
+[node name="Abilities" type="HBoxContainer" parent="." unique_id=683512129]
+anchors_preset = 2
+anchor_top = 1.0
+anchor_bottom = 1.0
+offset_left = 20.0
+offset_top = -60.0
+offset_right = 60.0
+offset_bottom = -20.0
+grow_vertical = 0
+theme_override_constants/separation = 8
+
+[node name="Ability" parent="Abilities" unique_id=152762344 instance=ExtResource("2_0o8ro")]
 layout_mode = 2
-size_flags_horizontal = 4
-size_flags_vertical = 4
-mouse_filter = 2
-step = 0.1
-value = 100.0
-fill_mode = 4
-radial_initial_angle = 270.0
-texture_under = ExtResource("2_uh51l")
-texture_progress = ExtResource("3_uh51l")
+
+[node name="Ability2" parent="Abilities" unique_id=657809330 instance=ExtResource("2_0o8ro")]
+layout_mode = 2
+
+[node name="Ability3" parent="Abilities" unique_id=1325635363 instance=ExtResource("2_0o8ro")]
+layout_mode = 2
+
+[node name="Ability4" parent="Abilities" unique_id=1279366472 instance=ExtResource("2_0o8ro")]
+layout_mode = 2
