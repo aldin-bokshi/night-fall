@@ -29,11 +29,14 @@ public partial class PlayerInput : Node
         {
             string action = $"ability_{index}";
 
-            if (Input.IsActionJustPressed(action))
-            {
-                AbilityActionPressed = action;
-                break;
-            }
+            if (!InputMap.HasAction(action))
+                continue;
+
+            if (!Input.IsActionJustPressed(action))
+                continue;
+
+            AbilityActionPressed = action;
+            break;
         }
     }
 

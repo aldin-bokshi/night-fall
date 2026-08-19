@@ -11,7 +11,7 @@ public partial class BlinkAbility : Ability
     public override void _Ready()
     {
         base._Ready();
-        _player = GetParent<Player>();
+        _player = GetParent().GetParent<Player>();
         if (_player == null) GD.PushError("BlinkAbility could not find the Player.");
     }
 

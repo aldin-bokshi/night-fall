@@ -1,8 +1,6 @@
-using System.Collections.Generic;
-using System.Linq;
 using Godot;
-using NightFall.Scripts.Ui;
 using NightFall.Scripts.Entities.Player.Abilities;
+using NightFall.Scripts.Ui;
 
 namespace NightFall.Scripts.Entities.Player;
 
@@ -14,12 +12,12 @@ public partial class Player : CharacterBody2D
     private PlayerStats _stats = null!;
     private AttackHitbox _attackHitbox = null!;
     private Sprite2D _sprite = null!;
-    private Ability[] _abilities = [];
+    private AbilityManager _abilityManager = null!;
 
     public PlayerStats Stats => _stats;
     public Vector2 MovementInput => _input.MovementInput;
     public Vector2 FacingDirection => _input.FacingDirection;
-    public IReadOnlyList<Ability> Abilities => _abilities;
+    public AbilityManager AbilityManager => _abilityManager;
 
     public override void _Ready()
     {
@@ -29,12 +27,10 @@ public partial class Player : CharacterBody2D
         _stats = GetNode<PlayerStats>("PlayerStats");
         _attackHitbox = GetNode<AttackHitbox>("AttackHitbox");
         _sprite = GetNode<Sprite2D>("Sprite2D");
+        _abilityManager = GetNode<AbilityManager>("AbilityManager");
 
         _movement.Initialize(_stats);
         _combat.Initialize(_stats, _attackHitbox);
-        _abilities = GetChildren()
-            .OfType<Ability>()
-            .ToArray();
     }
 
     public override void _PhysicsProcess(double delta)
@@ -66,14 +62,7 @@ public partial class Player : CharacterBody2D
 
         if (action == null) return;
 
-        foreach (Ability ability in _abilities)
-        {
-            if (ability.Data?.InputAction != action) continue;
-
-            ability.Use();
-            break;
-        }
-
+        _abilityManager.TryUseAbility(action);
         _input.ConsumeAbility();
     }
 

@@ -6,6 +6,7 @@
 [ext_resource type="Script" uid="uid://dq2eg4s4hl5ru" path="res://Scripts/Entities/Player/PlayerMovement.cs" id="3"]
 [ext_resource type="Script" uid="uid://if02qxt8sylk" path="res://Scripts/Entities/Player/PlayerCombat.cs" id="4"]
 [ext_resource type="Script" uid="uid://8030dn4cne8s" path="res://Scripts/Entities/Player/PlayerStats.cs" id="6"]
+[ext_resource type="Script" uid="uid://dgb30b0dbth81" path="res://Scripts/Entities/Player/Abilities/AbilityManager.cs" id="8_446ba"]
 [ext_resource type="Script" uid="uid://c2r7ka3xadser" path="res://Scripts/Entities/Player/AttackHitbox.cs" id="8_vgr12"]
 [ext_resource type="Script" uid="uid://cami5ob051yfi" path="res://Scripts/Entities/Player/Abilities/BlinkAbility.cs" id="9_blink"]
 [ext_resource type="Resource" uid="uid://cka6mlj87qmrp" path="res://Data/Abilities/BlinkAbility.tres" id="10_blink_data"]
@@ -30,14 +31,16 @@ script = ExtResource("3")
 [node name="PlayerCombat" type="Node" parent="." unique_id=123456791]
 script = ExtResource("4")
 
-[node name="BlinkAbility" type="Node" parent="." unique_id=123456792]
-script = ExtResource("9_blink")
-Data = ExtResource("10_blink_data")
-BlinkDistance = 120.0
-
 [node name="PlayerStats" type="Node" parent="." unique_id=123456793]
 script = ExtResource("6")
 MoveSpeed = 300.0
+
+[node name="AbilityManager" type="Node" parent="." unique_id=149557888]
+script = ExtResource("8_446ba")
+
+[node name="BlinkAbility" type="Node" parent="AbilityManager" unique_id=123456792]
+script = ExtResource("9_blink")
+Data = ExtResource("10_blink_data")
 
 [node name="Sprite2D" type="Sprite2D" parent="." unique_id=527130436]
 texture = ExtResource("1_7kpwk")

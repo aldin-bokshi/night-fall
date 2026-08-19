@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using Godot;
 using NightFall.Scripts.Entities.Player.Abilities;
 
@@ -10,10 +11,10 @@ public partial class PlayerUi : CanvasLayer
     [Export] private HBoxContainer? _abilityContainer;
     [Export] private PackedScene? _abilityUiScene;
 
-    [Export] public int MaxAbilitiesAllowed { get; set; } = 4;
-
     private Player? _player;
+    private AbilityManager? _abilityManager;
     private PlayerStats? _playerStats;
+    private int _lastAbilityCount = -1;
 
     public override void _Ready()
     {
@@ -26,8 +27,9 @@ public partial class PlayerUi : CanvasLayer
         }
 
         _playerStats = _player.Stats;
+        _abilityManager = _player.AbilityManager;
 
-        RegisterPlayerAbilities();
+        SyncAbilityUi();
         UpdateHealth();
         UpdateGold();
     }
@@ -38,6 +40,7 @@ public partial class PlayerUi : CanvasLayer
 
         UpdateHealth();
         UpdateGold();
+        SyncAbilityUi();
     }
 
     private void UpdateHealth()
@@ -55,99 +58,32 @@ public partial class PlayerUi : CanvasLayer
         _goldLabel.Text = $"◆ {_playerStats.Gold}";
     }
 
-    private void RegisterPlayerAbilities()
+    private void SyncAbilityUi()
     {
-        if (_abilityContainer == null || _abilityUiScene == null) return;
+        if (_abilityContainer == null || _abilityUiScene == null || _abilityManager == null)
+            return;
 
-        foreach (Ability ability in _player!.Abilities)
-            TryAddAbility(ability);
-    }
+        _abilityManager.RefreshAbilities();
 
-    /// <summary>
-    /// Attempts to add an ability to the player's HUD.
-    /// Returns false if the maximum number of abilities has been reached.
-    /// </summary>
-    public bool TryAddAbility(Ability? ability)
-    {
-        if (ability == null)
-        {
-            GD.PushWarning("Cannot add ability: ability is null.");
-            return false;
-        }
+        IReadOnlyList<Ability> abilities = _abilityManager.Abilities;
 
-        if (_abilityContainer == null)
-        {
-            GD.PushWarning(
-                "Cannot add ability: AbilityContainer is not assigned."
-            );
-
-            return false;
-        }
-
-        if (_abilityContainer.GetChildCount() >= MaxAbilitiesAllowed)
-        {
-            string abilityName = ability.Data?.AbilityName ?? ability.GetType().Name;
-
-            GD.PushWarning(
-                $"Cannot add ability '{abilityName}': " +
-                $"maximum of {MaxAbilitiesAllowed} abilities reached."
-            );
-
-            return false;
-        }
-
-        AbilityUi? abilityUi = _abilityUiScene?.Instantiate<AbilityUi>();
-
-        if (abilityUi == null) return false;
-
-        _abilityContainer.AddChild(abilityUi);
-        abilityUi.Initialize(ability);
-        return true;
-    }
-
-    /// <summary>
-    /// Removes an ability from the player's HUD.
-    /// </summary>
-    public bool RemoveAbility(Ability? ability)
-    {
-        if (ability == null || _abilityContainer == null) return false;
+        if (abilities.Count == _lastAbilityCount)
+            return;
 
         foreach (Node child in _abilityContainer.GetChildren())
+            child.QueueFree();
+
+        foreach (Ability ability in abilities)
         {
-            if (child is not AbilityUi abilityUi || abilityUi.Ability != ability)
+            AbilityUi? abilityUi = _abilityUiScene.Instantiate<AbilityUi>();
+
+            if (abilityUi == null)
                 continue;
 
-            _abilityContainer.RemoveChild(abilityUi);
-            abilityUi.QueueFree();
-            return true;
+            _abilityContainer.AddChild(abilityUi);
+            abilityUi.Initialize(ability);
         }
 
-        return false;
-    }
-
-    /// <summary>
-    /// Returns true if another ability can be added.
-    /// </summary>
-    public bool CanAddAbility()
-    {
-        return _abilityContainer != null &&
-               _abilityContainer.GetChildCount() < MaxAbilitiesAllowed;
-    }
-
-    /// <summary>
-    /// Returns the number of abilities currently displayed.
-    /// </summary>
-    public int GetAbilityCount()
-    {
-        return _abilityContainer?.GetChildCount() ?? 0;
-    }
-
-    /// <summary>
-    /// Returns true if the maximum number of abilities has been reached.
-    /// </summary>
-    public bool IsAbilityLimitReached()
-    {
-        return _abilityContainer != null &&
-               _abilityContainer.GetChildCount() >= MaxAbilitiesAllowed;
+        _lastAbilityCount = abilities.Count;
     }
 }
