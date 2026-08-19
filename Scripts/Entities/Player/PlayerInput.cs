@@ -9,7 +9,7 @@ public partial class PlayerInput : Node
     public Vector2 FacingDirection { get; private set; } = Vector2.Right;
 
     public bool AttackPressed { get; private set; }
-    public bool DashPressed { get; private set; }
+    public string? AbilityActionPressed { get; private set; }
 
     public override void _Process(double delta)
     {
@@ -25,8 +25,16 @@ public partial class PlayerInput : Node
         if (Input.IsActionJustPressed("attack"))
             AttackPressed = true;
 
-        if (Input.IsActionJustPressed("dash"))
-            DashPressed = true;
+        for (int index = 1; index <= 4; index++)
+        {
+            string action = $"ability_{index}";
+
+            if (Input.IsActionJustPressed(action))
+            {
+                AbilityActionPressed = action;
+                break;
+            }
+        }
     }
 
     public void ConsumeAttack()
@@ -34,9 +42,9 @@ public partial class PlayerInput : Node
         AttackPressed = false;
     }
 
-    public void ConsumeDash()
+    public void ConsumeAbility()
     {
-        DashPressed = false;
+        AbilityActionPressed = null;
     }
 
     private void UpdateFacingDirection()

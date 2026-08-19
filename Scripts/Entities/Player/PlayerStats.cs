@@ -14,10 +14,6 @@ public partial class PlayerStats : Node
     [Export] public float AttackDuration { get; set; } = 0.15f;
     [Export] public float AttackRange { get; set; } = 75f;
 
-    [Export] public float DashSpeed { get; set; } = 500f;
-    [Export] public float DashDuration { get; set; } = 0.15f;
-    [Export] public float DashCooldown { get; set; } = 1f;
-
     public int Gold { get; private set; }
 
     private float _health;

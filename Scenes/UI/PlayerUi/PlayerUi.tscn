@@ -1,7 +1,7 @@
 [gd_scene format=3 uid="uid://ctwyo4gehslxi"]
 
 [ext_resource type="Script" uid="uid://cytb2k04xct8b" path="res://Scripts/Entities/Player/Ui/PlayerUi.cs" id="1_evngq"]
-[ext_resource type="PackedScene" uid="uid://bu1klb1iewjl4" path="res://Scenes/UI/PlayerUi/Ability.tscn" id="2_0o8ro"]
+[ext_resource type="PackedScene" path="res://Scenes/UI/PlayerUi/Ability.tscn" id="2_0o8ro"]
 
 [sub_resource type="StyleBoxFlat" id="PanelStyle"]
 bg_color = Color(0.025, 0.03, 0.043, 0.91)
@@ -31,12 +31,12 @@ corner_radius_top_right = 3
 corner_radius_bottom_right = 3
 corner_radius_bottom_left = 3
 
-[node name="PlayerUi" type="CanvasLayer" unique_id=1522940395 node_paths=PackedStringArray("_goldLabel", "_healthBar", "_wheel", "_abilityContainer")]
+[node name="PlayerUi" type="CanvasLayer" unique_id=1522940395 node_paths=PackedStringArray("_goldLabel", "_healthBar", "_abilityContainer")]
 script = ExtResource("1_evngq")
 _goldLabel = NodePath("PlayerPanel/MarginContainer/VBoxContainer/Gold")
 _healthBar = NodePath("PlayerPanel/MarginContainer/VBoxContainer/HealthBar")
-_wheel = NodePath("")
 _abilityContainer = NodePath("Abilities")
+_abilityUiScene = ExtResource("2_0o8ro")
 
 [node name="PlayerPanel" type="Panel" parent="." unique_id=125313411]
 offset_left = 20.0
@@ -95,14 +95,3 @@ offset_bottom = -20.0
 grow_vertical = 0
 theme_override_constants/separation = 8
 
-[node name="Ability" parent="Abilities" unique_id=152762344 instance=ExtResource("2_0o8ro")]
-layout_mode = 2
-
-[node name="Ability2" parent="Abilities" unique_id=657809330 instance=ExtResource("2_0o8ro")]
-layout_mode = 2
-
-[node name="Ability3" parent="Abilities" unique_id=1325635363 instance=ExtResource("2_0o8ro")]
-layout_mode = 2
-
-[node name="Ability4" parent="Abilities" unique_id=1279366472 instance=ExtResource("2_0o8ro")]
-layout_mode = 2

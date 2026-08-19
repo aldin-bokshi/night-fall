@@ -1,4 +1,5 @@
 using Godot;
+using NightFall.Scripts.Entities.Player.Abilities;
 
 namespace NightFall.Scripts.Entities.Player.Ui;
 
@@ -6,23 +7,16 @@ public partial class PlayerUi : CanvasLayer
 {
     [Export] private Label? _goldLabel;
     [Export] private ProgressBar? _healthBar;
-    [Export] private Control? _wheel;
     [Export] private HBoxContainer? _abilityContainer;
+    [Export] private PackedScene? _abilityUiScene;
 
-    private TextureProgressBar? _dashCooldownBar;
+    [Export] public int MaxAbilitiesAllowed { get; set; } = 4;
 
     private Player? _player;
     private PlayerStats? _playerStats;
-    private PlayerDash? _playerDash;
-
-    private const int MaxAbilities = 4;
 
     public override void _Ready()
     {
-        _dashCooldownBar = GetNode<TextureProgressBar>(
-            "Panel/MarginContainer/VBoxContainer/DashCooldown"
-        );
-
         _player = GetTree().GetFirstNodeInGroup("player") as Player;
 
         if (_player == null)
@@ -32,20 +26,18 @@ public partial class PlayerUi : CanvasLayer
         }
 
         _playerStats = _player.Stats;
-        _playerDash = _player.Dash;
 
+        RegisterPlayerAbilities();
         UpdateHealth();
         UpdateGold();
-        UpdateDashCooldown();
     }
 
     public override void _Process(double delta)
     {
-        if (_playerStats == null || _playerDash == null) return;
+        if (_playerStats == null) return;
 
         UpdateHealth();
         UpdateGold();
-        UpdateDashCooldown();
     }
 
     private void UpdateHealth()
@@ -63,32 +55,99 @@ public partial class PlayerUi : CanvasLayer
         _goldLabel.Text = $"◆ {_playerStats.Gold}";
     }
 
-    private void UpdateDashCooldown()
+    private void RegisterPlayerAbilities()
     {
-        if (_dashCooldownBar == null || _playerDash == null) return;
+        if (_abilityContainer == null || _abilityUiScene == null) return;
 
-        float duration = _playerDash.CooldownDuration;
-
-        if (duration <= 0f)
-        {
-            _dashCooldownBar.Value = 100f; return;
-        }
-
-        float progress =
-            1f - (_playerDash.CooldownRemaining / duration);
-
-        _dashCooldownBar.Value = Mathf.Clamp(progress * 100f, 0f, 100f);
+        foreach (Ability ability in _player!.Abilities)
+            TryAddAbility(ability);
     }
 
-    public bool TryAddAbility(Ability ability)
+    /// <summary>
+    /// Attempts to add an ability to the player's HUD.
+    /// Returns false if the maximum number of abilities has been reached.
+    /// </summary>
+    public bool TryAddAbility(Ability? ability)
     {
-        if (_abilityContainer != null && _abilityContainer.GetChildCount() >= MaxAbilities)
+        if (ability == null)
         {
-            GD.PushWarning("Cannot add ability: maximum of 4 abilities reached.");
+            GD.PushWarning("Cannot add ability: ability is null.");
             return false;
         }
 
-        _abilityContainer?.AddChild(ability);
+        if (_abilityContainer == null)
+        {
+            GD.PushWarning(
+                "Cannot add ability: AbilityContainer is not assigned."
+            );
+
+            return false;
+        }
+
+        if (_abilityContainer.GetChildCount() >= MaxAbilitiesAllowed)
+        {
+            string abilityName = ability.Data?.AbilityName ?? ability.GetType().Name;
+
+            GD.PushWarning(
+                $"Cannot add ability '{abilityName}': " +
+                $"maximum of {MaxAbilitiesAllowed} abilities reached."
+            );
+
+            return false;
+        }
+
+        AbilityUi? abilityUi = _abilityUiScene?.Instantiate<AbilityUi>();
+
+        if (abilityUi == null) return false;
+
+        _abilityContainer.AddChild(abilityUi);
+        abilityUi.Initialize(ability);
         return true;
+    }
+
+    /// <summary>
+    /// Removes an ability from the player's HUD.
+    /// </summary>
+    public bool RemoveAbility(Ability? ability)
+    {
+        if (ability == null || _abilityContainer == null) return false;
+
+        foreach (Node child in _abilityContainer.GetChildren())
+        {
+            if (child is not AbilityUi abilityUi || abilityUi.Ability != ability)
+                continue;
+
+            _abilityContainer.RemoveChild(abilityUi);
+            abilityUi.QueueFree();
+            return true;
+        }
+
+        return false;
+    }
+
+    /// <summary>
+    /// Returns true if another ability can be added.
+    /// </summary>
+    public bool CanAddAbility()
+    {
+        return _abilityContainer != null &&
+               _abilityContainer.GetChildCount() < MaxAbilitiesAllowed;
+    }
+
+    /// <summary>
+    /// Returns the number of abilities currently displayed.
+    /// </summary>
+    public int GetAbilityCount()
+    {
+        return _abilityContainer?.GetChildCount() ?? 0;
+    }
+
+    /// <summary>
+    /// Returns true if the maximum number of abilities has been reached.
+    /// </summary>
+    public bool IsAbilityLimitReached()
+    {
+        return _abilityContainer != null &&
+               _abilityContainer.GetChildCount() >= MaxAbilitiesAllowed;
     }
 }
