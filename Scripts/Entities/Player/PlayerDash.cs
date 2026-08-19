@@ -13,6 +13,12 @@ public partial class PlayerDash : Node
 
     public bool IsDashing { get; private set; }
 
+    public float CooldownRemaining => _cooldownTimer;
+
+    public float CooldownDuration => _stats.DashCooldown;
+
+    public bool IsOnCooldown => _cooldownTimer > 0f;
+
     public void Initialize(PlayerStats stats)
     {
         ArgumentNullException.ThrowIfNull(stats);
@@ -20,30 +26,53 @@ public partial class PlayerDash : Node
         _stats = stats;
     }
 
-    public void StartDash(Vector2 direction)
+    public bool StartDash(Vector2 direction)
     {
-        if (direction == Vector2.Zero) return;
-        if (IsDashing) return;
-        if (_cooldownTimer > 0f) return;
+        GD.Print($"StartDash called | Cooldown: {_cooldownTimer:F2} | IsDashing: {IsDashing}");
 
-        _direction = direction;
+        if (direction == Vector2.Zero)
+        {
+            GD.Print("Dash blocked: zero direction");
+            return false;
+        }
+
+        if (IsDashing)
+        {
+            GD.Print("Dash blocked: already dashing");
+            return false;
+        }
+
+        if (_cooldownTimer > 0f)
+        {
+            GD.Print("Dash blocked: cooldown");
+            return false;
+        }
+
+        _direction = direction.Normalized();
         _dashTimer = _stats.DashDuration;
         _cooldownTimer = _stats.DashCooldown;
         IsDashing = true;
+
+        GD.Print("DASH STARTED");
+
+        return true;
     }
 
     public void UpdateDash(CharacterBody2D player, double delta)
     {
         if (!IsDashing) return;
 
-        var dashSpeed = _stats.DashSpeed;
-
-        player.Velocity = _direction * dashSpeed;
+        player.Velocity = _direction * _stats.DashSpeed;
         player.MoveAndSlide();
 
         _dashTimer -= (float)delta;
 
-        if (_dashTimer <= 0f) IsDashing = false;
+        if (_dashTimer <= 0f)
+        {
+            _dashTimer = 0f;
+            IsDashing = false;
+            player.Velocity = Vector2.Zero;
+        }
     }
 
     public void UpdateCooldown(double delta)
@@ -54,5 +83,7 @@ public partial class PlayerDash : Node
             _cooldownTimer - (float)delta,
             0f
         );
+
+        GD.Print($"Cooldown: {_cooldownTimer:F2}, IsDashing: {IsDashing}");
     }
 }

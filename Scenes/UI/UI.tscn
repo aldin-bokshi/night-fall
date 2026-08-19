@@ -1,0 +1,11 @@
+[gd_scene format=3 uid="uid://240oi6ehi442"]
+
+[ext_resource type="PackedScene" uid="uid://ctwyo4gehslxi" path="res://Scenes/UI/PlayerUi/PlayerUi.tscn" id="1_s86y4"]
+
+[ext_resource type="PackedScene" uid="uid://c821st41sbxaa" path="res://Scenes/UI/PauseMenu/PauseMenu.tscn" id="2_636u5"]
+
+[node name="HUD" type="CanvasLayer" unique_id=1476447925]
+
+[node name="PlayerUi" parent="." unique_id=216295105 instance=ExtResource("1_s86y4")]
+
+[node name="PauseMenu" parent="." unique_id=524468610 instance=ExtResource("2_636u5")]

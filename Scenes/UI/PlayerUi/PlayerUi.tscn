@@ -1,15 +1,14 @@
 [gd_scene format=3 uid="uid://ctwyo4gehslxi"]
 
-[ext_resource type="Script" uid="uid://dthavvrald6tt" path="res://Scripts/UI/Hud/Hud.cs" id="1_evngq"]
+[ext_resource type="Script" uid="uid://cytb2k04xct8b" path="res://Scripts/Entities/Player/Ui/PlayerUi.cs" id="1_evngq"]
 [ext_resource type="Texture2D" uid="uid://cbkiy7aw010vm" path="res://Assets/Vfx/DashCd/CircleEmpty.svg" id="2_uh51l"]
 [ext_resource type="Texture2D" uid="uid://ccax8xs8hkbgw" path="res://Assets/Vfx/DashCd/CircleFull.svg" id="3_uh51l"]
 
-[node name="Hud" type="CanvasLayer" unique_id=216295105 node_paths=PackedStringArray("_goldLabel", "_healthBar", "_wheel")]
+[node name="PlayerUi" type="CanvasLayer" unique_id=1522940395 node_paths=PackedStringArray("_goldLabel", "_healthBar", "_wheel")]
 script = ExtResource("1_evngq")
 _goldLabel = NodePath("Panel/MarginContainer/VBoxContainer/Gold")
 _healthBar = NodePath("Panel/MarginContainer/VBoxContainer/HealthBar")
 _wheel = NodePath("Panel/MarginContainer/VBoxContainer/DashCooldown")
-_testDashCooldown = true
 
 [node name="Panel" type="Panel" parent="." unique_id=304311203]
 offset_left = 20.0
@@ -43,6 +42,7 @@ show_percentage = false
 [node name="Divider" type="HSeparator" parent="Panel/MarginContainer/VBoxContainer" unique_id=726467646]
 custom_minimum_size = Vector2(0, 1)
 layout_mode = 2
+theme_override_constants/separation = 6
 
 [node name="Gold" type="Label" parent="Panel/MarginContainer/VBoxContainer" unique_id=911761564]
 custom_minimum_size = Vector2(0, 24)

@@ -3,6 +3,7 @@
 [ext_resource type="Texture2D" uid="uid://dm8uvjv3a5hei" path="res://Assets/TileSheet/Placeholder/TileSheet.png" id="1_eomcr"]
 [ext_resource type="PackedScene" uid="uid://dul7167pwxfxl" path="res://Scenes/Entities/Enemies/Enemy.tscn" id="1_gs33j"]
 [ext_resource type="PackedScene" uid="uid://bof1fhytmmkh8" path="res://Scenes/Entities/Player/Player.tscn" id="3_ixpc1"]
+[ext_resource type="PackedScene" uid="uid://240oi6ehi442" path="res://Scenes/UI/UI.tscn" id="4_ixpc1"]
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_2rdfh"]
 texture = ExtResource("1_eomcr")
@@ -17,7 +18,7 @@ sources/0 = SubResource("TileSetAtlasSource_2rdfh")
 
 [node name="Enemy" parent="." unique_id=101112059 instance=ExtResource("1_gs33j")]
 z_index = 1
-position = Vector2(405, 162)
+position = Vector2(402, 162)
 scale = Vector2(0.5, 0.5)
 
 [node name="TileMapLayer" type="TileMapLayer" parent="." unique_id=1541514716]
@@ -28,3 +29,5 @@ tile_set = SubResource("TileSet_7xa4w")
 z_index = 1
 position = Vector2(81, 128)
 scale = Vector2(0.5, 0.5)
+
+[node name="HUD" parent="." unique_id=1476447925 instance=ExtResource("4_ixpc1")]

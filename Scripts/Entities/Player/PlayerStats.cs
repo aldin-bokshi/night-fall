@@ -45,7 +45,10 @@ public partial class PlayerStats : Node
     public override void _Ready()
     {
         _health = MaxHealth;
-    }
+
+        GD.Print($"[PlayerStats] MaxHealth = {MaxHealth}");
+        GD.Print($"[PlayerStats] Health initialized to = {_health}");
+}
 
     public void TakeDamage(float amount)
     {

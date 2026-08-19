@@ -12,6 +12,9 @@ public partial class Player : CharacterBody2D
     private AttackHitbox _attackHitbox = null!;
     private Sprite2D _sprite = null!;
 
+    public PlayerStats Stats => _stats;
+    public PlayerDash Dash => _dash;
+
     public override void _Ready()
     {
         _input = GetNode<PlayerInput>("PlayerInput");
@@ -32,7 +35,7 @@ public partial class Player : CharacterBody2D
         UpdateSystems(delta);
         UpdateSprite();
 
-        if (HandleDash(delta)) return;
+        if (HandleDash()) return;
 
         HandleAttack();
         HandleMovement();
@@ -44,6 +47,7 @@ public partial class Player : CharacterBody2D
     {
         _combat.UpdateAttack(delta);
         _dash.UpdateCooldown(delta);
+        _dash.UpdateDash(this, delta);
     }
 
     private void UpdateSprite()
@@ -51,23 +55,26 @@ public partial class Player : CharacterBody2D
         if (_input.FacingDirection.X != 0f) _sprite.FlipH = _input.FacingDirection.X < 0f;
     }
 
-    private bool HandleDash(double delta)
+    private bool HandleDash()
     {
         if (!_input.DashPressed) return false;
-        _dash.StartDash(_input.MovementInput);
+
+        Vector2 dashDirection =
+            _input.MovementInput == Vector2.Zero
+                ? _input.FacingDirection
+                : _input.MovementInput;
+
         _input.ConsumeDash();
 
-        if (!_dash.IsDashing) return false;
-
-        _dash.UpdateDash(this, delta);
-
-        return true;
+        return _dash.StartDash(dashDirection);
     }
 
     private void HandleAttack()
     {
         if (!_input.AttackPressed) return;
+
         if (_input.FacingDirection == Vector2.Zero) return;
+
         if (!_combat.CanAttack()) return;
 
         _combat.Attack(_input.FacingDirection);
@@ -82,6 +89,7 @@ public partial class Player : CharacterBody2D
     private void Die()
     {
         GetTree().ChangeSceneToFile("res://Scenes/UI/DeathScreen/DeathScreen.tscn");
+
         QueueFree();
     }
 }

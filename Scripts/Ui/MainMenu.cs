@@ -1,8 +1,8 @@
 using Godot;
 
-namespace NightFall.Scripts.UI.MainMenu;
+namespace NightFall.Scripts.Ui;
 
-public partial class Buttons : Control
+public partial class MainMenu : Control
 {
     private void OnStartButtonPressed()
     {
