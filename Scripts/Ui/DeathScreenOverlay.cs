@@ -19,30 +19,6 @@ public partial class DeathScreenOverlay : CanvasLayer
     private Label _time = null!;
     private Button _retryButton = null!;
 
-    private static readonly string[] DeathQuotes =
-    [
-        "You died. The enemies remain deeply unimpressed.",
-        "That probably could have gone better.",
-        "Skill issue.",
-        "The night won this round.",
-        "You were doing great. Until you weren't.",
-        "Have you considered not getting hit?",
-        "Death is just a very aggressive loading screen.",
-        "At least you looked cool for a second.",
-        "The enemies would like to thank you for your contribution.",
-        "You fought bravely. Unfortunately, they fought better.",
-        "Perhaps violence wasn't the answer.",
-        "Your health bar has left the chat.",
-        "You have successfully discovered the death mechanic.",
-        "That was definitely intentional.",
-        "The floor appears to be stronger than expected.",
-        "Maybe try dodging next time.",
-        "You lasted longer than someone else would have.",
-        "Congratulations! You found the Game Over screen.",
-        "The darkness sends its regards.",
-        "You have been promoted to spectator."
-    ];
-
     public override void _Ready()
     {
         ProcessMode = ProcessModeEnum.Always;
@@ -116,11 +92,17 @@ public partial class DeathScreenOverlay : CanvasLayer
             $"Time                 {FormatTime(time)}";
     }
 
+    // private void SelectRandomQuote()
+    // {
+    //     int index = GD.RandRange(0, DeathQuotes.Length - 1);
+
+    //     _quote.Text = $"\"{DeathQuotes[index]}\"";
+    // }
+
     private void SelectRandomQuote()
     {
-        int index = GD.RandRange(0, DeathQuotes.Length - 1);
-
-        _quote.Text = $"\"{DeathQuotes[index]}\"";
+        // _quote.Text = $"\"{DeathQuotes.GetRandom()}\"";
+        _quote.Text = $"\"{DeathQuoteLoader.GetRandomQuote()}\"";
     }
 
     private void StartDeathAnimation()

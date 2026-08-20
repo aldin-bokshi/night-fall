@@ -2,6 +2,9 @@
 # Godot
 # =========================
 
+# Tools
+.Tools/
+
 # Godot 4 generated project data
 .godot/
 

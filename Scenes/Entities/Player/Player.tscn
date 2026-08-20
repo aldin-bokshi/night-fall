@@ -40,13 +40,13 @@ MoveSpeed = 300.0
 [node name="AbilityManager" type="Node" parent="." unique_id=149557888]
 script = ExtResource("8_446ba")
 
-[node name="BlinkAbility" type="Node" parent="AbilityManager" unique_id=123456792]
-script = ExtResource("9_blink")
-Data = ExtResource("10_blink_data")
-
 [node name="GravityWellAbility" type="Node" parent="AbilityManager" unique_id=123456794]
 script = ExtResource("11_gravity_well")
 Data = ExtResource("12_gravity_well_data")
+
+[node name="BlinkAbility" type="Node" parent="AbilityManager" unique_id=123456792]
+script = ExtResource("9_blink")
+Data = ExtResource("10_blink_data")
 
 [node name="Sprite2D" type="Sprite2D" parent="." unique_id=527130436]
 texture = ExtResource("1_7kpwk")
