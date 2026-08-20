@@ -1,11 +1,11 @@
 [gd_resource type="Resource" script_class="AbilityData" format=3 uid="uid://cka6mlj87qmrp"]
 
+[ext_resource type="Texture2D" uid="uid://cqcfb427j7iem" path="res://Assets/Sprites/Abilities/GravityWellOutline.png" id="1_8zzbl"]
 [ext_resource type="Script" uid="uid://cetm4n47jw1tm" path="res://Scripts/Entities/Player/Abilities/AbilityData.cs" id="1_data"]
 
 [resource]
 script = ExtResource("1_data")
 AbilityName = "BLINK"
+Icon = ExtResource("1_8zzbl")
 CooldownDuration = 5.0
-InputDisplay = "SHIFT"
-InputAction = "ability_1"
 metadata/_custom_type_script = "uid://cetm4n47jw1tm"

@@ -7,5 +7,3 @@ script = ExtResource("1_data")
 AbilityName = "NEW ABILITY"
 Icon = null
 CooldownDuration = 1.0
-InputDisplay = "KEY"
-InputAction = "ability_1"

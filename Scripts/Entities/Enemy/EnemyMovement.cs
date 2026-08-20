@@ -6,6 +6,7 @@ namespace NightFall.Scripts.Entities.Enemy;
 public partial class EnemyMovement : Node
 {
     private EnemyStats? _stats;
+    private Vector2 _externalForce;
 
     public void Initialize(EnemyStats stats)
     {
@@ -25,7 +26,18 @@ public partial class EnemyMovement : Node
             direction = direction.Normalized();
         }
 
-        enemy.Velocity = direction * _stats.MoveSpeed;
+        enemy.Velocity = direction * _stats.MoveSpeed + _externalForce;
         enemy.MoveAndSlide();
+
+        _externalForce = Vector2.Zero;
+    }
+
+    /// <summary>
+    /// Adds a temporary force that affects the enemy's movement
+    /// during the current movement frame.
+    /// </summary>
+    public void AddExternalForce(Vector2 force)
+    {
+        _externalForce += force;
     }
 }

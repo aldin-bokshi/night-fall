@@ -58,11 +58,11 @@ public partial class Player : CharacterBody2D
 
     private void HandleAbilities()
     {
-        string? action = _input.AbilityActionPressed;
+        int? abilitySlot = _input.AbilitySlotPressed;
 
-        if (action == null) return;
+        if (abilitySlot == null) return;
 
-        _abilityManager.TryUseAbility(action);
+        _abilityManager.TryUseAbility(abilitySlot.Value);
         _input.ConsumeAbility();
     }
 

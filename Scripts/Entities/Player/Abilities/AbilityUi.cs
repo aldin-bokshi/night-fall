@@ -5,6 +5,7 @@ namespace NightFall.Scripts.Entities.Player.Abilities;
 public partial class AbilityUi : Panel
 {
     private Ability? _ability;
+    private int _slotIndex = -1;
 
     private Label? _nameLabel;
     private Label? _inputLabel;
@@ -14,9 +15,10 @@ public partial class AbilityUi : Panel
 
     public Ability? Ability => _ability;
 
-    public void Initialize(Ability ability)
+    public void Initialize(Ability ability, int slotIndex)
     {
         _ability = ability;
+        _slotIndex = slotIndex;
         UpdateDisplay();
     }
 
@@ -63,7 +65,10 @@ public partial class AbilityUi : Panel
         if (data == null) return;
 
         if (_nameLabel != null) _nameLabel.Text = data.AbilityName;
-        if (_inputLabel != null) _inputLabel.Text = data.InputDisplay;
+        if (_inputLabel != null)
+        {
+            _inputLabel.Text = AbilityManager.GetAbilityKeyLabel(_slotIndex);
+        }
 
         if (_icon != null)
         {

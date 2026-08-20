@@ -1,4 +1,5 @@
 using Godot;
+using NightFall.Scripts.Entities.Player.Abilities;
 
 namespace NightFall.Scripts.Entities.Player;
 
@@ -9,7 +10,7 @@ public partial class PlayerInput : Node
     public Vector2 FacingDirection { get; private set; } = Vector2.Right;
 
     public bool AttackPressed { get; private set; }
-    public string? AbilityActionPressed { get; private set; }
+    public int? AbilitySlotPressed { get; private set; }
 
     public override void _Process(double delta)
     {
@@ -25,9 +26,10 @@ public partial class PlayerInput : Node
         if (Input.IsActionJustPressed("attack"))
             AttackPressed = true;
 
-        for (int index = 1; index <= 4; index++)
+        for (int index = 0; index < AbilityManager.AbilitySlotCount; index++)
         {
-            string action = $"ability_{index}";
+            if (!AbilityManager.TryGetAbilityAction(index, out string action))
+                continue;
 
             if (!InputMap.HasAction(action))
                 continue;
@@ -35,7 +37,7 @@ public partial class PlayerInput : Node
             if (!Input.IsActionJustPressed(action))
                 continue;
 
-            AbilityActionPressed = action;
+            AbilitySlotPressed = index;
             break;
         }
     }
@@ -47,7 +49,7 @@ public partial class PlayerInput : Node
 
     public void ConsumeAbility()
     {
-        AbilityActionPressed = null;
+        AbilitySlotPressed = null;
     }
 
     private void UpdateFacingDirection()

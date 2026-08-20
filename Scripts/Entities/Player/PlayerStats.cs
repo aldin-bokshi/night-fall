@@ -14,6 +14,13 @@ public partial class PlayerStats : Node
     [Export] public float AttackDuration { get; set; } = 0.15f;
     [Export] public float AttackRange { get; set; } = 75f;
 
+    [ExportGroup("Gravity Well")]
+    [Export] public float GravityWellProjectileSpeed { get; set; } = 500f;
+    [Export] public float GravityWellPullStrength { get; set; } = 300f;
+    [Export] public float GravityWellRadius { get; set; } = 100f;
+    [Export] public float GravityWellDuration { get; set; } = 3f;
+    [Export] public float GravityWellDamage { get; set; } = 0f;
+
     public int Gold { get; private set; }
 
     private float _health;

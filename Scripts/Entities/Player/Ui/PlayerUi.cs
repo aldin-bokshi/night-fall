@@ -14,7 +14,7 @@ public partial class PlayerUi : CanvasLayer
     private Player? _player;
     private AbilityManager? _abilityManager;
     private PlayerStats? _playerStats;
-    private int _lastAbilityCount = -1;
+    private Ability[] _lastAbilities = [];
 
     public override void _Ready()
     {
@@ -67,23 +67,38 @@ public partial class PlayerUi : CanvasLayer
 
         IReadOnlyList<Ability> abilities = _abilityManager.Abilities;
 
-        if (abilities.Count == _lastAbilityCount)
+        if (MatchesLastAbilities(abilities))
             return;
 
         foreach (Node child in _abilityContainer.GetChildren())
             child.QueueFree();
 
-        foreach (Ability ability in abilities)
+        for (int index = 0; index < abilities.Count; index++)
         {
+            Ability ability = abilities[index];
             AbilityUi? abilityUi = _abilityUiScene.Instantiate<AbilityUi>();
 
             if (abilityUi == null)
                 continue;
 
             _abilityContainer.AddChild(abilityUi);
-            abilityUi.Initialize(ability);
+            abilityUi.Initialize(ability, index);
         }
 
-        _lastAbilityCount = abilities.Count;
+        _lastAbilities = [.. abilities];
+    }
+
+    private bool MatchesLastAbilities(IReadOnlyList<Ability> abilities)
+    {
+        if (abilities.Count != _lastAbilities.Length)
+            return false;
+
+        for (int index = 0; index < abilities.Count; index++)
+        {
+            if (!ReferenceEquals(abilities[index], _lastAbilities[index]))
+                return false;
+        }
+
+        return true;
     }
 }

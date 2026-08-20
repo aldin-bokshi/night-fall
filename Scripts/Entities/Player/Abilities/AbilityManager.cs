@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using Godot;
@@ -6,7 +7,25 @@ namespace NightFall.Scripts.Entities.Player.Abilities;
 
 public partial class AbilityManager : Node
 {
-    [Export] public int MaxAbilities { get; set; } = 4;
+    public const int AbilitySlotCount = 4;
+
+    private static readonly Key[] AbilityKeys =
+    [
+        Key.Shift,
+        Key.Q,
+        Key.E,
+        Key.R
+    ];
+
+    private static readonly string[] AbilityActions =
+    [
+        "ability_1",
+        "ability_2",
+        "ability_3",
+        "ability_4"
+    ];
+
+    [Export] public int MaxAbilities { get; set; } = AbilitySlotCount;
 
     private Ability[] _abilities = [];
     private bool _limitWarningShown;
@@ -25,24 +44,57 @@ public partial class AbilityManager : Node
         RefreshAbilities();
     }
 
+    public static bool TryGetAbilityAction(int slotIndex, out string action)
+    {
+        if (slotIndex < 0 || slotIndex >= AbilityActions.Length)
+        {
+            action = string.Empty;
+            return false;
+        }
+
+        action = AbilityActions[slotIndex];
+        return true;
+    }
+
+    public static bool TryGetAbilityKey(int slotIndex, out Key key)
+    {
+        if (slotIndex < 0 || slotIndex >= AbilityKeys.Length)
+        {
+            key = Key.None;
+            return false;
+        }
+
+        key = AbilityKeys[slotIndex];
+        return true;
+    }
+
+    public static string GetAbilityKeyLabel(int slotIndex)
+    {
+        return TryGetAbilityKey(slotIndex, out Key key)
+            ? key.ToString().ToUpperInvariant()
+            : string.Empty;
+    }
+
     /// <summary>
     /// Finds all Ability nodes that are direct children of the manager.
     /// </summary>
     public void RefreshAbilities()
     {
+        int maxActiveAbilities = Math.Min(MaxAbilities, AbilitySlotCount);
+
         Ability[] discoveredAbilities =
         [
             .. GetChildren()
                 .OfType<Ability>()
         ];
 
-        if (discoveredAbilities.Length > MaxAbilities)
+        if (discoveredAbilities.Length > maxActiveAbilities)
         {
             if (!_limitWarningShown)
             {
                 GD.PushWarning(
-                    $"AbilityManager has more than {MaxAbilities} abilities. " +
-                    $"Only the first {MaxAbilities} will be active."
+                    $"AbilityManager can only assign {maxActiveAbilities} ability slots. " +
+                    $"Only the first {maxActiveAbilities} abilities will be active."
                 );
 
                 _limitWarningShown = true;
@@ -53,37 +105,22 @@ public partial class AbilityManager : Node
             _limitWarningShown = false;
         }
 
-        _abilities = discoveredAbilities.Take(MaxAbilities).ToArray();
+        _abilities = discoveredAbilities.Take(maxActiveAbilities).ToArray();
     }
 
     /// <summary>
-    /// Attempts to activate the ability assigned to an input action.
+    /// Attempts to activate the ability assigned to a slot.
     /// </summary>
-    public bool TryUseAbility(string action)
+    public bool TryUseAbility(int slotIndex)
     {
-        if (string.IsNullOrWhiteSpace(action)) return false;
+        if (slotIndex < 0) return false;
 
         RefreshAbilities();
 
-        Ability? ability = FindAbility(action);
+        if (slotIndex >= _abilities.Length)
+            return false;
 
-        return ability?.Use() ?? false;
-    }
-
-    /// <summary>
-    /// Finds an ability using its InputMap action.
-    /// </summary>
-    public Ability? FindAbility(string action)
-    {
-        if (string.IsNullOrWhiteSpace(action)) return null;
-
-        foreach (Ability ability in _abilities)
-        {
-            if (ability.Data?.InputAction == action)
-                return ability;
-        }
-
-        return null;
+        return _abilities[slotIndex].Use();
     }
 
     /// <summary>
