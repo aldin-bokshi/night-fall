@@ -1,9 +1,13 @@
 [gd_scene format=3 uid="uid://cwjwdt6xt3sjm"]
 
-[ext_resource type="Script" uid="uid://btq6j2er6xk8y" path="res://Scripts/Dungeon/RoomManager.cs" id="1_0prrp"]
+[ext_resource type="Script" path="res://Scripts/Dungeon/RoomManager.cs" id="1_0prrp"]
+[ext_resource type="Script" path="res://Scripts/Shop/ShopTrigger.cs" id="2_shop_trig"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_7eeh3"]
-size = Vector2(78, 72)
+size = Vector2(160, 160)
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_shop"]
+radius = 64.0
 
 [node name="Hub" type="Node2D" unique_id=793288335]
 
@@ -13,4 +17,11 @@ script = ExtResource("1_0prrp")
 [node name="CollisionShape2D" type="CollisionShape2D" parent="RoomActivationZone" unique_id=619862466]
 shape = SubResource("RectangleShape2D_7eeh3")
 
-[connection signal="body_entered" from="RoomActivationZone" to="RoomActivationZone" method="OnBodyEntered"]
+[node name="ShopAltar" type="Area2D" parent="."]
+position = Vector2(250, 0)
+collision_layer = 1
+collision_mask = 2
+script = ExtResource("2_shop_trig")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="ShopAltar"]
+shape = SubResource("CircleShape2D_shop")

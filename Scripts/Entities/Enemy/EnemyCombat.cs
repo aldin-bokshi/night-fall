@@ -1,6 +1,9 @@
 using System;
 using Godot;
+using NightFall.Scripts.Core;
 using NightFall.Scripts.Entities.Player;
+using NightFall.Scripts.Run;
+using NightFall.Scripts.Ui;
 
 namespace NightFall.Scripts.Entities.Enemy;
 
@@ -82,20 +85,25 @@ public partial class EnemyCombat : Node
         if (target.Name != "Hurtbox") return;
 
         var player = target.GetParent<Player.Player>();
-
         if (player == null) return;
 
         var playerStats = player.GetNodeOrNull<PlayerStats>("PlayerStats");
-
         if (playerStats == null) return;
 
-        playerStats.TakeDamage(_stats.AttackDamage);
-        
-        GD.Print(
-            $"Enemy attacked! " +
-            $"Damage: {_stats.AttackDamage:F0} | " +
-            $"Player HP: {playerStats.Health:F0}/{playerStats.MaxHealth:F0} | " +
-            $"Cooldown: {_stats.AttackCooldown:F2}s"
-        );
+        float damage = _stats.AttackDamage;
+
+        var runConfig = RunSession.Current;
+        if (runConfig != null)
+        {
+            if (runConfig.BloodMoon) damage *= 1.25f;
+            if (runConfig.Fragile) damage *= 1.50f;
+        }
+
+        playerStats.TakeDamage(damage);
+
+        AudioSynthManager.PlayPlayerHurt();
+        FloatingText.Spawn(player.GetParent() ?? player, player.GlobalPosition, $"-{damage:F0}", new Color(1.0f, 0.2f, 0.2f), 18f);
+        VfxManager.TriggerHitFlash(player, new Color(1.5f, 0.3f, 0.3f, 1f));
+        VfxManager.TriggerScreenShake(player, 8.0f, 0.22f);
     }
 }

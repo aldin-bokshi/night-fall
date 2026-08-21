@@ -1,0 +1,23 @@
+[gd_scene format=3]
+
+[ext_resource type="Script" path="res://Scripts/Game/Game.cs" id="1_game"]
+[ext_resource type="PackedScene" path="res://Scenes/Dungeon/Hub/Hub.tscn" id="2_dungeon"]
+[ext_resource type="PackedScene" path="res://Scenes/Entities/Player/Player.tscn" id="3_player"]
+[ext_resource type="PackedScene" path="res://Scenes/UI/UI.tscn" id="4_ui"]
+
+[node name="Game" type="Node"]
+script = ExtResource("1_game")
+
+[node name="World" type="Node2D" parent="."]
+
+[node name="Dungeon" parent="World" instance=ExtResource("2_dungeon")]
+
+[node name="Enemies" type="Node2D" parent="World"]
+[node name="WorldObjects" type="Node2D" parent="World"]
+[node name="Projectiles" type="Node2D" parent="World"]
+[node name="Effects" type="Node2D" parent="World"]
+
+[node name="Player" parent="World" instance=ExtResource("3_player")]
+
+[node name="UI" type="CanvasLayer" parent="."]
+[node name="HUD" parent="UI" instance=ExtResource("4_ui")]

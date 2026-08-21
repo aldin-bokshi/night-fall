@@ -14,6 +14,10 @@ public partial class PlayerStats : Node
     [Export] public float AttackDuration { get; set; } = 0.15f;
     [Export] public float AttackRange { get; set; } = 75f;
 
+    [Export] public float Defense { get; set; } = 0f;
+    [Export] public float Lifesteal { get; set; } = 0f;
+    [Export] public float Luck { get; set; } = 0f;
+
     [ExportGroup("Gravity Well")]
     [Export] public float GravityWellProjectileSpeed { get; set; } = 500f;
     [Export] public float GravityWellPullStrength { get; set; } = 300f;
@@ -48,18 +52,60 @@ public partial class PlayerStats : Node
     public override void _Ready()
     {
         _health = MaxHealth;
-
-        GD.Print($"[PlayerStats] MaxHealth = {MaxHealth}");
-        GD.Print($"[PlayerStats] Health initialized to = {_health}");
-}
+    }
 
     public void TakeDamage(float amount)
     {
-        _health = Mathf.Max(_health - amount, 0f);
+        float actualDamage = Mathf.Max(1.0f, amount - Defense);
+        _health = Mathf.Max(_health - actualDamage, 0f);
     }
 
-    private void Heal(float amount)
+    public void Heal(float amount)
     {
         _health = Mathf.Min(_health + amount, MaxHealth);
+    }
+
+    public void ApplyUpgrade(string statKey, float amount)
+    {
+        switch (statKey.ToLowerInvariant())
+        {
+            case "max_health":
+                MaxHealth += amount;
+                Heal(amount);
+                break;
+
+            case "damage":
+                AttackDamage += amount;
+                break;
+
+            case "move_speed":
+                MoveSpeed += amount;
+                break;
+
+            case "attack_speed":
+                AttackCooldown = Mathf.Max(0.15f, AttackCooldown * (1.0f - (amount / 100.0f)));
+                break;
+
+            case "defense":
+                Defense += amount;
+                break;
+
+            case "lifesteal":
+                Lifesteal += amount;
+                break;
+
+            case "luck":
+                Luck += amount;
+                break;
+
+            case "dash_cooldown":
+                // Improve attack speed / dash efficiency
+                AttackCooldown = Mathf.Max(0.15f, AttackCooldown * 0.85f);
+                break;
+
+            default:
+                GD.Print($"Unknown stat upgrade: {statKey}");
+                break;
+        }
     }
 }

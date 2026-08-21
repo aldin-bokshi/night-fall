@@ -5,39 +5,39 @@ Enemies use the same component style as the player: a root entity node owns smal
 ## Current Composition
 
 ```text
-Enemy
+Enemy (CharacterBody2D)
 ├── EnemyAi
 ├── EnemyMovement
 ├── EnemyCombat
 ├── EnemyStats
+├── Sprite2D
 ├── AttackHitbox
-├── Hurtbox
-└── Sprite2D
+└── Hurtbox
 ```
 
 ## Responsibilities
 
 ### `Enemy`
 
-`Enemy` is the root `CharacterBody2D`.
+`Enemy` is the root `CharacterBody2D` (group `"enemy"`).
 
 It:
 
-- Initializes the child components
-- Stores a `RoomId` value for future room association
+- Caches and initializes child components in `_Ready`
+- Accepts a `RoomId` via `Initialize(int)` for future room association
 - Updates attack timers in `_PhysicsProcess`
-- Frees itself when health reaches zero
+- Frees itself with death rewards when health reaches zero
 
 ### `EnemyAi`
 
-`EnemyAi` is the current behavior driver.
+`EnemyAi` is the behavior driver.
 
 It:
 
-- Caches the enemy root
+- Caches the enemy root in `_Ready`
 - Lazily looks up the player through the `"player"` group
-- Measures distance to the player
-- Chooses between idle, chase, and attack behavior
+- Measures distance to the player each physics frame
+- Chooses between idle, chase, and attack
 
 Current behavior:
 
@@ -49,7 +49,7 @@ Current behavior:
 
 `EnemyMovement` applies movement using `EnemyStats.MoveSpeed`.
 
-It mirrors the player movement component but is enemy-specific.
+It mirrors the player movement component but is enemy-specific, and additionally supports `AddExternalForce()` (used by `GravityWell` pulls). External force is cleared after each `Move()` call.
 
 ### `EnemyStats`
 
@@ -69,7 +69,7 @@ Current fields:
 
 `EnemyCombat` owns enemy attack timing and hitbox activation.
 
-It also directly applies damage to the player when the enemy attack hitbox overlaps the player hurtbox.
+It also directly applies damage to the player when the enemy attack hitbox overlaps the player `Hurtbox`. See [Combat](Combat.md) for the full flow including run modifiers.
 
 ## Scene Dependencies
 
@@ -79,30 +79,44 @@ It also directly applies damage to the player when the enemy attack hitbox overl
 - `EnemyMovement`
 - `EnemyCombat`
 - `EnemyStats`
-- `AttackHitbox`
 
-The AI also expects the player to be in the `"player"` group.
+`EnemyCombat` additionally resolves the `AttackHitbox` child by name from the enemy root.
+
+The AI expects the player to be in the `"player"` group.
 
 ## Current Enemy Flow
 
 ```text
-EnemyAi
-  ↓
-EnemyMovement
-  ↓
-EnemyCombat
-  ↓
-EnemyStats
+EnemyAi (distance check)
+  → EnemyMovement.Move
+  → EnemyCombat.Attack (when in range)
+  → EnemyStats.TakeDamage → IsDead → Enemy.Die()
+    → rewards + VFX + QueueFree
 ```
+
+## Death Flow
+
+When an enemy dies:
+
+- `enemy_death` audio
+- `RunTracker.RecordEnemySlain()`
+- Gold reward (15, or 30 with `Greed`) with `gold` audio + floating text
+- Death particle VFX
+- `QueueFree()`
+
+## Wave Spawning
+
+Enemies are spawned by `RoomManager` in waves (see [Room Progression](Room-Progression.md)). There is no other spawn manager yet.
+
+## Current Limitations
 
 The enemy does not currently have:
 
 - Patrol routes
 - Fleeing
-- State machines
-- Spawn management
-- Loot drops
-- Room reward hooks
+- Full state machines (distance-based only)
+- Loot drops beyond flat gold
+- Boss variants
 
 ## Creating A New Enemy
 

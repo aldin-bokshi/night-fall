@@ -1,4 +1,7 @@
 using Godot;
+using NightFall.Scripts.Core;
+using NightFall.Scripts.Run;
+using NightFall.Scripts.Ui;
 
 namespace NightFall.Scripts.Entities.Enemy;
 
@@ -31,12 +34,32 @@ public partial class Enemy : CharacterBody2D
     public override void _PhysicsProcess(double delta)
     {
         _combat.UpdateAttack(delta);
-
         if (_stats.IsDead) Die();
     }
 
     private void Die()
     {
+        AudioSynthManager.PlayEnemyDeath();
+        RunTracker.RecordEnemySlain();
+
+        int goldAmount = 15;
+        var runConfig = RunSession.Current;
+        if (runConfig != null && runConfig.Greed)
+        {
+            goldAmount = (int)(goldAmount * 2.0f);
+        }
+
+        var player = GetTree().GetFirstNodeInGroup("player") as Player.Player;
+        if (player != null && player.Stats != null)
+        {
+            player.Stats.AddGold(goldAmount);
+            RunTracker.RecordGoldCollected(goldAmount);
+            AudioSynthManager.PlayGold();
+            FloatingText.Spawn(GetParent() ?? this, GlobalPosition + new Vector2(0, -10), $"+{goldAmount} Gold", new Color(0.95f, 0.8f, 0.2f), 14f);
+        }
+
+        VfxManager.SpawnParticles(GetParent() ?? this, GlobalPosition, new Color(0.6f, 0.1f, 0.1f), 16);
         QueueFree();
     }
 }
+

@@ -4,13 +4,24 @@ This guide matches the current ability implementation.
 
 ## Current Pattern
 
-Abilities are node instances under `AbilityManager`, not loose scripts that are spawned from a factory.
+Abilities are node instances under `AbilityManager`, not loose scripts spawned from a factory.
 
 ```text
 Player
   └── AbilityManager
         └── YourAbility
 ```
+
+`AbilityManager` assigns slots by the **child order** of `Ability` nodes in the scene. There are exactly four slots (`AbilitySlotCount = 4`), each bound to a fixed input action and displayed key:
+
+```text
+Slot 0 → ability_1 → Shift
+Slot 1 → ability_2 → Q
+Slot 2 → ability_3 → E
+Slot 3 → ability_4 → R
+```
+
+You cannot define per-ability input actions. To give an ability a keybind, place it in the slot whose action you want.
 
 ## Recommended Workflow
 
@@ -29,17 +40,26 @@ Make the new class inherit from `Ability`.
 
 Put ability-specific gameplay in `Use()`.
 
-If the ability needs the player, cache it in `_Ready()` the same way `BlinkAbility` does.
+If the ability needs the player, cache it in `_Ready()` the same way `BlinkAbility` and `GravityWellAbility` do:
+
+```csharp
+public override void _Ready()
+{
+    base._Ready();
+    _player = GetParent().GetParent<Player>();
+    if (_player == null) GD.PushError("YourAbility could not find the Player.");
+}
+```
 
 ### 3. Create The Ability Resource
 
-Create a new `AbilityData` resource and set:
+Create a new `AbilityData` resource. `AbilityData` only supports:
 
-- Ability name
-- Cooldown duration
-- Input display text
-- Input action string
-- Icon if needed
+- `AbilityName`
+- `Icon` (optional `Texture2D`)
+- `CooldownDuration` (seconds, 0–60)
+
+There is no input display text or input action field in `AbilityData`. The HUD derives the keybind from the slot index.
 
 ### 4. Add The Ability To The Player Scene
 
@@ -50,11 +70,11 @@ Assign:
 - The new ability script
 - The new `AbilityData` resource
 
-### 5. Bind An Input Action
+Child order determines the slot. `MaxAbilities` defaults to 4; abilities beyond the slot limit are ignored with a warning.
 
-If you need a new action, add it in `project.godot`.
+### 5. No New Input Action Required
 
-The current input system checks action strings, not direct key codes.
+The existing `ability_1` through `ability_4` actions in `project.godot` already cover all four slots. Placing your ability in a slot is sufficient; `PlayerInput` polls those four fixed actions.
 
 ### 6. Verify The HUD
 
@@ -69,23 +89,21 @@ If you want custom display behavior, update `AbilityUi`.
 - Keep cooldown timing in `Ability`
 - Keep HUD presentation in `AbilityUi`
 
-## Blink As Reference
+## Existing Abilities As References
 
-`BlinkAbility` shows the current pattern:
+The current player scene has:
 
-- Reads player movement or facing
-- Performs collision-safe targeting
-- Moves the player
-- Starts cooldown only after a successful use
+- `GravityWellAbility` (slot 0) — spawns a projectile to the mouse position (`GetGlobalMousePosition()`), which becomes a pulling `GravityWell`; stats come from `PlayerStats` gravity-well group
+- `BlinkAbility` (slot 1) — reads player movement/facing, raycasts, moves the player safely, plays FX, starts cooldown only on success
 
-Use it as an implementation reference, not as a mandatory template for all abilities.
+Use them as implementation references, not as a mandatory template for all abilities.
 
 ## Testing
 
 The quickest way to test a new ability is:
 
 1. Launch `Scenes/Dungeon/Dev/TestWorld.tscn`
-2. Press the bound input action
+2. Press the bound input action for the slot you placed the ability in
 3. Watch the HUD cooldown and the gameplay result
 
-If the ability does not appear in the HUD, confirm that it is a direct child of `AbilityManager`.
+If the ability does not appear in the HUD, confirm that it is a direct child of `AbilityManager` and within the first four children.

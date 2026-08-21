@@ -1,4 +1,5 @@
 using Godot;
+using NightFall.Scripts.Core;
 
 namespace NightFall.Scripts.Entities.Player.Abilities;
 
@@ -27,7 +28,14 @@ public partial class BlinkAbility : Ability
 
         if (targetPosition == _player.GlobalPosition) return false;
 
+        Vector2 oldPos = _player.GlobalPosition;
         _player.GlobalPosition = targetPosition;
+
+        AudioSynthManager.PlayBlink();
+        VfxManager.SpawnParticles(_player.GetParent() ?? _player, oldPos, new Color(0.4f, 0.7f, 1.0f), 12);
+        VfxManager.SpawnParticles(_player.GetParent() ?? _player, targetPosition, new Color(0.4f, 0.7f, 1.0f), 12);
+        VfxManager.TriggerScreenShake(_player, 3.0f, 0.1f);
+
         StartCooldown();
         return true;
     }

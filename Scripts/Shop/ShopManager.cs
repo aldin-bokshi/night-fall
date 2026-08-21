@@ -14,6 +14,7 @@ public partial class ShopManager : Node
     [Export] private ShopItem? _shopItem1;
     [Export] private ShopItem? _shopItem2;
     [Export] private ShopItem? _shopItem3;
+    [Export] private Button? _leaveButton;
 
     public override void _Ready()
     {
@@ -26,10 +27,29 @@ public partial class ShopManager : Node
             _shopItem2.SetItem(_currentItems[1]);
         if (_shopItem3 != null && _currentItems.Count > 2)
             _shopItem3.SetItem(_currentItems[2]);
+
+        _leaveButton ??= GetNodeOrNull<Button>("../Leave");
+        if (_leaveButton != null)
+        {
+            _leaveButton.Pressed += OnLeavePressed;
+        }
+    }
+
+    private void OnLeavePressed()
+    {
+        Control? shopRoot = GetParent() as Control;
+        if (shopRoot != null)
+        {
+            shopRoot.Hide();
+            GetTree().Paused = false;
+        }
     }
 
     private void LoadItems()
     {
+        if (!FileAccess.FileExists("res://Data/Shop/ShopItems.json"))
+            return;
+
         string json = FileAccess.GetFileAsString(
             "res://Data/Shop/ShopItems.json"
         );
@@ -45,20 +65,21 @@ public partial class ShopManager : Node
         );
     }
 
-
     private void GenerateShopItems()
     {
         if (_allItems == null || _allItems.Count == 0)
             return;
 
         Random random = new();
-        
         while (_currentItems.Count < 3)
         {
             int randomIndex = random.Next(0, _allItems.Count);
             ItemData item = _allItems[randomIndex];
 
-            if (!_currentItems.Contains(item)) { _currentItems.Add(item); }
+            if (!_currentItems.Contains(item))
+            {
+                _currentItems.Add(item);
+            }
         }
     }
 }

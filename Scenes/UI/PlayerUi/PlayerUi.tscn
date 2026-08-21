@@ -1,6 +1,6 @@
 [gd_scene format=3 uid="uid://ctwyo4gehslxi"]
 
-[ext_resource type="Script" uid="uid://cytb2k04xct8b" path="res://Scripts/Entities/Player/Ui/PlayerUi.cs" id="1_evngq"]
+[ext_resource type="Script" path="res://Scripts/Entities/Player/Ui/PlayerUi.cs" id="1_evngq"]
 [ext_resource type="PackedScene" path="res://Scenes/UI/PlayerUi/Ability.tscn" id="2_0o8ro"]
 
 [sub_resource type="StyleBoxFlat" id="PanelStyle"]
@@ -25,24 +25,28 @@ corner_radius_bottom_right = 3
 corner_radius_bottom_left = 3
 
 [sub_resource type="StyleBoxFlat" id="HealthFill"]
-bg_color = Color(0.72, 0.16, 0.12, 1)
+bg_color = Color(0.78, 0.18, 0.14, 1)
 corner_radius_top_left = 3
 corner_radius_top_right = 3
 corner_radius_bottom_right = 3
 corner_radius_bottom_left = 3
 
-[node name="PlayerUi" type="CanvasLayer" unique_id=1522940395 node_paths=PackedStringArray("_goldLabel", "_healthBar", "_abilityContainer")]
+[node name="PlayerUi" type="CanvasLayer" unique_id=1522940395 node_paths=PackedStringArray("_goldLabel", "_healthBar", "_healthText", "_timerLabel", "_roomLabel", "_modifierLabel", "_abilityContainer")]
 script = ExtResource("1_evngq")
 _goldLabel = NodePath("PlayerPanel/MarginContainer/VBoxContainer/Gold")
 _healthBar = NodePath("PlayerPanel/MarginContainer/VBoxContainer/HealthBar")
+_healthText = NodePath("PlayerPanel/MarginContainer/VBoxContainer/HealthText")
+_timerLabel = NodePath("StatsPanel/MarginContainer/VBoxContainer/Timer")
+_roomLabel = NodePath("StatsPanel/MarginContainer/VBoxContainer/Rooms")
+_modifierLabel = NodePath("StatsPanel/MarginContainer/VBoxContainer/Modifiers")
 _abilityContainer = NodePath("Abilities")
 _abilityUiScene = ExtResource("2_0o8ro")
 
 [node name="PlayerPanel" type="Panel" parent="." unique_id=125313411]
 offset_left = 20.0
 offset_top = 20.0
-offset_right = 226.0
-offset_bottom = 126.0
+offset_right = 240.0
+offset_bottom = 145.0
 mouse_filter = 2
 theme_override_styles/panel = SubResource("PanelStyle")
 
@@ -60,16 +64,27 @@ theme_override_constants/margin_bottom = 11
 
 [node name="VBoxContainer" type="VBoxContainer" parent="PlayerPanel/MarginContainer" unique_id=1509287509]
 layout_mode = 2
-theme_override_constants/separation = 7
+theme_override_constants/separation = 4
 
-[node name="HealthCaption" type="Label" parent="PlayerPanel/MarginContainer/VBoxContainer" unique_id=1524426101]
+[node name="HealthHeader" type="HBoxContainer" parent="PlayerPanel/MarginContainer/VBoxContainer"]
 layout_mode = 2
+
+[node name="HealthCaption" type="Label" parent="PlayerPanel/MarginContainer/VBoxContainer/HealthHeader" unique_id=1524426101]
+layout_mode = 2
+size_flags_horizontal = 3
 theme_override_colors/font_color = Color(0.54, 0.56, 0.62, 1)
 theme_override_font_sizes/font_size = 11
 text = "VITALITY"
 
+[node name="HealthText" type="Label" parent="PlayerPanel/MarginContainer/VBoxContainer" unique_id=987123]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.9, 0.9, 0.94, 1)
+theme_override_font_sizes/font_size = 12
+text = "100 / 100 HP"
+horizontal_alignment = 2
+
 [node name="HealthBar" type="ProgressBar" parent="PlayerPanel/MarginContainer/VBoxContainer" unique_id=1027518862]
-custom_minimum_size = Vector2(0, 17)
+custom_minimum_size = Vector2(0, 18)
 layout_mode = 2
 theme_override_styles/background = SubResource("HealthBackground")
 theme_override_styles/fill = SubResource("HealthFill")
@@ -79,19 +94,64 @@ show_percentage = false
 [node name="Gold" type="Label" parent="PlayerPanel/MarginContainer/VBoxContainer" unique_id=1140615367]
 custom_minimum_size = Vector2(0, 25)
 layout_mode = 2
-theme_override_colors/font_color = Color(0.92, 0.7, 0.3, 1)
-theme_override_font_sizes/font_size = 19
-text = "◆ 0"
+theme_override_colors/font_color = Color(0.95, 0.75, 0.25, 1)
+theme_override_font_sizes/font_size = 18
+text = "◆ 0 Gold"
 vertical_alignment = 1
+
+[node name="StatsPanel" type="Panel" parent="."]
+anchors_preset = 1
+anchor_left = 1.0
+anchor_right = 1.0
+offset_left = -220.0
+offset_top = 20.0
+offset_right = -20.0
+offset_bottom = 120.0
+grow_horizontal = 0
+mouse_filter = 2
+theme_override_styles/panel = SubResource("PanelStyle")
+
+[node name="MarginContainer" type="MarginContainer" parent="StatsPanel"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/margin_left = 12
+theme_override_constants/margin_top = 10
+theme_override_constants/margin_right = 12
+theme_override_constants/margin_bottom = 10
+
+[node name="VBoxContainer" type="VBoxContainer" parent="StatsPanel/MarginContainer"]
+layout_mode = 2
+theme_override_constants/separation = 4
+
+[node name="Timer" type="Label" parent="StatsPanel/MarginContainer/VBoxContainer"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.85, 0.88, 0.92, 1)
+theme_override_font_sizes/font_size = 14
+text = "TIME: 00:00"
+
+[node name="Rooms" type="Label" parent="StatsPanel/MarginContainer/VBoxContainer"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.65, 0.68, 0.74, 1)
+theme_override_font_sizes/font_size = 12
+text = "ROOMS CLEARED: 0"
+
+[node name="Modifiers" type="Label" parent="StatsPanel/MarginContainer/VBoxContainer"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.9, 0.35, 0.25, 1)
+theme_override_font_sizes/font_size = 11
+text = "STANDARD DESCENT"
 
 [node name="Abilities" type="HBoxContainer" parent="." unique_id=683512129]
 anchors_preset = 2
 anchor_top = 1.0
 anchor_bottom = 1.0
 offset_left = 20.0
-offset_top = -60.0
-offset_right = 60.0
+offset_top = -160.0
+offset_right = 300.0
 offset_bottom = -20.0
 grow_vertical = 0
 theme_override_constants/separation = 8
-

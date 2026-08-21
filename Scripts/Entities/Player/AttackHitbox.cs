@@ -1,6 +1,8 @@
 using System.Collections.Generic;
 using Godot;
+using NightFall.Scripts.Core;
 using NightFall.Scripts.Entities.Enemy;
+using NightFall.Scripts.Ui;
 
 namespace NightFall.Scripts.Entities.Player;
 
@@ -37,6 +39,9 @@ public partial class AttackHitbox : Area2D
         Monitorable = true;
 
         _collisionShape.Disabled = false;
+
+        AudioSynthManager.PlaySlash();
+        VfxManager.SpawnSlashArc(GetParent(), GlobalPosition, Transform.X, 36f);
     }
 
     public void Deactivate()
@@ -77,6 +82,13 @@ public partial class AttackHitbox : Area2D
         if (playerStats == null)
             return;
 
-        enemyStats.TakeDamage(playerStats.AttackDamage);
+        float damage = playerStats.AttackDamage;
+        enemyStats.TakeDamage(damage);
+
+        AudioSynthManager.PlayHit();
+        FloatingText.Spawn(enemyRoot.GetParent() ?? enemyRoot, enemyRoot.GlobalPosition, $"{damage:F0}", new Color(1.0f, 0.9f, 0.3f));
+        VfxManager.TriggerHitFlash(enemyRoot, new Color(2f, 2f, 2f, 1f));
+        VfxManager.TriggerScreenShake(this, 5.0f, 0.15f);
+        VfxManager.SpawnParticles(enemyRoot.GetParent() ?? enemyRoot, enemyRoot.GlobalPosition, new Color(0.9f, 0.2f, 0.2f), 10);
     }
 }

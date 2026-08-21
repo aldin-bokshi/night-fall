@@ -1,5 +1,6 @@
 using Godot;
 using NightFall.Scripts.Entities.Player.Abilities;
+using NightFall.Scripts.Run;
 using NightFall.Scripts.Ui;
 
 namespace NightFall.Scripts.Entities.Player;
@@ -98,6 +99,12 @@ public partial class Player : CharacterBody2D
             return;
         }
 
-        deathScreen.ShowDeathScreen();
+        int roomsCleared = RunTracker.Instance?.RoomsCleared ?? 0;
+        int enemiesSlain = RunTracker.Instance?.EnemiesSlain ?? 0;
+        int goldCollected = RunTracker.Instance?.GoldCollected ?? 0;
+        float runTime = RunTracker.GetRunTimeSeconds();
+
+        deathScreen.ShowDeathScreen(roomsCleared, enemiesSlain, goldCollected, runTime);
     }
 }
+

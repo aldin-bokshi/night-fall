@@ -9,7 +9,7 @@ Input
   ↓
 PlayerInput.AttackPressed
   ↓
-Player.CanAttack()
+Player.HandleAttack()
   ↓
 PlayerCombat.Attack()
   ↓
@@ -19,7 +19,7 @@ Collision overlap
   ↓
 EnemyStats.TakeDamage()
   ↓
-Enemy death / queue free
+Enemy death / rewards + queue free
 ```
 
 ### Player Attack Flow
@@ -36,7 +36,7 @@ Enemy death / queue free
 
 - Sets the attack cooldown timer
 - Sets the attack duration timer
-- Configures the `AttackHitbox`
+- Configures the `AttackHitbox` (position + rotation from facing)
 - Activates the hitbox
 
 ### Player Hit Detection
@@ -45,11 +45,12 @@ Enemy death / queue free
 
 It currently:
 
-- Enables and disables its collision shape with `Activate()` and `Deactivate()`
-- Stores already hit enemy roots in a hash set
-- Applies damage when it detects an enemy `Area2D` or `Node2D`
-
-The hitbox expects the enemy root to contain an `EnemyStats` node.
+- Enables/disables its collision shape and monitoring with `Activate()`/`Deactivate()`
+- Tracks already hit enemy roots in a hash set so an enemy is hit at most once per swing
+- Resolves the hit target to a `Node2D`, then looks up an `EnemyStats` child
+- Applies `PlayerStats.AttackDamage`
+- On activation plays `slash` audio and spawns a slash-arc VFX
+- On hit plays `hit` audio, shows a floating damage number, and triggers a hit flash + screen shake
 
 ### Player Damage Source
 
@@ -64,65 +65,72 @@ EnemyCombat.CanAttack()
   ↓
 EnemyCombat.Attack()
   ↓
-Enemy attack hitbox overlap
+Enemy attack hitbox overlap ("Hurtbox")
   ↓
 PlayerStats.TakeDamage()
   ↓
 Player death screen
 ```
 
-### Enemy Attack Flow
+### Enemy AI Behavior
 
-`EnemyAi` measures the distance to the player every physics frame.
+`EnemyAi` measures the distance to the player every physics frame:
 
-Current behavior:
-
-- Outside `DetectionRange`, the enemy stops moving
-- Inside `DetectionRange` but outside `AttackRange`, the enemy moves toward the player
-- Inside `AttackRange`, the enemy stops and attacks if `EnemyCombat.CanAttack()` is true
+- Outside `DetectionRange`: stop moving
+- Inside `DetectionRange` but outside `AttackRange`: move toward player
+- Inside `AttackRange`: stop and attack when `EnemyCombat.CanAttack()` is true
 
 `EnemyCombat` then:
 
 - Stores the facing direction
 - Sets attack and cooldown timers
-- Positions and rotates the attack hitbox
+- Positions and rotates the enemy attack hitbox
 - Enables hitbox monitoring and visibility
 
 ### Enemy Hit Detection
 
-Enemy attacks do not reuse the player’s `AttackHitbox` script.
+Enemy attacks listen for `AreaEntered` on the enemy attack hitbox, and only damage areas named `Hurtbox`.
 
-Instead, `EnemyCombat` listens for `AreaEntered` on the enemy attack hitbox and checks whether the target area is named `Hurtbox`.
-
-When it finds the player hurtbox, it:
+When it finds the player's `Hurtbox`, it:
 
 - Gets the player root
-- Gets `PlayerStats`
-- Calls `TakeDamage(AttackDamage)`
+- Reads `PlayerStats`
+- Multiplies `EnemyStats.AttackDamage` by run modifiers:
 
-## Collision Layout
+| Modifier | Damage Multiplier |
+| --- | --- |
+| `BloodMoon` | `×1.25` |
+| `Fragile` | `×1.50` |
 
-The current scene setup uses explicit collision layers and masks:
+- Calls `PlayerStats.TakeDamage(damage)`
+- Plays `player_hurt` audio, shows `-damage` floating text, hit flash, and screen shake
 
-### Player
+## Collision Layers And Masks
 
-- Root body layer: `2`
-- Root body mask: `5`
-- Hurtbox layer: `8`
-- Hurtbox mask: `64`
-- Attack hitbox layer: `32`
-- Attack hitbox mask: `16`
+Current scene setup uses explicit layers:
 
-### Enemy
+| Object | Layer | Mask |
+| --- | --- | --- |
+| Player root body | 2 | 5 |
+| Player `Hurtbox` | 8 | 64 |
+| Player `AttackHitbox` | 32 | 16 |
+| Enemy root body | 4 | 3 |
+| Enemy `Hurtbox` | 16 | 32 |
+| Enemy `AttackHitbox` | 64 | 8 |
 
-- Root body layer: `4`
-- Root body mask: `3`
-- Hurtbox layer: `16`
-- Hurtbox mask: `32`
-- Attack hitbox layer: `64`
-- Attack hitbox mask: `8`
+Layer names in `project.godot`:
 
-These values are important because the combat scripts assume the hitboxes and hurtboxes will overlap on the correct layers.
+```text
+layer_1 = World
+layer_2 = Player
+layer_3 = Enemy
+layer_4 = Player Hurtbox
+layer_5 = Enemy Hurtbox
+layer_6 = Player Attack
+layer_7 = Enemy Attack
+```
+
+These values matter because combat scripts assume hitboxes and hurtboxes overlap on the right layers.
 
 ## Timing
 
@@ -140,19 +148,28 @@ These values are important because the combat scripts assume the hitboxes and hu
 
 ### Player Death
 
-When `PlayerStats.IsDead` becomes true, `Player` looks for a `DeathScreen` node in the current scene and shows it.
+When `PlayerStats.IsDead` becomes true, `Player.Die()`:
 
-`DeathScreenOverlay` pauses the tree and reloads the current scene when the retry button is pressed.
+- Looks up `DeathScreen` in the current scene tree and casts it to `DeathScreenOverlay`
+- Reads run stats from `RunTracker` (rooms cleared, enemies slain, gold collected, run time)
+- Calls `ShowDeathScreen(...)` with those stats
+
+`DeathScreenOverlay` pauses the tree and reloads the current scene when retry is pressed.
 
 ### Enemy Death
 
-When `EnemyStats.IsDead` becomes true, `Enemy` simply calls `QueueFree()`.
+When `EnemyStats.IsDead` becomes true, `Enemy.Die()`:
 
-There is no reward, loot, or death animation pipeline yet.
+- Plays `enemy_death` audio
+- Records `RunTracker.RecordEnemySlain()`
+- Awards 15 gold to the player (30 with `Greed`), tracked by `RunTracker.RecordGoldCollected`
+- Plays `gold` audio and shows `+N Gold` floating text
+- Spawns death particles
+- Calls `QueueFree()`
 
 ## Extension Guidance
 
 - Put attack timing in the combat component, not in input code
 - Put damage application in the combat or hitbox layer, not in UI
 - Add new combat-specific collision rules in the relevant hitbox or combat script
-- If combat needs rewards or death events later, that should be added as a separate system, not hidden inside `TakeDamage()`
+- Rewards/death events are separate concerns from `TakeDamage()`; `Enemy.Die()` already owns death-side rewards

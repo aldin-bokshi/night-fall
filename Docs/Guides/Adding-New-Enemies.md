@@ -65,9 +65,10 @@ If your new enemy needs different behavior, replace or extend that script.
 
 ### 6. Spawn Or Place The Enemy In A Scene
 
-There is no general enemy spawn manager in the repository yet.
+Two options exist today:
 
-For now, place the scene directly in a test level or instantiate it manually from your own scene logic.
+- **Wave spawning (active runs)**: `RoomManager` spawns `Scenes/Entities/Enemies/Enemy.tscn` in waves. If you duplicate the enemy scene, either update `RoomManager`'s `EnemyScene` export or keep the original path.
+- **Manual placement**: place the scene directly in a test level (`Scenes/Dungeon/Dev/TestWorld.tscn`) or instantiate it from your own scene logic.
 
 ## Targeting And Damage
 
@@ -92,8 +93,8 @@ That scene already contains both a player and an enemy.
 
 The enemy system does not yet include:
 
-- Spawn waves
-- Loot drops
-- Room-based spawning
-- Enemy death effects
-- Reward hooks
+- Patrol routes
+- Boss variants
+- Loot drops beyond flat gold
+
+Enemy death already grants gold, tracks `RunTracker`, plays audio, and spawns VFX. Spawn waves exist via `RoomManager`; see [Room Progression](../Systems/Room-Progression.md).

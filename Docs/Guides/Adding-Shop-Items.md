@@ -4,7 +4,7 @@ This guide matches the current shop implementation.
 
 ## Current Pattern
 
-Shop items are defined in JSON and displayed through a reusable `ShopItem` scene.
+Shop items are defined in JSON, loaded by `ShopManager`, displayed through a reusable `ShopItem` scene, and purchased with gold.
 
 ```text
 Data/Shop/ShopItems.json
@@ -12,6 +12,8 @@ Data/Shop/ShopItems.json
 ShopManager
   ↓
 ShopItem scene instances
+  ↓
+ShopItem.OnBuyPressed → PlayerStats.SpendGold + ApplyUpgrade
 ```
 
 ## Add A New Item
@@ -20,6 +22,7 @@ Add a new object to `Data/Shop/ShopItems.json` with the same shape as the existi
 
 - `id`
 - `name`
+- `rarity`
 - `price`
 - `statUpgrades`
 
@@ -29,6 +32,7 @@ Example:
 {
   "id": "new_item",
   "name": "New Item",
+  "rarity": "common",
   "price": 50,
   "statUpgrades": {
     "damage": 3
@@ -42,7 +46,20 @@ Example:
 - Keep `price` as an integer
 - Keep `statUpgrades` as a JSON object of string keys and numeric values
 
-The key names inside `statUpgrades` are currently just data labels. They are not automatically interpreted by gameplay systems yet.
+## Stat Upgrade Keys
+
+The keys inside `statUpgrades` are interpreted by `PlayerStats.ApplyUpgrade`:
+
+- `max_health`
+- `damage`
+- `move_speed`
+- `attack_speed`
+- `defense`
+- `lifesteal`
+- `luck`
+- `dash_cooldown`
+
+Negative values are supported (e.g. `heavy_armor` uses `move_speed: -5`). Unknown keys log a warning and are ignored. See [Shop System](../Systems/Shop.md) for the exact effects.
 
 ## Current Display Flow
 
@@ -51,27 +68,26 @@ The key names inside `statUpgrades` are currently just data labels. They are not
 `ShopItem` then writes:
 
 - Name
-- Price
+- Price (after `Greed` modifier scaling, ×1.5)
 - Stat upgrade text
 
-## What Is Not Implemented Yet
+## Purchase Flow
 
-The current shop does not yet:
+Press `BuyButton`:
 
-- Deduct gold
-- Mark an item as purchased
-- Apply stat upgrades to the player
-- Track inventory ownership
-- Disable the buy button after purchase
+1. If the player cannot afford the price: `player_hurt` audio + "Not enough gold!" floating text
+2. If affordable: `SpendGold(price)`, apply each upgrade via `ApplyUpgrade`, play `buy` audio, show "PURCHASED!" text, disable the button and set its text to "BOUGHT"
 
-`PlayerStats` already has gold helper methods, but the purchase pipeline is not connected.
+## Where The Shop Opens From
+
+The shop opens from the world through `ShopTrigger` (`Area2D`). The player presses `ui_accept` while inside the trigger to open `Scenes/Shop/Shop.tscn`. The shop instance is reused; the tree pauses while open, and `Leave` hides it and unpauses. See [Shop System](../Systems/Shop.md).
 
 ## Testing
 
-Open the shop scene and verify:
+- Add an item to `Data/Shop/ShopItems.json`
+- Open `Scenes/Dungeon/Dev/TestWorld.tscn`, earn gold (kill enemies or clear a wave), then open the shop and verify the item card, price, and purchase
+- Verify the `Greed` ×1.5 price multiplier and `PlayerStats.ApplyUpgrade` effects
 
-- Three item cards appear
-- The JSON loads without errors
-- The displayed values match the data file
+## Not Implemented
 
-If the cards appear but the buy button does nothing, that is expected in the current implementation.
+Inventory/ownership persistence between runs — purchased upgrades apply to the live `PlayerStats` only.

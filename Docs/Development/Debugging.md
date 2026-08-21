@@ -66,16 +66,24 @@ If the menu stops responding:
 If shop items do not appear correctly:
 
 - Confirm `Data/Shop/ShopItems.json` is valid JSON
-- Confirm the three exported shop item slots are assigned in the scene
-- Confirm the item data keys match the JSON property names
+- Confirm the three exported shop item slots are assigned in the scene (`_shopItem1`–`_shopItem3` on `ShopManager`)
+- Confirm the item data keys match the JSON property names (`id`, `name`, `price`, `statUpgrades`)
 
-If buying does nothing, that is currently expected: purchasing is not implemented yet.
+If buying fails:
+
+- Confirm the player is in the `"player"` group and has a `PlayerStats` node
+- Confirm the player has enough gold (prices are scaled ×1.5 under `Greed`)
+- Confirm `StatUpgrades` keys are recognized by `PlayerStats.ApplyUpgrade` (see [Shop](../Systems/Shop.md))
 
 ## Room Problems
 
-If room activation does nothing, that is also currently expected.
+If waves never start:
 
-`RoomManager` only hooks the activation zone right now. The actual activation logic is still a placeholder.
+- Confirm the `RoomActivationZone` `Area2D` is present, or assigned to `RoomManager.RoomActivationZone`
+- Confirm the player is in the `"player"` group (the wave targets `body is not Player`)
+- Confirm an `Enemies` node exists in the current scene, or a valid `EnemyScene` is assigned to `RoomManager`
+
+If waves start but never clear, check that enemies die — `RoomManager` waits for all spawned enemies to be freed before rewarding the clear.
 
 ## Build Or Project File Problems
 

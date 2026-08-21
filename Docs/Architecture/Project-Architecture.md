@@ -1,6 +1,6 @@
 # Project Architecture
 
-NightFall is organized as a scene-driven Godot project. There is no active global gameplay service layer that owns the whole run. Instead, scene composition and small focused component scripts define runtime behavior.
+NightFall is organized as a scene-driven Godot project. Active runs are composed by `Scenes/Game.tscn`; small focused component scripts still own runtime behavior.
 
 ## High-Level Layout
 
@@ -24,18 +24,18 @@ project.godot
   ↓
 Main menu scene
   ↓
-Dev/test gameplay scene
+Dungeon setup scene
   ↓
-Player / Enemy / UI node graphs
+Scenes/Game.tscn (World + UI)
 ```
 
-There is also a reusable in-game shell scene:
+There is also a legacy reusable in-game shell scene:
 
 ```text
 Scenes/Core/Game.tscn
 ```
 
-At the moment, the codebase does not use a central `GameManager` or `GameLoader` to orchestrate the run. Those files exist, but they are currently empty.
+`Scripts/Game/Game.cs` is a thin composition root and does not own player, enemy, dungeon, ability, or UI mechanics. `RunSession` remains the run-data handoff between setup and gameplay.
 
 ## Folder Responsibilities
 
@@ -46,6 +46,7 @@ Contains C# behavior grouped by feature.
 Current subfolders:
 
 - `Scripts/Core/`
+- `Scripts/Game/`
 - `Scripts/Dungeon/`
 - `Scripts/Entities/Enemy/`
 - `Scripts/Entities/Player/`
@@ -69,6 +70,7 @@ Important scene groups:
 - `Scenes/Dungeon/Dev/`
 - `Scenes/Dungeon/Hub/`
 - `Scenes/Core/`
+- `Scenes/Game.tscn`
 
 ### `Data/`
 
@@ -108,13 +110,18 @@ Examples:
 - `ItemData` stores shop item data.
 - `PlayerStats` and `EnemyStats` store runtime gameplay numbers.
 
+## Run Configuration
+
+Runs are configured from `DungeonSetup` and carried into `Scenes/Game.tscn` through the static `RunSession` handoff. `RunConfig` holds the seed plus five modifiers (`BloodMoon`, `GlassCannon`, `HardNight`, `Greed`, `Fragile`). `RunTracker` records rooms cleared, enemies slain, gold collected, and run time for the HUD and death screen.
+
+See [Run System](../Systems/Run.md) for the full details and where each modifier affects gameplay.
+
 ## Current Gaps
 
 These are architectural realities of the current codebase, not recommendations:
 
-- Room progression is only partially wired.
-- Shop data exists, but purchasing is not implemented yet.
-- The pause and menu scenes include visible buttons, but some of those buttons are not yet wired to behavior.
 - `GameManager.cs` and `GameLoader.cs` currently contain no runtime logic.
+- `Scenes/Dungeon/Rooms/`, `Scenes/Dungeon/BossRoom/`, and `Scenes/Dungeon/Shop/` are empty folders; there is no boss fight or multi-room progression.
+- `Scenes/UI/Win/` is an empty folder; there is no win screen.
 
 See the system-specific docs for the actual implementation details.

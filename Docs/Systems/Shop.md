@@ -1,16 +1,30 @@
 # Shop
 
-NightFall currently has a data-driven shop display, but not a complete purchase and ownership system.
+NightFall has a complete shop system: data-driven items are loaded, displayed, and can be purchased with gold. Purchases apply stat upgrades to the player immediately.
 
 ## Current Flow
 
 ```text
 Data/Shop/ShopItems.json
   ↓
-ShopManager
+ShopManager (loads JSON, picks 3 unique items)
   ↓
-Three ShopItem scene instances
+Three ShopItem scene instances (display + buy buttons)
+  ↓
+ShopItem.OnBuyPressed → PlayerStats.SpendGold + ApplyUpgrade
 ```
+
+The shop is opened from the world through `ShopTrigger`.
+
+## Opening The Shop
+
+`ShopTrigger` is an `Area2D` placed in the world (e.g. `ShopAltar` in `Hub.tscn`). When the player (group `"player"`) enters, a prompt appears and the `[E] OPEN SHOP` floating text spawns. Pressing `ui_accept` while inside:
+
+- Instantiates `Scenes/Shop/Shop.tscn` once and reuses the instance
+- Adds it to the scene's `UI` (or `HUD`) `CanvasLayer` (fallback: scene root)
+- Plays `buy` audio and pauses the tree (`GetTree().Paused = true`)
+
+When the player presses `Leave` in the shop UI, the shop hides and the tree is unpaused.
 
 ## Core Types
 
@@ -22,10 +36,11 @@ Current fields:
 
 - `Id`
 - `Name`
+- `Rarity`
 - `Price`
-- `StatUpgrades`
+- `StatUpgrades` (`Dictionary<string, float>`)
 
-`StatUpgrades` is a `Dictionary<string, float>`.
+It lives in `Data/Shop/ItemData.cs` under the `NightFall.Data.Shop` namespace.
 
 ### `ShopManager`
 
@@ -34,23 +49,53 @@ Current fields:
 Current behavior:
 
 - Reads `res://Data/Shop/ShopItems.json`
-- Deserializes it with `System.Text.Json`
-- Randomly selects up to three unique items
+- Deserializes it with `System.Text.Json` (case-insensitive)
+- Randomly selects three unique items
 - Calls `SetItem(...)` on the configured `ShopItem` nodes
+- Wires the `Leave` button (`../Leave`) to hide the shop root and unpause the tree
 
-There is no purchase handling in `ShopManager` yet.
+`ShopManager` does not handle per-item purchases; that lives in `ShopItem`.
 
 ### `ShopItem`
 
-`ShopItem` is currently a presentation widget.
+`ShopItem` is a `Control` card that displays one item and manages its purchase.
 
 It fills in:
 
 - Name
-- Price
-- Upgrade text
+- Price (after `Greed` modifier scaling)
+- Upgrade text (from each `StatUpgrades` key, e.g. `max_health` → `MAX HEALTH: +20`)
 
-The `BuyButton` exists in the scene, but it is not wired to gameplay behavior in the current implementation.
+Purchase flow:
+
+```text
+BuyButton pressed
+  → PlayerStats.CanAfford(price)?
+      → No: PlayPlayerHurt + "Not enough gold!" floating text
+      → Yes: SpendGold(price)
+        → Apply each StatUpgrades via PlayerStats.ApplyUpgrade()
+        → PlayBuy audio, "PURCHASED!" floating text
+        → Disable button, set text to "BOUGHT"
+```
+
+The `Greed` run modifier increases all item prices by 50% (`price * 1.5`).
+
+## Stat Upgrade Keys
+
+The keys inside `StatUpgrades` are interpreted by `PlayerStats.ApplyUpgrade(string, float)`:
+
+| Key | Effect |
+| --- | --- |
+| `max_health` | Increases `MaxHealth` and heals by the same amount |
+| `damage` | Increases `AttackDamage` |
+| `move_speed` | Increases `MoveSpeed` |
+| `attack_speed` | Decreases `AttackCooldown` by `amount` percent (min 0.15s) |
+| `defense` | Increases `Defense` |
+| `lifesteal` | Increases `Lifesteal` |
+| `luck` | Increases `Luck` |
+| `dash_cooldown` | Reduces `AttackCooldown` by 15% (min 0.15s) |
+
+Unknown keys log `Unknown stat upgrade: {key}` and are ignored.
 
 ## Data File
 
@@ -73,22 +118,29 @@ The file contains item definitions such as:
 - `berserker_belt`
 - `dash_core`
 
-## Player Interaction
-
-`PlayerStats` already has gold helpers:
-
-- `AddGold`
-- `CanAfford`
-- `SpendGold`
-
-Those methods are not yet connected to the shop purchase flow.
-
-## Extension Guidance
-
-- Keep item data in JSON or another data layer
-- Keep purchase rules in a gameplay system, not in UI labels
-- If item upgrades should affect player stats, add a dedicated application step instead of treating the JSON key as automatically meaningful
-
 ## Current Limitation
 
-The shop is a display and selection system right now, not a complete economy system.
+There is no inventory/ownership persistence between screens or runs — purchased upgrades apply to the live `PlayerStats` and are lost when the run ends.
+</｜DSML｜tool>
+<task_progress>
+- [x] Explore documentation structure
+- [x] Explore source code structure
+- [x] Read existing documentation files
+- [x] Audit docs against implementation
+- [x] Verify remaining details (tres files, core services)
+- [x] Update Room-Progression.md
+- [x] Update Shop.md
+- [ ] Update Combat.md
+- [ ] Update Enemy.md
+- [ ] Update Project-Architecture.md
+- [ ] Update Scene-Architecture.md
+- [ ] Update Player-Architecture.md
+- [ ] Update Abilities.md
+- [ ] Update UI.md
+- [ ] Update Guides (Adding-Shop-Items, Creating-New-Abilities)
+- [ ] Update Development (Debugging, Coding-Guidelines)
+- [ ] Update Documentation.md index
+- [ ] Create Systems/Run.md
+- [ ] Create Systems/Core-Services.md
+- [ ] Second audit & verification
+</task_progress>

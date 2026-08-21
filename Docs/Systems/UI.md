@@ -1,6 +1,6 @@
 # UI Architecture
 
-NightFall UI is split into a few separate overlays and scene-local widgets.
+NightFall UI is split into separate overlays and scene-local widgets. Active gameplay instances `Scenes/UI/UI.tscn` once at `Game/UI/HUD` under the screen-space `Game/UI` CanvasLayer.
 
 ## Main UI Pieces
 
@@ -12,10 +12,15 @@ Current behavior:
 
 - Finds the player through the `"player"` group
 - Reads `PlayerStats`
-- Updates health and gold every frame
+- Updates health bar and text every frame
+- Updates gold every frame, with a pulse tween when gold increases
+- Updates run timer (`RunTracker.GetRunTimeSeconds`) and room/kill counters
+- Displays active run modifiers (from `RunConfig`) or "STANDARD DESCENT"
 - Rebuilds the ability widget list when the ability order or count changes
 
 The ability widget list is created from the player’s live `AbilityManager` state.
+
+The HUD is not parented to the Player; it locates the world Player through the existing `player` group.
 
 ### `AbilityUi`
 
@@ -39,8 +44,9 @@ Current behavior:
 - Sets `ProcessMode` to `Always`
 - Hides itself on ready
 - Toggles pause when the `pause` action is pressed in `_UnhandledInput`
-
-The scene files contain button controls, but the current script only handles input-driven toggling.
+- `ContinueButton` resumes the game
+- `OptionsButton` opens an `OptionsMenu` instance
+- `QuitButton` returns to the main menu (unpauses first)
 
 ### `DeathScreenOverlay`
 
@@ -52,8 +58,8 @@ Current behavior:
 - Hides itself on ready
 - Pauses the tree when shown
 - Animates the red overlays and the content fade-in
-- Shows placeholder run stats
-- Picks a random death quote
+- Shows real run stats passed from `Player.Die()` via `RunTracker` (rooms cleared, enemies slain, gold collected, run time)
+- Picks a random death quote from `Data/DeathQuotes.json` via `DeathQuoteLoader`
 - Reloads the current scene when retry is pressed
 
 ### `MainMenu`
@@ -62,14 +68,28 @@ Current behavior:
 
 Current behavior:
 
-- Start launches `Scenes/Dungeon/Dev/TestWorld.tscn`
+- Start opens `Scenes/UI/SetupScreen/DungeonSetup.tscn`
+- Options opens an `OptionsMenu` overlay instance
 - Quit exits the game
+
+### `OptionsMenu`
+
+`OptionsMenu` is a `CanvasLayer` overlay opened from both the main menu and the pause menu.
+
+Current behavior:
+
+- Sets `ProcessMode` to `Always`
+- Reads/writes `AudioSynthManager` volume levels (Master / SFX / Music)
+- Toggles screen shake (`AudioSynthManager.ScreenShakeEnabled`)
+- Toggles fullscreen via `DisplayServer`
+- Closes with a close button
 
 ## UI Ownership Rules
 
 - UI should display gameplay state, not own gameplay rules
 - Gameplay scripts should not directly implement HUD presentation
 - Overlays that must work while paused should use `ProcessModeEnum.Always`
+- World-space gameplay belongs under `Game/World`; screen-space presentation belongs under `Game/UI`.
 
 ## Scene Notes
 

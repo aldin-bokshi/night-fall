@@ -11,12 +11,12 @@ Player
 ├── PlayerCombat
 ├── PlayerStats
 ├── AbilityManager
+│   ├── GravityWellAbility
 │   └── BlinkAbility
-│   └── GravityWellAbility
-├── AttackHitbox
-├── Hurtbox
 ├── Sprite2D
-└── Camera2D
+├── AttackHitbox
+├── Camera2D
+└── Hurtbox
 ```
 
 ## Responsibilities
@@ -79,13 +79,21 @@ Current fields:
 - `AttackCooldown`
 - `AttackDuration`
 - `AttackRange`
+- `Defense`
+- `Lifesteal`
+- `Luck`
+- `GravityWellProjectileSpeed`
+- `GravityWellPullStrength`
+- `GravityWellRadius`
+- `GravityWellDuration`
+- `GravityWellDamage`
 
 It also tracks:
 
 - `Health`
 - `Gold`
 
-The gold helpers already exist, but no gameplay system currently spends gold during a purchase flow.
+Gold is earned from enemy kills and room-clear bonuses, and spent in the shop. `ApplyUpgrade(string, float)` interprets shop `StatUpgrades` keys (see [Shop](../Systems/Shop.md)).
 
 ### `AbilityManager`
 
@@ -160,7 +168,7 @@ Ability key press
   ↓
 PlayerInput.AbilitySlotPressed
   ↓
-Player.TryUseAbility(slot)
+Player.HandleAbilities()
   ↓
 AbilityManager.TryUseAbility(slot)
   ↓
@@ -176,6 +184,6 @@ Ability.Use
 
 ## Current Limitations
 
-- The player death flow currently looks for a node named `DeathScreen` in the active scene tree
-- Gold exists on `PlayerStats`, but shop purchasing is not wired yet
-- The player scene currently instantiates two abilities
+- The player death flow looks for a node named `DeathScreen` in the active scene tree and casts it to `DeathScreenOverlay`
+- The player scene currently instantiates two abilities (`GravityWellAbility` in slot 0, `BlinkAbility` in slot 1)
+- `Lifesteal` and `Luck` are stored but not yet consumed by gameplay systems

@@ -1,4 +1,5 @@
 using Godot;
+using NightFall.Scripts.Core;
 
 namespace NightFall.Scripts.Entities.Player.Abilities;
 
@@ -42,6 +43,10 @@ public partial class GravityWellAbility : Ability
         Vector2 targetPosition = GetGlobalMousePosition();
 
         LaunchProjectile(targetPosition);
+
+        AudioSynthManager.PlayGravityWell();
+        VfxManager.TriggerScreenShake(_player, 6.0f, 0.2f);
+        VfxManager.SpawnParticles(_player.GetParent() ?? _player, targetPosition, new Color(0.6f, 0.2f, 0.9f), 16);
 
         StartCooldown();
         return true;

@@ -7,7 +7,4 @@
     <Nullable>enable</Nullable>
     <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
   </PropertyGroup>
-  <ItemGroup>
-    <Content Include="Scripts\Shop\ShopItemDatabase.json" />
-  </ItemGroup>
 </Project>

@@ -10,10 +10,12 @@ Player
         └── Ability instances
 ```
 
-The current player scene instantiates two abilities:
+The current player scene instantiates two abilities under `AbilityManager`:
 
-- `BlinkAbility`
-- `GravityWellAbility`
+- `GravityWellAbility` (slot 0)
+- `BlinkAbility` (slot 1)
+
+Slot assignment follows child order in `Player.tscn`.
 
 `AbilityTemplate.cs` and `Data/Abilities/AbilityTemplate.tres` are scaffold files for creating additional abilities.
 
@@ -61,17 +63,17 @@ There is no separate unlock database or persistence layer in the current impleme
 
 ### `AbilityUi`
 
-`AbilityUi` is the HUD representation of one ability.
+`AbilityUi` is the HUD representation of one ability, instanced from `Scenes/UI/PlayerUi/Ability.tscn`.
 
 It displays:
 
-- Name
-- Input label
+- Name (from `AbilityData.AbilityName`)
+- Input label (from the slot, not `AbilityData`)
 - Optional icon
-- Cooldown ring
-- Cooldown text
+- Cooldown progress bar (`TextureProgressBar`)
+- Cooldown text (`READY` or remaining seconds)
 
-It reads directly from the live ability instance every frame.
+It reads directly from the live ability instance every frame. There is an unused `GD.Print` in the ready-flash branch of the current implementation.
 
 ### `BlinkAbility`
 
@@ -84,6 +86,7 @@ Current behavior:
 - Raycasts toward the target direction
 - Uses the player hurtbox shape to avoid blinking into blocked space
 - Moves the player instantly to the safe target position
+- Plays `blink` audio, spawns teleport particles at origin and destination, triggers screen shake
 - Starts its cooldown after a successful blink
 
 The ability is currently configured by:
@@ -98,9 +101,12 @@ The ability is currently configured by:
 
 When the projectile reaches its target, it creates a transient `GravityWell` node that:
 
-- Lives for a fixed duration
+- Lives for a fixed duration (`GravityWellDuration`)
 - Scans the `"enemy"` group every physics frame
-- Applies pull force to enemies within its radius
+- Applies pull force to enemies within its radius (`GravityWellPullStrength` / `GravityWellRadius`)
+- Has its own visual pulse/dissolve animation
+
+`Use()` also plays `gravity_well` audio, triggers screen shake, and spawns particles at the target. The projectile moves at `GravityWellProjectileSpeed` and is configured entirely from `PlayerStats` gravity-well values.
 
 The gravity-well chain is currently configured by:
 

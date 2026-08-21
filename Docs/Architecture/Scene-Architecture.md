@@ -11,10 +11,13 @@ project.godot
   ↓
 Scenes/UI/MainMenu/MainMenu.tscn
   ↓
-Scenes/Dungeon/Dev/TestWorld.tscn
+Scenes/UI/SetupScreen/DungeonSetup.tscn
+  ↓
+Scenes/Game.tscn
 ```
 
-The main menu button currently loads the dev test world directly.
+The main menu opens dungeon setup. The setup scene creates the `RunConfig`, stores it in
+`RunSession`, and then opens the active gameplay root.
 
 ## Important Scenes
 
@@ -23,7 +26,7 @@ The main menu button currently loads the dev test world directly.
 Current role:
 
 - Startup menu
-- Launches the current test gameplay scene
+- Opens the dungeon setup screen
 
 Important nodes:
 
@@ -34,15 +37,56 @@ Important nodes:
 
 Important behavior:
 
-- `StartButton` changes the scene to `Scenes/Dungeon/Dev/TestWorld.tscn`
+- `StartButton` changes the scene to `Scenes/UI/SetupScreen/DungeonSetup.tscn`
+- `OptionsButton` opens the in-menu `OptionsMenu` overlay
 - `QuitButton` exits the game
+
+### `Scenes/UI/SetupScreen/DungeonSetup.tscn`
+
+Collects the seed and the five run modifiers (Blood Moon, Glass Cannon, Hard Night, Greed, Fragile), stores them in `RunSession` as a `RunConfig`, and transitions to `Scenes/Game.tscn`.
+
+### `Scenes/Game.tscn`
+
+The active gameplay composition root:
+
+```text
+Game (Scripts/Game/Game.cs)
+├── World (Node2D)
+│   ├── Dungeon (Scenes/Dungeon/Hub/Hub.tscn)
+│   ├── Player (Scenes/Entities/Player/Player.tscn)
+│   ├── Enemies
+│   ├── WorldObjects
+│   ├── Projectiles
+│   └── Effects
+└── UI (CanvasLayer)
+    └── HUD (Scenes/UI/UI.tscn)
+```
+
+`Game.cs` is limited to scene-level coordination. The Player keeps its camera and ability manager, while the reused HUD supplies health, gold, abilities, pause, and death overlays.
+
+`Game.cs` reads the active `RunSession` during `_EnterTree`, seeds Godot's random
+number generator for the run, and validates the required composition nodes during
+`_Ready`. It does not own movement, combat, enemy AI, dungeon progression, ability
+gameplay, or HUD rendering.
+
+The active run is entered as follows:
+
+```text
+MainMenu
+  -> DungeonSetup
+  -> RunSession.Start(RunConfig)
+  -> Game.tscn
+```
+
+When Game is opened directly from the editor without a `RunSession`, `Game.cs`
+creates an `EDITOR` fallback configuration so the scene remains runnable.
 
 ### `Scenes/Dungeon/Dev/TestWorld.tscn`
 
 Current role:
 
-- Developer test scene
-- Used by the main menu as the current play target
+- Standalone developer fixture
+- Useful for testing a player, enemy, placeholder tilemap, and HUD without going through setup
 
 Important contents:
 
@@ -52,7 +96,7 @@ Important contents:
 - `HUD` instance from `Scenes/UI/UI.tscn`
 - A tilemap layer for the placeholder environment
 
-This is the best scene for validating player, enemy, combat, ability, and HUD changes together.
+This remains a standalone developer fixture and is not part of the normal menu-to-run flow.
 
 ### `Scenes/Core/Game.tscn`
 
@@ -69,7 +113,7 @@ Important contents:
 - `Managers/PauseManager`
 - `World/Player`
 
-This scene is present and wired, but it is not the startup scene in `project.godot`.
+This older shell is retained for compatibility. Active runs use `Scenes/Game.tscn`.
 
 ### `Scenes/Entities/Player/Player.tscn`
 
@@ -84,10 +128,14 @@ Important child nodes:
 - `PlayerCombat`
 - `PlayerStats`
 - `AbilityManager`
-- `BlinkAbility`
+  - `GravityWellAbility`
+  - `BlinkAbility`
+- `Sprite2D`
 - `AttackHitbox`
-- `Hurtbox`
 - `Camera2D`
+- `Hurtbox`
+
+Node order matters: `AbilityManager` assigns slots by child order, so `GravityWellAbility` is slot 0 and `BlinkAbility` is slot 1 in the current scene.
 
 ### `Scenes/Entities/Enemies/Enemy.tscn`
 
@@ -101,6 +149,7 @@ Important child nodes:
 - `EnemyMovement`
 - `EnemyStats`
 - `EnemyCombat`
+- `Sprite2D`
 - `AttackHitbox`
 - `Hurtbox`
 
@@ -108,7 +157,7 @@ Important child nodes:
 
 Current role:
 
-- HUD container used in the test world
+- Reusable gameplay HUD container instanced at `Game/UI/HUD`
 
 Important children:
 
@@ -141,16 +190,59 @@ Current role:
 
 These scenes share the same `PauseMenu.cs` script, but they are separate scene files with different visual layouts.
 
+The current `PauseMenu.tscn` wires its buttons to script handlers:
+
+- `ContinueButton` → resumes the game
+- `OptionsButton` → opens the `OptionsMenu`
+- `QuitButton` → returns to the main menu
+
+### `Scenes/UI/OptionsMenu/OptionsMenu.tscn`
+
+Current role:
+
+- Options overlay used by both the main menu and the pause menu
+
+Important contents:
+
+- Master / SFX / Music volume sliders (drives `AudioSynthManager` volumes)
+- Screen shake toggle (`AudioSynthManager.ScreenShakeEnabled`)
+- Fullscreen toggle (`DisplayServer`)
+- Close button
+
+`OptionsMenu` sets `ProcessMode = Always` so it works while paused.
+
 ### `Scenes/Shop/Shop.tscn`
 
 Current role:
 
-- Shop UI shell
+- Shop UI shell, instanced at runtime by `ShopTrigger`
 
 Important contents:
 
 - Three `ShopItem` instances
 - `ShopManager`
+- `Leave` button (hides the shop and unpauses the tree)
+
+### `Scenes/Shop/ShopItem.tscn`
+
+Current role:
+
+- Reusable item card inside the shop
+
+Important contents:
+
+- Name / price / stat upgrade labels
+- `BuyButton`, wired to `ShopItem.OnBuyPressed`
+
+### `Scenes/UI/PlayerUi/Ability.tscn`
+
+Current role:
+
+- One ability widget inside the HUD, driven by `AbilityUi`
+
+Important contents:
+
+- Name label, input label, icon, cooldown bar, cooldown text
 
 ## Scene Dependencies
 

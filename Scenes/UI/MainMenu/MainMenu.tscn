@@ -356,4 +356,6 @@ text = "NF / 01"
 horizontal_alignment = 2
 
 [connection signal="pressed" from="CenterContainer/MainLayout/MenuRail/Content/StartButton" to="." method="OnStartButtonPressed"]
+[connection signal="pressed" from="CenterContainer/MainLayout/MenuRail/Content/OptionsButton" to="." method="OnOptionsButtonPressed"]
 [connection signal="pressed" from="CenterContainer/MainLayout/MenuRail/Content/QuitButton" to="." method="OnQuitButtonPressed"]
+

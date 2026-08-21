@@ -15,7 +15,7 @@ The current codebase focuses on:
 1. Open the project in Godot 4.7 with the .NET 8 SDK installed.
 2. Run the project from the editor.
 3. The project starts on the main menu.
-4. Start the current test world from the menu.
+4. Choose Start, configure a run, and start the active gameplay scene.
 
 ## Controls
 
@@ -35,8 +35,9 @@ If you are changing gameplay, that is the best place to start.
 
 ## Current Notes
 
-- The current playable scene launched by the main menu is `Scenes/Dungeon/Dev/TestWorld.tscn`
-- The player currently has one ability instantiated in-scene: `BlinkAbility`
+- The current playable scene launched by the main menu is `Scenes/Game.tscn`
+- `Scenes/Dungeon/Dev/TestWorld.tscn` remains a standalone developer fixture
+- The player currently has two abilities instantiated in-scene: `BlinkAbility` and `GravityWellAbility`
 - The shop currently displays items from JSON, but purchase handling is not implemented yet
 - Room activation and progression are still partial
 

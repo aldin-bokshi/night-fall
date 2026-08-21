@@ -19,11 +19,17 @@ public static class DeathQuoteLoader
         if (data?.Quotes == null || data.Quotes.Length == 0) return "You died.";
 
         int index = GD.RandRange(0, data.Quotes.Length - 1);
-        return data.Quotes[index];
+        return data.Quotes[index].Quote ?? "You died.";
     }
 
     private sealed class DeathQuoteData
     {
-        public string[] Quotes { get; init; } = [];
+        public DeathQuoteEntry[] Quotes { get; init; } = [];
+    }
+
+    private sealed class DeathQuoteEntry
+    {
+        public string? Quote { get; init; }
+        public string? Rarity { get; init; }
     }
 }

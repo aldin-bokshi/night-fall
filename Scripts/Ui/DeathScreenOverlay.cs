@@ -48,6 +48,7 @@ public partial class DeathScreenOverlay : CanvasLayer
         Hide();
 
         _retryButton.Pressed += OnRetryPressed;
+        this.AttachJuiceToTree();
     }
 
     public void ShowDeathScreen(
