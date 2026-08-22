@@ -57,7 +57,7 @@ The keys inside `statUpgrades` are interpreted by `PlayerStats.ApplyUpgrade`:
 - `defense`
 - `lifesteal`
 - `luck`
-- `dash_cooldown`
+- `cooldown`
 
 Negative values are supported (e.g. `heavy_armor` uses `move_speed: -5`). Unknown keys log a warning and are ignored. See [Shop System](../Systems/Shop.md) for the exact effects.
 

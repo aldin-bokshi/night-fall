@@ -98,8 +98,7 @@ public partial class PlayerStats : Node
                 Luck += amount;
                 break;
 
-            case "dash_cooldown":
-                // Improve attack speed / dash efficiency
+            case "cooldown":
                 AttackCooldown = Mathf.Max(0.15f, AttackCooldown * 0.85f);
                 break;
 

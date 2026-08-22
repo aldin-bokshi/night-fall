@@ -93,7 +93,7 @@ The keys inside `StatUpgrades` are interpreted by `PlayerStats.ApplyUpgrade(stri
 | `defense` | Increases `Defense` |
 | `lifesteal` | Increases `Lifesteal` |
 | `luck` | Increases `Luck` |
-| `dash_cooldown` | Reduces `AttackCooldown` by 15% (min 0.15s) |
+| `cooldown` | Reduces `AttackCooldown` by 15% (min 0.15s) |
 
 Unknown keys log `Unknown stat upgrade: {key}` and are ignored.
 

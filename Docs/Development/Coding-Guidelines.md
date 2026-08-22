@@ -48,7 +48,7 @@ These guidelines reflect the patterns already used in the NightFall codebase.
 - Put configuration in resources or data files when the value is not behavior
 - Use JSON for simple catalog data when the project already does that
 - Keep stat names and data keys consistent between code and data files
-- `PlayerStats.ApplyUpgrade` is the single interpreter for shop `statUpgrades` keys (`max_health`, `damage`, `move_speed`, `attack_speed`, `defense`, `lifesteal`, `luck`, `dash_cooldown`); add new supported keys there, not in UI code
+- `PlayerStats.ApplyUpgrade` is the single interpreter for shop `statUpgrades` keys (`max_health`, `damage`, `move_speed`, `attack_speed`, `defense`, `lifesteal`, `luck`, `cooldown`); add new supported keys there, not in UI code
 
 ## Practical Rule Of Thumb
 
