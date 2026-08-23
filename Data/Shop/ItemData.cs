@@ -10,6 +10,8 @@ public class ItemData
 
     public string? Rarity { get; set; }
 
+    public string? Type { get; set; }
+
     public int Price { get; set; }
 
     public IDictionary<string, float> StatUpgrades { get; set; } =

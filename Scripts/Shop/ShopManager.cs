@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Text.Json;
 using Godot;
 using NightFall.Data.Shop;
@@ -32,9 +33,11 @@ public partial class ShopManager : Node
 
         _leaveButton ??= GetParent().GetNodeOrNull<Button>("Leave");
 
-        if (_leaveButton != null) _leaveButton.Pressed += OnLeavePressed;
-        GD.PushWarning(
-            "ShopManager: Leave button could not be found.");
+        if (_leaveButton != null)
+            _leaveButton.Pressed += OnLeavePressed;
+        else
+            GD.PushWarning(
+                "ShopManager: Leave button could not be found.");
     }
 
     private void DisplayShopItems()
@@ -101,20 +104,35 @@ public partial class ShopManager : Node
             return;
         }
 
-        int itemCount = Math.Min(
-            ShopItemCount,
-            _allItems.Count);
+        // Group items by type. Items with a missing/null Type are grouped
+        // under "Unknown" so they don't get silently dropped from the pool.
+        Dictionary<string, List<ItemData>> itemsByType = _allItems
+            .GroupBy(item => item.Type ?? "Unknown", StringComparer.Ordinal)
+            .ToDictionary(group => group.Key, group => group.ToList(), StringComparer.Ordinal);
+
+        List<string> availableTypes = itemsByType.Keys.ToList();
+
+        if (availableTypes.Count < ShopItemCount)
+        {
+            GD.PushWarning(
+                $"ShopManager: Only {availableTypes.Count} item type(s) " +
+                $"available, expected at least {ShopItemCount}. Shop will " +
+                $"show fewer unique-type items than usual.");
+        }
 
         Random random = new();
+        int slotCount = Math.Min(ShopItemCount, availableTypes.Count);
 
-        while (_currentItems.Count < itemCount)
+        for (int i = 0; i < slotCount; i++)
         {
-            int randomIndex = random.Next(_allItems.Count);
-            ItemData item = _allItems[randomIndex];
+            int typeIndex = random.Next(availableTypes.Count);
+            string chosenType = availableTypes[typeIndex];
+            availableTypes.RemoveAt(typeIndex); // don't reuse this type
 
-            if (_currentItems.Contains(item)) continue;
+            List<ItemData> itemsOfType = itemsByType[chosenType];
+            ItemData chosenItem = itemsOfType[random.Next(itemsOfType.Count)];
 
-            _currentItems.Add(item);
+            _currentItems.Add(chosenItem);
         }
     }
 

@@ -35,8 +35,10 @@ public sealed class RunConfig(
     {
         ulong seed = SeedTranslator.ToNumericSeed(seedText);
 
-        GD.Print($"Seed text: {seedText}");
+        GD.Print($"Seed text: [{seedText}]");
         GD.Print($"Numeric seed: {seed}");
+        GD.Print(
+            $"Display seed: {SeedTranslator.ToDisplaySeed(seed)}");
 
         return new RunConfig(
             seedText,

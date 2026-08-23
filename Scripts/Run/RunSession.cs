@@ -2,7 +2,7 @@ namespace NightFall.Scripts.Run;
 
 public static class RunSession
 {
-    public static RunConfig? Current { get; set; }
+    public static RunConfig? Current { get; private set; }
 
     public static void Start(RunConfig config)
     {
