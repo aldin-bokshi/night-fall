@@ -1,5 +1,4 @@
 using Godot;
-using NightFall.Scripts.Entities.Player;
 
 namespace NightFall.Scripts.Entities.Player.Abilities;
 

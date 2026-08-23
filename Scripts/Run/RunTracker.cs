@@ -4,7 +4,7 @@ namespace NightFall.Scripts.Run;
 
 public partial class RunTracker : Node
 {
-    public static RunTracker Instance { get; private set; } = null!;
+    public static RunTracker? Instance { get; private set; }
 
     public int RoomsCleared { get; private set; }
     public int EnemiesSlain { get; private set; }
@@ -20,38 +20,46 @@ public partial class RunTracker : Node
         GoldCollected = 0;
     }
 
+    public override void _ExitTree()
+    {
+        if (Instance == this) Instance = null;
+    }
+
     public static void ResetTracker()
     {
-        if (Instance != null)
-        {
-            Instance.RoomsCleared = 0;
-            Instance.EnemiesSlain = 0;
-            Instance.GoldCollected = 0;
-            Instance.StartTimeMs = Time.GetTicksMsec();
-        }
+        if (Instance == null) return;
+
+        Instance.RoomsCleared = 0;
+        Instance.EnemiesSlain = 0;
+        Instance.GoldCollected = 0;
+        Instance.StartTimeMs = Time.GetTicksMsec();
     }
 
     public static void RecordEnemySlain()
     {
-        if (Instance != null)
-            Instance.EnemiesSlain++;
+        if (Instance == null) return;
+
+        Instance.EnemiesSlain++;
     }
 
     public static void RecordRoomCleared()
     {
-        if (Instance != null)
-            Instance.RoomsCleared++;
+        if (Instance == null) return;
+
+        Instance.RoomsCleared++;
     }
 
     public static void RecordGoldCollected(int amount)
     {
-        if (Instance != null)
-            Instance.GoldCollected += amount;
+        if (Instance == null) return;
+
+        Instance.GoldCollected += amount;
     }
 
     public static float GetRunTimeSeconds()
     {
         if (Instance == null) return 0f;
+
         return (Time.GetTicksMsec() - Instance.StartTimeMs) / 1000f;
     }
 }

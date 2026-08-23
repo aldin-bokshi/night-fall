@@ -42,7 +42,7 @@ public partial class PauseMenu : CanvasLayer
 
     private void ResumeGame()
     {
-        if (_optionsInstance != null && _optionsInstance.Visible)
+        if (_optionsInstance is { Visible: true })
         {
             _optionsInstance.Hide();
             return;
@@ -71,8 +71,7 @@ public partial class PauseMenu : CanvasLayer
 
     private void EnsureOptionsMenu()
     {
-        if (_optionsInstance != null && IsInstanceValid(_optionsInstance))
-            return;
+        if (_optionsInstance != null && IsInstanceValid(_optionsInstance)) return;
 
         if (_optionsScene != null)
         {
@@ -80,4 +79,4 @@ public partial class PauseMenu : CanvasLayer
             AddChild(_optionsInstance);
         }
     }
-}
+}

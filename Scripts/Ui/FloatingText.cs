@@ -8,10 +8,8 @@ public partial class FloatingText : Node2D
 
     public static void Spawn(Node parent, Vector2 globalPos, string text, Color color, float fontSize = 16f)
     {
-        if (parent == null) return;
-
         FloatingText ft = new();
-        ft.GlobalPosition = globalPos + new Vector2((float)GD.RandRange(-8, 8), (float)GD.RandRange(-8, 8));
+        ft.GlobalPosition = globalPos + new Vector2(GD.RandRange(-8, 8), GD.RandRange(-8, 8));
 
         Label label = new()
         {
@@ -38,6 +36,6 @@ public partial class FloatingText : Node2D
              .SetTrans(Tween.TransitionType.Quad).SetEase(Tween.EaseType.In);
         tween.TweenProperty(ft, "scale", new Vector2(1.2f, 1.2f), 0.15f);
 
-        tween.Finished += () => ft.QueueFree();
+        tween.Finished += ft.QueueFree;
     }
 }

@@ -44,13 +44,9 @@ public partial class Enemy : CharacterBody2D
 
         int goldAmount = 15;
         var runConfig = RunSession.Current;
-        if (runConfig != null && runConfig.Greed)
-        {
-            goldAmount = (int)(goldAmount * 2.0f);
-        }
+        if (runConfig is { Greed: true }) goldAmount = (int)(goldAmount * 2.0f);
 
-        var player = GetTree().GetFirstNodeInGroup("player") as Player.Player;
-        if (player != null && player.Stats != null)
+        if (GetTree().GetFirstNodeInGroup("player") is Player.Player player)
         {
             player.Stats.AddGold(goldAmount);
             RunTracker.RecordGoldCollected(goldAmount);

@@ -58,7 +58,7 @@ public partial class RoomManager : Node
 
         var runConfig = RunSession.Current;
         int spawnCount = 3 + (_currentWave - 1);
-        if (runConfig != null && runConfig.HardNight)
+        if (runConfig is { HardNight: true })
         {
             spawnCount += 2;
         }
@@ -95,8 +95,7 @@ public partial class RoomManager : Node
         AudioSynthManager.PlayBuy();
         FloatingText.Spawn(parent, pos, "ROOM CLEARED!", new Color(0.3f, 1.0f, 0.4f), 24f);
 
-        var player = GetTree().GetFirstNodeInGroup("player") as Player;
-        if (player != null && player.Stats != null)
+        if (GetTree().GetFirstNodeInGroup("player") is Player player)
         {
             int bonusGold = 25 * _currentWave;
             player.Stats.AddGold(bonusGold);

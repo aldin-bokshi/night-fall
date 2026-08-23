@@ -129,24 +129,16 @@ public partial class DungeonSetup : Control
 
     private void UpdatePreview()
     {
-        if (string.IsNullOrWhiteSpace(_seedInput.Text))
-        {
-            _seedPreview.Text = "RANDOM / GENERATED ON START";
-        }
-        else
-        {
-            _seedPreview.Text = _seedInput.Text;
-        }
+        _seedPreview.Text = string.IsNullOrWhiteSpace(_seedInput.Text) ? "RANDOM / GENERATED ON START" : _seedInput.Text;
 
         StringBuilder selected = new();
 
         for (int index = 0; index < _modifierButtons.Length; index++)
         {
-            if (!_modifierButtons[index].ButtonPressed)
-                continue;
+            if (!_modifierButtons[index].ButtonPressed) continue;
 
-            if (selected.Length > 0)
-                selected.Append("\n");
+            if (selected.Length <= 0) return;
+            selected.Append("\n");
 
             selected.Append(_modifierNames[index]);
         }
@@ -159,8 +151,7 @@ public partial class DungeonSetup : Control
 
     private void OnBackPressed()
     {
-        if (!CanTransition())
-            return;
+        if (!CanTransition()) return;
 
         SetButtonsDisabled(true);
 
@@ -171,13 +162,11 @@ public partial class DungeonSetup : Control
 
     private void OnStartRunPressed()
     {
-        if (!CanTransition())
-            return;
+        if (!CanTransition()) return;
 
         string seedText = _seedInput.Text.Trim();
 
-        if (string.IsNullOrEmpty(seedText))
-            seedText = GenerateRandomSeed();
+        if (string.IsNullOrEmpty(seedText)) seedText = GenerateRandomSeed();
 
         RunConfig config = new(
             seedText,
@@ -208,8 +197,7 @@ public partial class DungeonSetup : Control
         _backButton.Disabled = disabled;
         _startButton.Disabled = disabled;
 
-        foreach (Button button in _modifierButtons)
-            button.Disabled = disabled;
+        foreach (Button button in _modifierButtons) button.Disabled = disabled;
 
         _seedInput.Editable = !disabled;
     }
@@ -227,8 +215,8 @@ public partial class DungeonSetup : Control
             bool isAsciiDigit =
                 character is >= '0' and <= '9';
 
-            if (isAsciiLetter || isAsciiDigit)
-                builder.Append(char.ToUpperInvariant(character));
+            if (!isAsciiLetter && !isAsciiDigit) continue;
+            builder.Append(char.ToUpperInvariant(character));
         }
 
         return builder.ToString();

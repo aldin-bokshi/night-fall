@@ -105,7 +105,7 @@ public partial class AbilityManager : Node
             _limitWarningShown = false;
         }
 
-        _abilities = discoveredAbilities.Take(maxActiveAbilities).ToArray();
+        _abilities = [.. discoveredAbilities.Take(maxActiveAbilities)];
     }
 
     /// <summary>

@@ -1,4 +1,3 @@
-using System;
 using System.Collections.Generic;
 using Godot;
 using NightFall.Scripts.Entities.Player.Abilities;

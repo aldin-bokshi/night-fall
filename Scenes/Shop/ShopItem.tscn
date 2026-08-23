@@ -8,13 +8,37 @@ border_width_left = 1
 border_width_top = 1
 border_width_right = 1
 border_width_bottom = 1
-border_color = Color(0.23, 0.20, 0.30, 1)
+border_color = Color(0.23, 0.2, 0.3, 1)
 corner_radius_top_left = 2
 corner_radius_top_right = 2
 corner_radius_bottom_right = 2
 corner_radius_bottom_left = 2
 shadow_color = Color(0, 0, 0, 0.35)
 shadow_size = 6
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_scroll"]
+bg_color = Color(0.025, 0.023, 0.032, 0.55)
+border_width_left = 1
+border_width_top = 1
+border_width_right = 1
+border_width_bottom = 1
+border_color = Color(0.15, 0.13, 0.2, 0.8)
+corner_radius_top_left = 2
+corner_radius_top_right = 2
+corner_radius_bottom_right = 2
+corner_radius_bottom_left = 2
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_price"]
+bg_color = Color(0.075, 0.065, 0.055, 1)
+border_width_left = 1
+border_width_top = 1
+border_width_right = 1
+border_width_bottom = 1
+border_color = Color(0.35, 0.28, 0.16, 1)
+corner_radius_top_left = 2
+corner_radius_top_right = 2
+corner_radius_bottom_right = 2
+corner_radius_bottom_left = 2
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_button"]
 bg_color = Color(0.08, 0.065, 0.11, 1)
@@ -40,23 +64,16 @@ corner_radius_top_right = 2
 corner_radius_bottom_right = 2
 corner_radius_bottom_left = 2
 
-[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_price"]
-bg_color = Color(0.075, 0.065, 0.055, 1)
-border_width_left = 1
-border_width_top = 1
-border_width_right = 1
-border_width_bottom = 1
-border_color = Color(0.35, 0.28, 0.16, 1)
-corner_radius_top_left = 2
-corner_radius_top_right = 2
-corner_radius_bottom_right = 2
-corner_radius_bottom_left = 2
-
-[node name="ShopItem" type="Control" unique_id=1771981929]
+[node name="ShopItem" type="Control" unique_id=1771981929 node_paths=PackedStringArray("_rarityLabel", "_nameLabel", "_priceLabel", "_statUpgradesContainer", "_buyButton")]
 custom_minimum_size = Vector2(270, 205)
 layout_mode = 3
 anchors_preset = 0
 script = ExtResource("1_4rgw3")
+_rarityLabel = NodePath("Panel/MarginContainer/VBoxContainer/RarityLabel")
+_nameLabel = NodePath("Panel/MarginContainer/VBoxContainer/NameLabel")
+_priceLabel = NodePath("Panel/MarginContainer/VBoxContainer/BottomRow/PriceLabel")
+_statUpgradesContainer = NodePath("Panel/MarginContainer/VBoxContainer/StatScroll/StatUpgradesContainer")
+_buyButton = NodePath("Panel/MarginContainer/VBoxContainer/BottomRow/BuyButton")
 
 [node name="Panel" type="PanelContainer" parent="." unique_id=1524278597]
 layout_mode = 1
@@ -76,31 +93,31 @@ theme_override_constants/margin_bottom = 13
 
 [node name="VBoxContainer" type="VBoxContainer" parent="Panel/MarginContainer" unique_id=366181223]
 layout_mode = 2
-theme_override_constants/separation = 6
+theme_override_constants/separation = 5
 
-[node name="CodeLabel" type="Label" parent="Panel/MarginContainer/VBoxContainer"]
-custom_minimum_size = Vector2(0, 16)
+[node name="CodeLabel" type="Label" parent="Panel/MarginContainer/VBoxContainer" unique_id=753960473]
+custom_minimum_size = Vector2(0, 15)
 layout_mode = 2
-theme_override_colors/font_color = Color(0.30, 0.27, 0.36, 1)
+theme_override_colors/font_color = Color(0.3, 0.27, 0.36, 1)
 theme_override_font_sizes/font_size = 9
 text = "AUGMENT // 01"
 horizontal_alignment = 1
 vertical_alignment = 1
 
 [node name="NameLabel" type="Label" parent="Panel/MarginContainer/VBoxContainer" unique_id=208227873]
-custom_minimum_size = Vector2(0, 34)
+custom_minimum_size = Vector2(0, 30)
 layout_mode = 2
 theme_override_colors/font_color = Color(0.88, 0.84, 0.94, 1)
-theme_override_font_sizes/font_size = 22
+theme_override_font_sizes/font_size = 21
 text = "ITEM NAME"
 horizontal_alignment = 1
 vertical_alignment = 1
 autowrap_mode = 2
 
-[node name="RarityLabel" type="Label" parent="Panel/MarginContainer/VBoxContainer"]
-custom_minimum_size = Vector2(0, 20)
+[node name="RarityLabel" type="Label" parent="Panel/MarginContainer/VBoxContainer" unique_id=129480716]
+custom_minimum_size = Vector2(0, 18)
 layout_mode = 2
-theme_override_colors/font_color = Color(0.50, 0.42, 0.62, 1)
+theme_override_colors/font_color = Color(0.5, 0.42, 0.62, 1)
 theme_override_font_sizes/font_size = 11
 text = "◆ COMMON"
 horizontal_alignment = 1
@@ -109,18 +126,29 @@ vertical_alignment = 1
 [node name="Separator" type="HSeparator" parent="Panel/MarginContainer/VBoxContainer" unique_id=1930737877]
 layout_mode = 2
 
-[node name="DescriptionLabel" type="Label" parent="Panel/MarginContainer/VBoxContainer" unique_id=594147783]
+[node name="StatTitle" type="Label" parent="Panel/MarginContainer/VBoxContainer" unique_id=1813411888]
+custom_minimum_size = Vector2(0, 17)
+layout_mode = 2
+theme_override_colors/font_color = Color(0.42, 0.37, 0.5, 1)
+theme_override_font_sizes/font_size = 9
+text = "STAT UPGRADES"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="StatScroll" type="ScrollContainer" parent="Panel/MarginContainer/VBoxContainer" unique_id=21612696]
 custom_minimum_size = Vector2(0, 62)
 layout_mode = 2
 size_flags_vertical = 3
-theme_override_colors/font_color = Color(0.62, 0.59, 0.68, 1)
-theme_override_font_sizes/font_size = 13
-text = "DAMAGE    +10\nCOOLDOWN  -15%\nMAX HP    +20"
-horizontal_alignment = 1
-vertical_alignment = 1
-autowrap_mode = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_scroll")
+horizontal_scroll_mode = 0
+vertical_scroll_mode = 2
 
-[node name="BottomRow" type="HBoxContainer" parent="Panel/MarginContainer/VBoxContainer"]
+[node name="StatUpgradesContainer" type="VBoxContainer" parent="Panel/MarginContainer/VBoxContainer/StatScroll" unique_id=2013063061]
+custom_minimum_size = Vector2(220, 0)
+layout_mode = 2
+theme_override_constants/separation = 2
+
+[node name="BottomRow" type="HBoxContainer" parent="Panel/MarginContainer/VBoxContainer" unique_id=66799888]
 custom_minimum_size = Vector2(0, 36)
 layout_mode = 2
 theme_override_constants/separation = 8
@@ -129,10 +157,10 @@ theme_override_constants/separation = 8
 custom_minimum_size = Vector2(90, 36)
 layout_mode = 2
 size_flags_horizontal = 3
-theme_override_colors/font_color = Color(0.88, 0.70, 0.36, 1)
+theme_override_colors/font_color = Color(0.88, 0.7, 0.36, 1)
 theme_override_font_sizes/font_size = 16
 theme_override_styles/normal = SubResource("StyleBoxFlat_price")
-text = "  100 CR"
+text = "100 CR"
 horizontal_alignment = 1
 vertical_alignment = 1
 
@@ -140,10 +168,10 @@ vertical_alignment = 1
 custom_minimum_size = Vector2(100, 36)
 layout_mode = 2
 size_flags_horizontal = 3
-theme_override_colors/font_color = Color(0.72, 0.66, 0.80, 1)
-theme_override_colors/font_hover_color = Color(0.95, 0.90, 1, 1)
+theme_override_colors/font_color = Color(0.72, 0.66, 0.8, 1)
+theme_override_colors/font_hover_color = Color(0.95, 0.9, 1, 1)
 theme_override_font_sizes/font_size = 14
 theme_override_styles/normal = SubResource("StyleBoxFlat_button")
-theme_override_styles/hover = SubResource("StyleBoxFlat_button_hover")
 theme_override_styles/pressed = SubResource("StyleBoxFlat_button_hover")
+theme_override_styles/hover = SubResource("StyleBoxFlat_button_hover")
 text = "ACQUIRE"

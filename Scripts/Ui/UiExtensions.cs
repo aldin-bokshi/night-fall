@@ -7,8 +7,7 @@ public static class UiExtensions
 {
     public static void AttachJuice(this Button button)
     {
-        if (button == null || !GodotObject.IsInstanceValid(button))
-            return;
+        if (!GodotObject.IsInstanceValid(button)) return;
 
         button.PivotOffset = button.Size / 2f;
         button.Resized += () => button.PivotOffset = button.Size / 2f;
@@ -41,17 +40,10 @@ public static class UiExtensions
 
     public static void AttachJuiceToTree(this Node rootNode)
     {
-        if (rootNode == null) return;
         AudioSynthManager.EnsureInstance(rootNode);
 
-        if (rootNode is Button btn)
-        {
-            btn.AttachJuice();
-        }
+        if (rootNode is Button btn) btn.AttachJuice();
 
-        foreach (Node child in rootNode.GetChildren())
-        {
-            child.AttachJuiceToTree();
-        }
+        foreach (Node child in rootNode.GetChildren()) child.AttachJuiceToTree();
     }
 }

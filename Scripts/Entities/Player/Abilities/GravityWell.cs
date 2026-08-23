@@ -1,5 +1,4 @@
 using Godot;
-using NightFall.Scripts.Entities.Player;
 using NightFall.Scripts.Entities.Enemy;
 
 namespace NightFall.Scripts.Entities.Player.Abilities;
@@ -86,10 +85,7 @@ public partial class GravityWell : Node2D
 
     private void UpdateVisuals(float dt)
     {
-        if (_outlineSprite == null || _coreSprite == null)
-        {
-            return;
-        }
+        if (_outlineSprite == null || _coreSprite == null) return;
 
         _pulseTimer += dt;
 

@@ -68,6 +68,7 @@ border_width_bottom = 1
 border_color = Color(0.58, 0.4, 0.78, 1)
 
 [node name="Shop" type="Control" unique_id=80487823]
+process_mode = 3
 layout_mode = 3
 anchors_preset = 8
 anchor_left = 0.5
@@ -306,8 +307,9 @@ theme_override_styles/pressed = SubResource("StyleBoxFlat_leave_hover")
 theme_override_styles/hover = SubResource("StyleBoxFlat_leave_hover")
 text = "LEAVE"
 
-[node name="ShopManager" type="Node" parent="." unique_id=1373668460 node_paths=PackedStringArray("_shopItem1", "_shopItem2", "_shopItem3")]
+[node name="ShopManager" type="Node" parent="." unique_id=1373668460 node_paths=PackedStringArray("_shopItem1", "_shopItem2", "_shopItem3", "_leaveButton")]
 script = ExtResource("2_ora3x")
 _shopItem1 = NodePath("../HBoxContainer/ShopItem1")
 _shopItem2 = NodePath("../HBoxContainer/ShopItem2")
 _shopItem3 = NodePath("../HBoxContainer/ShopItem3")
+_leaveButton = NodePath("../Leave")

@@ -4,7 +4,7 @@ namespace NightFall.Scripts.Core;
 
 public partial class VfxManager : Node
 {
-    public static void TriggerHitFlash(CanvasItem item, Color flashColor, float duration = 0.12f)
+    public static void TriggerHitFlash(CanvasItem? item, Color flashColor, float duration = 0.12f)
     {
         if (item == null || !GodotObject.IsInstanceValid(item)) return;
 
@@ -16,7 +16,7 @@ public partial class VfxManager : Node
              .SetTrans(Tween.TransitionType.Quad).SetEase(Tween.EaseType.Out);
     }
 
-    public static void TriggerScreenShake(Node requester, float intensity = 6.0f, float duration = 0.2f)
+    public static void TriggerScreenShake(Node? requester, float intensity = 6.0f, float duration = 0.2f)
     {
         if (!AudioSynthManager.ScreenShakeEnabled) return;
         if (requester == null || requester.GetTree() == null) return;
@@ -41,7 +41,7 @@ public partial class VfxManager : Node
         tween.TweenProperty(camera, "offset", originalOffset, 0.03f);
     }
 
-    public static void SpawnParticles(Node parent, Vector2 globalPos, Color color, int count = 12)
+    public static void SpawnParticles(Node? parent, Vector2 globalPos, Color color, int count = 12)
     {
         if (parent == null) return;
 
@@ -67,10 +67,10 @@ public partial class VfxManager : Node
         particles.Emitting = true;
 
         SceneTreeTimer timer = parent.GetTree().CreateTimer(0.6f);
-        timer.Timeout += () => particles.QueueFree();
+        timer.Timeout += particles.QueueFree;
     }
 
-    public static void SpawnSlashArc(Node parent, Vector2 globalPos, Vector2 direction, float radius = 40f)
+    public static void SpawnSlashArc(Node? parent, Vector2 globalPos, Vector2 direction, float radius = 40f)
     {
         if (parent == null) return;
 
@@ -105,6 +105,6 @@ public partial class VfxManager : Node
         tween.TweenProperty(line, "default_color:a", 0f, 0.12f);
         tween.TweenProperty(arcNode, "scale", new Vector2(1.3f, 1.3f), 0.12f);
 
-        tween.Finished += () => arcNode.QueueFree();
+        tween.Finished += arcNode.QueueFree;
     }
 }
