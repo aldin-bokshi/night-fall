@@ -1,61 +1,102 @@
-# =========================
+# ============================================================
 # Godot
-# =========================
+# ============================================================
 
-# Tools
-.Tools/
-
-# Godot 4 generated project data
+# Godot generated project data
 .godot/
 
-# Godot editor metadata / generated files
+# Godot imported/generated assets
 .import/
 
-# =========================
-# C# / .NET
-# =========================
+# Godot Mono/.NET generated data
+.mono/
+
+# ============================================================
+# .NET / C#
+# ============================================================
 
 # Build output
 bin/
 obj/
 
-# .NET generated files
+# User-specific project files
 *.user
 *.userprefs
 *.suo
+*.userosscache
+*.sln.docstates
 
-# =========================
-# Visual Studio / VS Code
-# =========================
+# NuGet
+packages/
 
+# ============================================================
 # Visual Studio
+# ============================================================
+
 .vs/
 
-# VS Code workspace settings
-.vscode/
+# ============================================================
+# JetBrains / ReSharper / Rider
+# ============================================================
 
-# =========================
-# ReSharper
-# =========================
-
-# ReSharper caches / generated data
+.idea/
 _ReSharper*/
 *.[Rr]esharper*
-.idea/
+*.DotSettings.user
 
-# =========================
+# ============================================================
+# VS Code
+# ============================================================
+
+# Ignore workspace-specific settings.
+# Remove this if you intentionally want to share .vscode/
+# configuration with the project.
+.vscode/
+
+# ============================================================
 # OS
-# =========================
+# ============================================================
 
 # Windows
 Thumbs.db
+Thumbs.db:encryptable
+ehthumbs.db
 Desktop.ini
 
 # macOS
 .DS_Store
+.AppleDouble
+.LSOverride
 
-# =========================
-# Logs
-# =========================
+# Linux
+*~
+
+# ============================================================
+# Logs / temporary files
+# ============================================================
 
 *.log
+*.tmp
+*.temp
+
+# ============================================================
+# Crash dumps
+# ============================================================
+
+*.dmp
+*.mdmp
+
+# ============================================================
+# Local environment / secrets
+# ============================================================
+
+.env
+.env.*
+!.env.example
+
+# ============================================================
+# Publish / packaging output
+# ============================================================
+
+publish/
+artifacts/

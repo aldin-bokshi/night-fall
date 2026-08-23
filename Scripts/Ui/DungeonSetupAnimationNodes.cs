@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using Godot;
 
 namespace NightFall.Scripts.Ui;
@@ -40,7 +41,7 @@ public sealed class DungeonSetupAnimationNodes(Node root)
     public ColorRect PreviewRule { get; } = root.GetNode<ColorRect>(
         "../CenterContainer/MainLayout/PreviewPanel/Content/Rule");
 
-    public Button[] ModifierButtons { get; } =
+    public IReadOnlyList<Button> ModifierButtons { get; } =
     [
         root.GetNode<Button>(
             "../CenterContainer/MainLayout/SetupPanel/Content/ModifierPanel/ModifierMargin/ModifierList/BloodMoon"),

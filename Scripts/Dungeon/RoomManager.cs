@@ -21,7 +21,7 @@ public partial class RoomManager : Node
     public override void _Ready()
     {
         RoomActivationZone ??= GetNodeOrNull<Area2D>(".") ?? GetNodeOrNull<Area2D>("RoomActivationZone");
-        EnemyScene ??= GD.Load<PackedScene>("res://Scenes/Entities/Enemies/Enemy.tscn");
+        EnemyScene ??= GD.Load<PackedScene>(GamePaths.EnemyScene);
 
         if (RoomActivationZone != null)
         {

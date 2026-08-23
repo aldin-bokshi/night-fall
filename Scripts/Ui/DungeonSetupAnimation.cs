@@ -10,10 +10,18 @@ public partial class DungeonSetupAnimation : Control
     [Export] private float _buttonStagger = 0.055f;
 
     private static readonly Color TransparentColor = new(1f, 1f, 1f, 0f);
-    private static readonly Vector2 MainEntryScale = new(0.97f, 0.97f);
-    private static readonly Vector2 SetupEntryScale = new(0.98f, 0.98f);
-    private static readonly Vector2 PreviewEntryScale = new(0.96f, 0.96f);
-    private static readonly Vector2 ExitScale = new(0.985f, 0.985f);
+
+    private static readonly Vector2 MainEntryScale =
+        new(0.97f, 0.97f);
+
+    private static readonly Vector2 SetupEntryScale =
+        new(0.98f, 0.98f);
+
+    private static readonly Vector2 PreviewEntryScale =
+        new(0.96f, 0.96f);
+
+    private static readonly Vector2 ExitScale =
+        new(0.985f, 0.985f);
 
     private DungeonSetupAnimationNodes _nodes = null!;
 
@@ -33,17 +41,34 @@ public partial class DungeonSetupAnimation : Control
     public override void _Ready()
     {
         ProcessMode = ProcessModeEnum.Always;
+
         _nodes = new DungeonSetupAnimationNodes(this);
 
         PrepareForEntry();
+
         CallDeferred(nameof(PlayEntryAnimation));
     }
 
     public override void _Input(InputEvent @event)
     {
-        if (_entryFinished || _skipRequested) return;
-        if (@event is not InputEventKey { Pressed: true, Echo: false } keyEvent) return;
-        if (keyEvent.Keycode is not (Key.Enter or Key.KpEnter)) return;
+        if (_entryFinished || _skipRequested)
+        {
+            return;
+        }
+
+        if (@event is not InputEventKey
+            {
+                Pressed: true,
+                Echo: false
+            } keyEvent)
+        {
+            return;
+        }
+
+        if (keyEvent.Keycode is not (Key.Enter or Key.KpEnter))
+        {
+            return;
+        }
 
         GetViewport().SetInputAsHandled();
         SkipEntry();
@@ -77,12 +102,17 @@ public partial class DungeonSetupAnimation : Control
         _nodes.SetupPanel.Scale = SetupEntryScale;
         _nodes.PreviewPanel.Scale = PreviewEntryScale;
 
-        SetModulate(TransparentColor, _nodes.ModifierButtons);
+        SetModulate(
+            TransparentColor,
+            _nodes.ModifierButtons);
     }
 
     private void PlayEntryAnimation()
     {
-        if (_skipRequested) return;
+        if (_skipRequested)
+        {
+            return;
+        }
 
         IsTransitioning = true;
         _entryTween = CreateTween();
@@ -93,7 +123,9 @@ public partial class DungeonSetupAnimation : Control
         AnimateActionButtons(_entryTween);
         AnimatePreviewPanel(_entryTween);
 
-        _entryTween.TweenCallback(Callable.From(FinishEntryAnimation));
+        _entryTween.TweenCallback(
+            Callable.From(FinishEntryAnimation));
+
         StartSkipHintAnimation();
     }
 
@@ -101,10 +133,26 @@ public partial class DungeonSetupAnimation : Control
     {
         tween.SetParallel();
 
-        FadeIn(tween, _nodes.TopLine, _entryDuration * 0.5f);
-        FadeIn(tween, _nodes.SideRule, _entryDuration * 0.7f);
-        FadeInWithScale(tween, _nodes.MainLayout, _mainLayoutScale, _entryDuration);
-        FadeIn(tween, _nodes.HorizonGlow, _entryDuration);
+        FadeIn(
+            tween,
+            _nodes.TopLine,
+            _entryDuration * 0.5f);
+
+        FadeIn(
+            tween,
+            _nodes.SideRule,
+            _entryDuration * 0.7f);
+
+        FadeInWithScale(
+            tween,
+            _nodes.MainLayout,
+            _mainLayoutScale,
+            _entryDuration);
+
+        FadeIn(
+            tween,
+            _nodes.HorizonGlow,
+            _entryDuration);
 
         tween.SetParallel(false);
         tween.TweenInterval(_panelDelay);
@@ -130,9 +178,13 @@ public partial class DungeonSetupAnimation : Control
 
     private void AnimateModifierButtons(Tween tween)
     {
-        foreach (var button in _nodes.ModifierButtons)
+        foreach (Button button in _nodes.ModifierButtons)
         {
-            FadeIn(tween, button, 0.2f);
+            FadeIn(
+                tween,
+                button,
+                0.2f);
+
             tween.TweenInterval(_buttonStagger);
         }
 
@@ -168,15 +220,18 @@ public partial class DungeonSetupAnimation : Control
 
     private void StartSkipHintAnimation()
     {
-        if (_skipRequested || !IsInstanceValid(_nodes.SkipLabel)) return;
+        if (_skipRequested ||
+            !IsInstanceValid(_nodes.SkipLabel))
+        {
+            return;
+        }
 
         KillTween(ref _skipTween);
 
         _nodes.SkipLabel.Modulate = TransparentColor;
         _skipTween = CreateTween();
 
-        _skipTween
-            .TweenProperty(
+        _skipTween.TweenProperty(
                 _nodes.SkipLabel,
                 "modulate:a",
                 1f,
@@ -200,7 +255,10 @@ public partial class DungeonSetupAnimation : Control
 
     private void FinishEntryAnimation()
     {
-        if (_skipRequested) return;
+        if (_skipRequested)
+        {
+            return;
+        }
 
         _entryFinished = true;
         IsTransitioning = false;
@@ -211,7 +269,10 @@ public partial class DungeonSetupAnimation : Control
 
     private void SkipEntry()
     {
-        if (_entryFinished || _skipRequested) return;
+        if (_entryFinished || _skipRequested)
+        {
+            return;
+        }
 
         _skipRequested = true;
         _entryFinished = true;
@@ -241,9 +302,12 @@ public partial class DungeonSetupAnimation : Control
             _nodes.PreviewTitle,
             _nodes.PreviewRule,
             _nodes.BackButton,
-            _nodes.StartButton);
+            _nodes.StartButton,
+            _nodes.SkipLabel);
 
-        SetModulate(Colors.White, _nodes.ModifierButtons);
+        SetModulate(
+            Colors.White,
+            _nodes.ModifierButtons);
 
         _nodes.MainLayout.Scale = _mainLayoutScale;
         _nodes.SetupPanel.Scale = _setupPanelScale;
@@ -252,21 +316,26 @@ public partial class DungeonSetupAnimation : Control
 
     private void FadeOutSkipHint(float duration = 0.2f)
     {
-        if (!IsInstanceValid(_nodes.SkipLabel)) return;
+        if (!IsInstanceValid(_nodes.SkipLabel))
+        {
+            return;
+        }
 
         KillTween(ref _skipTween);
 
-        CreateTween()
-            .TweenProperty(
-                _nodes.SkipLabel,
-                "modulate:a",
-                0f,
-                duration);
+        CreateTween().TweenProperty(
+            _nodes.SkipLabel,
+            "modulate:a",
+            0f,
+            duration);
     }
 
     public void PlayExitAnimation(Callable callback)
     {
-        if (IsTransitioning) return;
+        if (IsTransitioning)
+        {
+            return;
+        }
 
         IsTransitioning = true;
 
@@ -276,6 +345,7 @@ public partial class DungeonSetupAnimation : Control
         _exitTween = CreateTween();
 
         AnimateExit(_exitTween);
+
         _exitTween.TweenCallback(callback);
     }
 
@@ -295,9 +365,20 @@ public partial class DungeonSetupAnimation : Control
             _exitDuration * 0.9f,
             Tween.TransitionType.Quad);
 
-        FadeOut(tween, _nodes.TopLine, _exitDuration * 0.8f);
-        FadeOut(tween, _nodes.SideRule, _exitDuration * 0.8f);
-        FadeOut(tween, _nodes.HorizonGlow, _exitDuration * 0.8f);
+        FadeOut(
+            tween,
+            _nodes.TopLine,
+            _exitDuration * 0.8f);
+
+        FadeOut(
+            tween,
+            _nodes.SideRule,
+            _exitDuration * 0.8f);
+
+        FadeOut(
+            tween,
+            _nodes.HorizonGlow,
+            _exitDuration * 0.8f);
 
         tween.TweenProperty(
                 _nodes.MainLayout,
@@ -313,18 +394,22 @@ public partial class DungeonSetupAnimation : Control
     private static void FadeIn(
         Tween tween,
         CanvasItem target,
-        float duration) =>
+        float duration)
+    {
         tween.TweenProperty(
             target,
             "modulate:a",
             1f,
             duration);
+    }
 
     private static void FadeOut(
         Tween tween,
         CanvasItem target,
         float duration,
-        Tween.TransitionType transition = Tween.TransitionType.Linear) =>
+        Tween.TransitionType transition =
+            Tween.TransitionType.Linear)
+    {
         tween.TweenProperty(
                 target,
                 "modulate:a",
@@ -332,6 +417,7 @@ public partial class DungeonSetupAnimation : Control
                 duration)
             .SetTrans(transition)
             .SetEase(Tween.EaseType.In);
+    }
 
     private static void FadeInWithScale(
         Tween tween,
@@ -341,7 +427,10 @@ public partial class DungeonSetupAnimation : Control
     {
         tween.SetParallel();
 
-        FadeIn(tween, target, duration);
+        FadeIn(
+            tween,
+            target,
+            duration);
 
         tween.TweenProperty(
                 target,
@@ -361,7 +450,13 @@ public partial class DungeonSetupAnimation : Control
     {
         tween.SetParallel();
 
-        foreach (var target in targets) FadeIn(tween, target, duration);
+        foreach (CanvasItem target in targets)
+        {
+            FadeIn(
+                tween,
+                target,
+                duration);
+        }
 
         tween.SetParallel(false);
     }
@@ -370,17 +465,28 @@ public partial class DungeonSetupAnimation : Control
         Color color,
         params CanvasItem[] targets)
     {
-        foreach (var target in targets) target.Modulate = color;
+        foreach (CanvasItem target in targets)
+        {
+            target.Modulate = color;
+        }
     }
 
-    private static void SetModulate(Color color, Button[] buttons)
+    private static void SetModulate(
+        Color color,
+        System.Collections.Generic.IReadOnlyList<Button> buttons)
     {
-        foreach (var button in buttons) button.Modulate = color;
+        foreach (Button button in buttons)
+        {
+            button.Modulate = color;
+        }
     }
 
     private static void KillTween(ref Tween? tween)
     {
-        tween?.Kill();
-        tween = null;
+        if (tween != null)
+        {
+            tween.Kill();
+            tween = null;
+        }
     }
 }

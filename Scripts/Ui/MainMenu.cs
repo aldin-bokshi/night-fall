@@ -1,4 +1,5 @@
 using Godot;
+using NightFall.Scripts.Core;
 
 namespace NightFall.Scripts.Ui;
 
@@ -10,26 +11,22 @@ public partial class MainMenu : Control
     public override void _Ready()
     {
         ProcessMode = ProcessModeEnum.Always;
-        _optionsScene = GD.Load<PackedScene>("res://Scenes/UI/OptionsMenu/OptionsMenu.tscn");
+        _optionsScene = GD.Load<PackedScene>(GamePaths.OptionsMenu);
 
         this.AttachJuiceToTree();
     }
 
     private void OnStartButtonPressed()
     {
-        GetTree().ChangeSceneToFile("res://Scenes/UI/SetupScreen/DungeonSetup.tscn");
+        GetTree().ChangeSceneToFile(GamePaths.DungeonSetup);
     }
 
     private void OnOptionsButtonPressed()
     {
-        if (_optionsInstance == null || !IsInstanceValid(_optionsInstance))
-        {
-            if (_optionsScene != null)
-            {
-                _optionsInstance = _optionsScene.Instantiate<OptionsMenu>();
-                AddChild(_optionsInstance);
-            }
-        }
+        if (_optionsInstance != null && IsInstanceValid(_optionsInstance)) return;
+        if (_optionsScene == null) return;
+        _optionsInstance = _optionsScene.Instantiate<OptionsMenu>();
+        AddChild(_optionsInstance);
 
         _optionsInstance?.Open();
     }

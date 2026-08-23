@@ -1,18 +1,18 @@
-using Godot;
-using NightFall.Scripts.Run;
 using System;
 using System.Security.Cryptography;
 using System.Text;
+using Godot;
+using NightFall.Scripts.Core;
+using NightFall.Scripts.Run;
 
 namespace NightFall.Scripts.Ui;
 
 public partial class DungeonSetup : Control
 {
-    [Export] private string _mainMenuScenePath =
-        "res://Scenes/UI/MainMenu/MainMenu.tscn";
+    private const string SeedCharacters =
+        "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
 
-    [Export] private string _dungeonScenePath =
-        "res://Scenes/Game.tscn";
+    private const int RandomSeedLength = 8;
 
     private LineEdit _seedInput = null!;
     private Label _seedPreview = null!;
@@ -26,6 +26,8 @@ public partial class DungeonSetup : Control
     private Button[] _modifierButtons = null!;
     private string[] _modifierNames = null!;
 
+    private bool CanTransition => !_animation.IsTransitioning;
+
     public override void _Ready()
     {
         ProcessMode = ProcessModeEnum.Always;
@@ -38,6 +40,7 @@ public partial class DungeonSetup : Control
         UpdatePreview();
 
         CallDeferred(nameof(FocusStartButton));
+
         this.AttachJuiceToTree();
     }
 
@@ -96,25 +99,30 @@ public partial class DungeonSetup : Control
         _startButton.Pressed += OnStartRunPressed;
 
         foreach (Button modifierButton in _modifierButtons)
+        {
             modifierButton.Toggled += OnModifierToggled;
+        }
     }
 
     private void FocusStartButton()
     {
-        if (IsInstanceValid(_startButton))
-            _startButton.GrabFocus();
+        if (!IsInstanceValid(_startButton))
+        {
+            return;
+        }
+
+        _startButton.GrabFocus();
     }
 
     private void OnSeedChanged(string text)
     {
         string filtered = FilterSeed(text);
 
-        if (filtered != text)
+        if (!string.Equals(filtered, text, StringComparison.Ordinal))
         {
             int caretPosition = _seedInput.CaretColumn;
 
             _seedInput.Text = filtered;
-
             _seedInput.CaretColumn =
                 Mathf.Min(caretPosition, filtered.Length);
         }
@@ -129,67 +137,106 @@ public partial class DungeonSetup : Control
 
     private void UpdatePreview()
     {
-        _seedPreview.Text = string.IsNullOrWhiteSpace(_seedInput.Text) ? "RANDOM / GENERATED ON START" : _seedInput.Text;
+        UpdateSeedPreview();
+        UpdateModifierPreview();
+    }
 
+    private void UpdateSeedPreview()
+    {
+        if (string.IsNullOrWhiteSpace(_seedInput.Text))
+        {
+            _seedPreview.Text = "RANDOM / GENERATED ON START";
+            return;
+        }
+
+        _seedPreview.Text = _seedInput.Text;
+    }
+
+    private void UpdateModifierPreview()
+    {
         StringBuilder selected = new();
 
         for (int index = 0; index < _modifierButtons.Length; index++)
         {
-            if (!_modifierButtons[index].ButtonPressed) continue;
+            if (!_modifierButtons[index].ButtonPressed)
+            {
+                continue;
+            }
 
-            if (selected.Length <= 0) return;
-            selected.Append("\n");
+            if (selected.Length > 0)
+            {
+                selected.Append('\n');
+            }
 
             selected.Append(_modifierNames[index]);
         }
 
-        _modifierPreview.Text =
-            selected.Length == 0
-                ? "NO MODIFIERS"
-                : selected.ToString();
+        if (selected.Length == 0)
+        {
+            _modifierPreview.Text = "NO MODIFIERS";
+            return;
+        }
+
+        _modifierPreview.Text = selected.ToString();
     }
 
     private void OnBackPressed()
     {
-        if (!CanTransition()) return;
+        if (!CanTransition)
+        {
+            return;
+        }
 
         SetButtonsDisabled(true);
 
         _animation.PlayExitAnimation(
-            Callable.From(() => { GetTree().ChangeSceneToFile(_mainMenuScenePath); })
-        );
+            Callable.From(ReturnToMainMenu));
+    }
+
+    private void ReturnToMainMenu()
+    {
+        GetTree().ChangeSceneToFile(GamePaths.MainMenu);
     }
 
     private void OnStartRunPressed()
     {
-        if (!CanTransition()) return;
+        if (!CanTransition)
+        {
+            return;
+        }
 
         string seedText = _seedInput.Text.Trim();
 
-        if (string.IsNullOrEmpty(seedText)) seedText = GenerateRandomSeed();
+        if (string.IsNullOrEmpty(seedText))
+        {
+            seedText = GenerateRandomSeed();
+        }
 
-        RunConfig config = new(
-            seedText,
-            ConvertSeedToNumber(seedText),
-            _modifierButtons[0].ButtonPressed,
-            _modifierButtons[1].ButtonPressed,
-            _modifierButtons[2].ButtonPressed,
-            _modifierButtons[3].ButtonPressed,
-            _modifierButtons[4].ButtonPressed
-        );
+        RunConfig config = CreateRunConfig(seedText);
 
         RunSession.Start(config);
 
         SetButtonsDisabled(true);
 
         _animation.PlayExitAnimation(
-            Callable.From(() => { GetTree().ChangeSceneToFile(_dungeonScenePath); })
-        );
+            Callable.From(StartGame));
     }
 
-    private bool CanTransition()
+    private RunConfig CreateRunConfig(string seedText)
     {
-        return !_animation.IsTransitioning;
+        return new RunConfig(
+            seedText,
+            ConvertSeedToNumber(seedText),
+            _modifierButtons[0].ButtonPressed,
+            _modifierButtons[1].ButtonPressed,
+            _modifierButtons[2].ButtonPressed,
+            _modifierButtons[3].ButtonPressed,
+            _modifierButtons[4].ButtonPressed);
+    }
+
+    private void StartGame()
+    {
+        GetTree().ChangeSceneToFile(GamePaths.GameScene);
     }
 
     private void SetButtonsDisabled(bool disabled)
@@ -197,7 +244,10 @@ public partial class DungeonSetup : Control
         _backButton.Disabled = disabled;
         _startButton.Disabled = disabled;
 
-        foreach (Button button in _modifierButtons) button.Disabled = disabled;
+        foreach (Button button in _modifierButtons)
+        {
+            button.Disabled = disabled;
+        }
 
         _seedInput.Editable = !disabled;
     }
@@ -209,30 +259,32 @@ public partial class DungeonSetup : Control
         foreach (char character in text)
         {
             bool isAsciiLetter =
-                character is >= 'A' and <= 'Z'
-                || character is >= 'a' and <= 'z';
+                character is >= 'A' and <= 'Z' ||
+                character is >= 'a' and <= 'z';
 
             bool isAsciiDigit =
                 character is >= '0' and <= '9';
 
-            if (!isAsciiLetter && !isAsciiDigit) continue;
+            if (!isAsciiLetter && !isAsciiDigit)
+            {
+                continue;
+            }
+
             builder.Append(char.ToUpperInvariant(character));
         }
 
         return builder.ToString();
     }
 
-    private const string SeedCharacters =
-        "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
-
     private static string GenerateRandomSeed()
     {
-        StringBuilder builder = new(8);
+        StringBuilder builder = new(RandomSeedLength);
 
-        for (int index = 0; index < 8; index++)
+        for (int index = 0; index < RandomSeedLength; index++)
         {
-            int randomIndex =
-                GD.RandRange(0, SeedCharacters.Length - 1);
+            int randomIndex = GD.RandRange(
+                0,
+                SeedCharacters.Length - 1);
 
             builder.Append(SeedCharacters[randomIndex]);
         }
@@ -242,10 +294,8 @@ public partial class DungeonSetup : Control
 
     private static ulong ConvertSeedToNumber(string seedText)
     {
-        byte[] hash =
-            SHA256.HashData(
-                Encoding.UTF8.GetBytes(seedText)
-            );
+        byte[] hash = SHA256.HashData(
+            Encoding.UTF8.GetBytes(seedText));
 
         return BitConverter.ToUInt64(hash, 0);
     }

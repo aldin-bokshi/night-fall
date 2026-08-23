@@ -1,11 +1,12 @@
 using Godot;
+using NightFall.Scripts.Core;
 
 namespace NightFall.Scripts.Entities.Player.Abilities;
 
 public partial class GravityWellProjectile : Node2D
 {
     private static readonly Texture2D? BombTexture =
-        GD.Load<Texture2D>("res://Assets/Sprites/Abilities/GravityWellBomb.png");
+        GD.Load<Texture2D>(GamePaths.GravityWellBomb);
 
     private Vector2 _targetPosition;
     private PlayerStats? _stats;

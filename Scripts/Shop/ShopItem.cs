@@ -21,30 +21,20 @@ public partial class ShopItem : Control
 
     public override void _Ready()
     {
-        _buyButton ??=
-            GetNodeOrNull<Button>(
-                "Panel/MarginContainer/VBoxContainer/BottomRow/BuyButton"
-            );
+        _buyButton ??= GetNodeOrNull<Button>(
+            "Panel/MarginContainer/VBoxContainer/BottomRow/BuyButton");
 
-        _statUpgradesContainer ??=
-            GetNodeOrNull<VBoxContainer>(
-                "Panel/MarginContainer/VBoxContainer/StatScroll/StatUpgradesContainer"
-            );
+        _statUpgradesContainer ??= GetNodeOrNull<VBoxContainer>(
+            "Panel/MarginContainer/VBoxContainer/StatScroll/StatUpgradesContainer");
 
-        _rarityLabel ??=
-            GetNodeOrNull<Label>(
-                "Panel/MarginContainer/VBoxContainer/RarityLabel"
-            );
+        _rarityLabel ??= GetNodeOrNull<Label>(
+            "Panel/MarginContainer/VBoxContainer/RarityLabel");
 
-        _nameLabel ??=
-            GetNodeOrNull<Label>(
-                "Panel/MarginContainer/VBoxContainer/NameLabel"
-            );
+        _nameLabel ??= GetNodeOrNull<Label>(
+            "Panel/MarginContainer/VBoxContainer/NameLabel");
 
-        _priceLabel ??=
-            GetNodeOrNull<Label>(
-                "Panel/MarginContainer/VBoxContainer/BottomRow/PriceLabel"
-            );
+        _priceLabel ??= GetNodeOrNull<Label>(
+            "Panel/MarginContainer/VBoxContainer/BottomRow/PriceLabel");
 
         if (_buyButton != null) _buyButton.Pressed += OnBuyPressed;
 
@@ -62,56 +52,30 @@ public partial class ShopItem : Control
         CalculatePrice(item);
         DisplayStatUpgrades(item);
 
-        if (_buyButton != null)
-        {
-            _buyButton.Disabled = false;
-            _buyButton.Text = "ACQUIRE";
-        }
+        if (_buyButton == null) return;
+
+        _buyButton.Disabled = false;
+        _buyButton.Text = "ACQUIRE";
     }
 
     private void SetRarity(ItemData item)
     {
         if (_rarityLabel == null) return;
 
-        string rarity = GetRarityText(item);
+        string rarity = ShopItemFormatter.GetRarityText(item);
 
-        _rarityLabel.Text = $"◆ {rarity.ToUpper()}";
-
+        _rarityLabel.Text = $"◆ {ShopItemFormatter.FormatRarity(rarity)}";
         _rarityLabel.AddThemeColorOverride(
             "font_color",
-            GetRarityColor(rarity)
-        );
-    }
-
-    private string GetRarityText(ItemData item)
-    {
-        // Uses the Rarity property from ItemData.
-        // Falls back to Common if the value is empty.
-        return string.IsNullOrWhiteSpace(item.Rarity)
-            ? "Common"
-            : item.Rarity;
-    }
-
-    private Color GetRarityColor(string rarity)
-    {
-        return rarity.ToLower() switch
-        {
-            "common" => new Color(0.55f, 0.5f, 0.62f),
-            "uncommon" => new Color(0.35f, 0.75f, 0.55f),
-            "rare" => new Color(0.35f, 0.55f, 0.95f),
-            "epic" => new Color(0.7f, 0.4f, 0.95f),
-            "legendary" => new Color(1f, 0.65f, 0.25f),
-            _ => new Color(0.5f, 0.42f, 0.62f)
-        };
+            ShopItemFormatter.GetRarityColor(rarity));
     }
 
     private void CalculatePrice(ItemData item)
     {
         _effectivePrice = item.Price;
 
-        var runConfig = RunSession.Current;
-
-        if (runConfig is { Greed: true }) _effectivePrice = (int)(_effectivePrice * 1.5f);
+        if (RunSession.Current is { Greed: true })
+            _effectivePrice = (int)(_effectivePrice * 1.5f);
 
         if (_priceLabel != null) _priceLabel.Text = $"{_effectivePrice} CR";
     }
@@ -121,86 +85,32 @@ public partial class ShopItem : Control
         if (_statUpgradesContainer == null) return;
 
         foreach (Node child in _statUpgradesContainer.GetChildren())
-        {
             child.QueueFree();
-        }
 
         if (item.StatUpgrades.Count == 0)
         {
-            Label emptyLabel = CreateStatLabel("NO STAT UPGRADES");
-
-            emptyLabel.AddThemeColorOverride(
-                "font_color",
-                new Color(0.38f, 0.35f, 0.43f)
-            );
-
-            _statUpgradesContainer.AddChild(emptyLabel);
+            _statUpgradesContainer.AddChild(
+                ShopItemUi.CreateStatLabel("NO STAT UPGRADES"));
             return;
         }
 
         foreach (var upgrade in item.StatUpgrades)
         {
-            string statName = FormatStatName(upgrade.Key);
-            string value = FormatStatValue(upgrade.Key, upgrade.Value);
+            string statName = ShopItemFormatter.FormatStatName(upgrade.Key);
+            string value = ShopItemFormatter.FormatStatValue(
+                upgrade.Key,
+                upgrade.Value);
 
-            Label statLabel = CreateStatLabel(
-                $"{statName}    {value}"
-            );
-
-            _statUpgradesContainer.AddChild(statLabel);
+            _statUpgradesContainer.AddChild(
+                ShopItemUi.CreateStatLabel($"{statName}    {value}"));
         }
-    }
-
-    private Label CreateStatLabel(string text)
-    {
-        Label label = new()
-        {
-            Text = text,
-            HorizontalAlignment = HorizontalAlignment.Center,
-            VerticalAlignment = VerticalAlignment.Center,
-            AutowrapMode = TextServer.AutowrapMode.WordSmart,
-            CustomMinimumSize = new Vector2(210, 17)
-        };
-
-        label.AddThemeFontSizeOverride("font_size", 12);
-
-        label.AddThemeColorOverride(
-            "font_color",
-            new Color(0.65f, 0.62f, 0.71f)
-        );
-
-        return label;
-    }
-
-    private string FormatStatName(string statName)
-    {
-        return statName
-            .Replace("_", " ")
-            .ToUpper();
-    }
-
-    private string FormatStatValue(string statName, float value)
-    {
-        string lowerName = statName.ToLower();
-
-        // Percentage-based stats.
-        if (
-            lowerName.Contains("cooldown") ||
-            lowerName.Contains("chance") ||
-            lowerName.Contains("percent")
-        ) return $"{value:+0;-0}%";
-
-        // Normal numerical stats.
-        return $"{value:+0;-0}";
     }
 
     private void OnBuyPressed()
     {
         if (_purchased || _item == null) return;
 
-        Player? player =
-            GetTree().GetFirstNodeInGroup("player") as Player;
-
+        Player? player = GetTree().GetFirstNodeInGroup("player") as Player;
         if (player == null) return;
 
         var stats = player.Stats;
@@ -214,8 +124,7 @@ public partial class ShopItem : Control
                 GlobalPosition,
                 "NOT ENOUGH GOLD!",
                 new Color(1f, 0.3f, 0.3f),
-                14f
-            );
+                14f);
 
             return;
         }
@@ -225,12 +134,7 @@ public partial class ShopItem : Control
         _purchased = true;
 
         foreach (var upgrade in _item.StatUpgrades)
-        {
-            stats.ApplyUpgrade(
-                upgrade.Key,
-                upgrade.Value
-            );
-        }
+            stats.ApplyUpgrade(upgrade.Key, upgrade.Value);
 
         AudioSynthManager.PlayBuy();
 
@@ -239,13 +143,11 @@ public partial class ShopItem : Control
             GlobalPosition,
             "PURCHASED!",
             new Color(0.3f, 0.95f, 0.4f),
-            16f
-        );
+            16f);
 
-        if (_buyButton != null)
-        {
-            _buyButton.Disabled = true;
-            _buyButton.Text = "SOLD OUT";
-        }
+        if (_buyButton == null) return;
+
+        _buyButton.Disabled = true;
+        _buyButton.Text = "SOLD OUT";
     }
 }

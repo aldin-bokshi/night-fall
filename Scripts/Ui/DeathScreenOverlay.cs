@@ -23,62 +23,73 @@ public partial class DeathScreenOverlay : CanvasLayer
     {
         ProcessMode = ProcessModeEnum.Always;
 
-        _topRedOverlay = GetNode<ColorRect>("TopRedOverlay");
-        _bottomRedOverlay = GetNode<ColorRect>("BottomRedOverlay");
-        _content = GetNode<Control>("Content");
-
-        _title = GetNode<Label>("Content/VBoxContainer/Title");
-        _quote = GetNode<Label>("Content/VBoxContainer/Quote");
-        _roomsCleared = GetNode<Label>(
-            "Content/VBoxContainer/RoomsCleared"
-        );
-        _enemiesSlain = GetNode<Label>(
-            "Content/VBoxContainer/EnemiesSlain"
-        );
-        _goldCollected = GetNode<Label>(
-            "Content/VBoxContainer/GoldCollected"
-        );
-        _time = GetNode<Label>(
-            "Content/VBoxContainer/Time"
-        );
-        _retryButton = GetNode<Button>(
-            "Content/VBoxContainer/RetryButton"
-        );
+        CacheNodes();
 
         Hide();
 
         _retryButton.Pressed += OnRetryPressed;
+
         this.AttachJuiceToTree();
+    }
+
+    private void CacheNodes()
+    {
+        _topRedOverlay = GetNode<ColorRect>(
+            "TopRedOverlay");
+
+        _bottomRedOverlay = GetNode<ColorRect>(
+            "BottomRedOverlay");
+
+        _content = GetNode<Control>(
+            "Content");
+
+        _title = GetNode<Label>(
+            "Content/VBoxContainer/Title");
+
+        _quote = GetNode<Label>(
+            "Content/VBoxContainer/Quote");
+
+        _roomsCleared = GetNode<Label>(
+            "Content/VBoxContainer/RoomsCleared");
+
+        _enemiesSlain = GetNode<Label>(
+            "Content/VBoxContainer/EnemiesSlain");
+
+        _goldCollected = GetNode<Label>(
+            "Content/VBoxContainer/GoldCollected");
+
+        _time = GetNode<Label>(
+            "Content/VBoxContainer/Time");
+
+        _retryButton = GetNode<Button>(
+            "Content/VBoxContainer/RetryButton");
     }
 
     public void ShowDeathScreen(
         int roomsCleared = 0,
         int enemiesSlain = 0,
         int goldCollected = 0,
-        float time = 0f
-    )
+        float time = 0f)
     {
         GetTree().Paused = true;
 
         Show();
 
-        SetPlaceholderStats(
+        SetStats(
             roomsCleared,
             enemiesSlain,
             goldCollected,
-            time
-        );
+            time);
 
         SelectRandomQuote();
         StartDeathAnimation();
     }
 
-    private void SetPlaceholderStats(
+    private void SetStats(
         int roomsCleared,
         int enemiesSlain,
         int goldCollected,
-        float time
-    )
+        float time)
     {
         _roomsCleared.Text =
             $"Rooms Cleared        {roomsCleared}";
@@ -93,17 +104,10 @@ public partial class DeathScreenOverlay : CanvasLayer
             $"Time                 {FormatTime(time)}";
     }
 
-    // private void SelectRandomQuote()
-    // {
-    //     int index = GD.RandRange(0, DeathQuotes.Length - 1);
-
-    //     _quote.Text = $"\"{DeathQuotes[index]}\"";
-    // }
-
     private void SelectRandomQuote()
     {
-        // _quote.Text = $"\"{DeathQuotes.GetRandom()}\"";
-        _quote.Text = $"\"{DeathQuoteLoader.GetRandomQuote()}\"";
+        _quote.Text =
+            $"\"{DeathQuoteLoader.GetRandomQuote()}\"";
     }
 
     private void StartDeathAnimation()
@@ -111,63 +115,86 @@ public partial class DeathScreenOverlay : CanvasLayer
         float screenHeight =
             GetViewport().GetVisibleRect().Size.Y;
 
-        _topRedOverlay.Modulate =
-            new Color(1f, 1f, 1f, 0f);
+        ResetAnimationState();
 
-        _bottomRedOverlay.Modulate =
-            new Color(1f, 1f, 1f, 0f);
+        Tween tween = CreateTween();
+
+        AnimateRedOverlays(
+            tween,
+            screenHeight);
+
+        tween.TweenCallback(
+            Callable.From(ShowDeathContent));
+    }
+
+    private void ResetAnimationState()
+    {
+        Color transparent = new(1f, 1f, 1f, 0f);
+
+        _topRedOverlay.Modulate = transparent;
+        _bottomRedOverlay.Modulate = transparent;
 
         _topRedOverlay.OffsetBottom = 0f;
         _bottomRedOverlay.OffsetTop = 0f;
 
-        _content.Modulate =
-            new Color(1f, 1f, 1f, 0f);
+        _content.Modulate = transparent;
+    }
 
-        Tween tween = CreateTween();
+    private void AnimateRedOverlays(
+        Tween tween,
+        float screenHeight)
+    {
+        tween.SetParallel();
 
-        tween.SetParallel(true);
+        AnimateOverlayPosition(
+            tween,
+            _topRedOverlay,
+            "offset_bottom",
+            screenHeight / 2f);
 
-        tween.TweenProperty(
-                _topRedOverlay,
-                "offset_bottom",
-                screenHeight / 2f,
-                _fadeDuration
-            )
-            .SetTrans(Tween.TransitionType.Quad)
-            .SetEase(Tween.EaseType.InOut);
+        AnimateOverlayPosition(
+            tween,
+            _bottomRedOverlay,
+            "offset_top",
+            -screenHeight / 2f);
 
-        tween.TweenProperty(
-                _bottomRedOverlay,
-                "offset_top",
-                -screenHeight / 2f,
-                _fadeDuration
-            )
-            .SetTrans(Tween.TransitionType.Quad)
-            .SetEase(Tween.EaseType.InOut);
+        AnimateOverlayOpacity(
+            tween,
+            _topRedOverlay);
 
-        tween.TweenProperty(
-                _topRedOverlay,
-                "modulate:a",
-                _finalRedOpacity,
-                _fadeDuration
-            )
-            .SetTrans(Tween.TransitionType.Quad)
-            .SetEase(Tween.EaseType.InOut);
-
-        tween.TweenProperty(
-                _bottomRedOverlay,
-                "modulate:a",
-                _finalRedOpacity,
-                _fadeDuration
-            )
-            .SetTrans(Tween.TransitionType.Quad)
-            .SetEase(Tween.EaseType.InOut);
+        AnimateOverlayOpacity(
+            tween,
+            _bottomRedOverlay);
 
         tween.SetParallel(false);
+    }
 
-        tween.TweenCallback(
-            Callable.From(ShowDeathContent)
-        );
+    private void AnimateOverlayPosition(
+        Tween tween,
+        CanvasItem overlay,
+        string property,
+        float finalPosition)
+    {
+        tween.TweenProperty(
+                overlay,
+                property,
+                finalPosition,
+                _fadeDuration)
+            .SetTrans(Tween.TransitionType.Quad)
+            .SetEase(Tween.EaseType.InOut);
+    }
+
+    private void AnimateOverlayOpacity(
+        Tween tween,
+        CanvasItem overlay)
+    {
+        tween.TweenProperty(
+                overlay,
+                "modulate:a",
+                _finalRedOpacity,
+                _fadeDuration)
+            .SetTrans(Tween.TransitionType.Quad)
+            .SetEase(Tween.EaseType.InOut);
     }
 
     private void ShowDeathContent()
@@ -178,27 +205,31 @@ public partial class DeathScreenOverlay : CanvasLayer
                 _content,
                 "modulate:a",
                 1f,
-                0.8f
-            )
+                0.8f)
             .SetTrans(Tween.TransitionType.Quad)
             .SetEase(Tween.EaseType.Out);
 
         tween.TweenCallback(
-            Callable.From(() => _retryButton.GrabFocus())
-        );
+            Callable.From(FocusRetryButton));
+    }
+
+    private void FocusRetryButton()
+    {
+        _retryButton.GrabFocus();
     }
 
     private void OnRetryPressed()
     {
         GetTree().Paused = false;
-
         GetTree().ReloadCurrentScene();
     }
 
     private static string FormatTime(float seconds)
     {
         int totalSeconds =
-            Mathf.Max(0, Mathf.FloorToInt(seconds));
+            Mathf.Max(
+                0,
+                Mathf.FloorToInt(seconds));
 
         int minutes = totalSeconds / 60;
         int remainingSeconds = totalSeconds % 60;

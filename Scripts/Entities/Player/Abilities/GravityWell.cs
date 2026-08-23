@@ -1,4 +1,5 @@
 using Godot;
+using NightFall.Scripts.Core;
 using NightFall.Scripts.Entities.Enemy;
 
 namespace NightFall.Scripts.Entities.Player.Abilities;
@@ -6,10 +7,10 @@ namespace NightFall.Scripts.Entities.Player.Abilities;
 public partial class GravityWell : Node2D
 {
     private static readonly Texture2D? WellTexture =
-        GD.Load<Texture2D>("res://Assets/Sprites/Abilities/GravityWell.png");
+        GD.Load<Texture2D>(GamePaths.GravityWell);
 
     private static readonly Texture2D? OutlineTexture =
-        GD.Load<Texture2D>("res://Assets/Sprites/Abilities/GravityWellOutline.png");
+        GD.Load<Texture2D>(GamePaths.GravityWellOutline);
 
     private PlayerStats? _stats;
     private float _remainingDuration;

@@ -5,7 +5,11 @@ namespace NightFall.Scripts.Entities.Player;
 public partial class PlayerStats : Node
 {
     [Export] public float MaxHealth { get; set; } = 100f;
-    public bool IsDead => Health <= 0f;
+
+    public bool IsDead
+    {
+        get { return Health <= 0f; }
+    }
 
     [Export] public float MoveSpeed { get; set; } = 150f;
 
@@ -14,21 +18,24 @@ public partial class PlayerStats : Node
     [Export] public float AttackDuration { get; set; } = 0.15f;
     [Export] public float AttackRange { get; set; } = 75f;
 
-    [Export] public float Defense { get; set; } = 0f;
-    [Export] public float Lifesteal { get; set; } = 0f;
-    [Export] public float Luck { get; set; } = 0f;
+    [Export] public float Defense { get; set; }
+    [Export] public float Lifesteal { get; set; }
+    [Export] public float Luck { get; set; }
 
-    [ExportGroup("Gravity Well")]
-    [Export] public float GravityWellProjectileSpeed { get; set; } = 500f;
+    [ExportGroup("Gravity Well")] [Export] public float GravityWellProjectileSpeed { get; set; } = 500f;
     [Export] public float GravityWellPullStrength { get; set; } = 300f;
     [Export] public float GravityWellRadius { get; set; } = 100f;
     [Export] public float GravityWellDuration { get; set; } = 3f;
-    [Export] public float GravityWellDamage { get; set; } = 0f;
+    [Export] public float GravityWellDamage { get; set; }
 
     public int Gold { get; private set; }
 
     private float _health;
-    public float Health => _health;
+
+    public float Health
+    {
+        get { return _health; }
+    }
 
     public void AddGold(int amount)
     {
@@ -43,7 +50,9 @@ public partial class PlayerStats : Node
     public bool SpendGold(int amount)
     {
         if (!CanAfford(amount))
+        {
             return false;
+        }
 
         Gold -= amount;
         return true;
@@ -67,39 +76,43 @@ public partial class PlayerStats : Node
 
     public void ApplyUpgrade(string statKey, float amount)
     {
-        switch (statKey.ToLowerInvariant())
+        switch (statKey.ToUpperInvariant())
         {
-            case "max_health":
+            case "MAX_HEALTH":
                 MaxHealth += amount;
                 Heal(amount);
                 break;
 
-            case "damage":
+            case "DAMAGE":
                 AttackDamage += amount;
                 break;
 
-            case "move_speed":
+            case "MOVE_SPEED":
                 MoveSpeed += amount;
                 break;
 
-            case "attack_speed":
-                AttackCooldown = Mathf.Max(0.15f, AttackCooldown * (1.0f - (amount / 100.0f)));
+            case "ATTACK_SPEED":
+                AttackCooldown = Mathf.Max(
+                    0.15f,
+                    AttackCooldown * (1.0f - amount / 100.0f));
                 break;
 
-            case "defense":
+            case "DEFENSE":
                 Defense += amount;
                 break;
 
-            case "lifesteal":
+            case "LIFESTEAL":
                 Lifesteal += amount;
                 break;
 
-            case "luck":
+            case "LUCK":
                 Luck += amount;
                 break;
 
-            case "cooldown":
-                AttackCooldown = Mathf.Max(0.15f, AttackCooldown * 0.85f);
+            case "COOLDOWN":
+                AttackCooldown = Mathf.Max(
+                    0.15f,
+                    AttackCooldown * 0.85f);
                 break;
 
             default:

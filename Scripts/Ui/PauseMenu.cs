@@ -1,4 +1,5 @@
 using Godot;
+using NightFall.Scripts.Core;
 
 namespace NightFall.Scripts.Ui;
 
@@ -10,19 +11,17 @@ public partial class PauseMenu : CanvasLayer
     public override void _Ready()
     {
         ProcessMode = ProcessModeEnum.Always;
-        _optionsScene = GD.Load<PackedScene>("res://Scenes/UI/OptionsMenu/OptionsMenu.tscn");
+        _optionsScene = GD.Load<PackedScene>(GamePaths.OptionsMenu);
 
         this.AttachJuiceToTree();
         Hide();
     }
 
-    public override void _UnhandledInput(InputEvent inputEvent)
+    public override void _UnhandledInput(InputEvent @event)
     {
-        if (!inputEvent.IsActionPressed("pause"))
-            return;
+        if (!@event.IsActionPressed("pause")) return;
 
         TogglePause();
-
         GetViewport().SetInputAsHandled();
     }
 
@@ -66,7 +65,7 @@ public partial class PauseMenu : CanvasLayer
     private void OnQuitButtonPressed()
     {
         GetTree().Paused = false;
-        GetTree().ChangeSceneToFile("res://Scenes/UI/MainMenu/MainMenu.tscn");
+        GetTree().ChangeSceneToFile(GamePaths.MainMenu);
     }
 
     private void EnsureOptionsMenu()

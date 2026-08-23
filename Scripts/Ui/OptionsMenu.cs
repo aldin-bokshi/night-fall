@@ -46,27 +46,27 @@ public partial class OptionsMenu : CanvasLayer
         _closeButton.GrabFocus();
     }
 
-    private void OnMasterChanged(double value)
+    private static void OnMasterChanged(double value)
     {
         AudioSynthManager.MasterVolume = (float)(value / 100.0);
     }
 
-    private void OnSfxChanged(double value)
+    private static void OnSfxChanged(double value)
     {
         AudioSynthManager.SfxVolume = (float)(value / 100.0);
     }
 
-    private void OnMusicChanged(double value)
+    private static void OnMusicChanged(double value)
     {
         AudioSynthManager.MusicVolume = (float)(value / 100.0);
     }
 
-    private void OnShakeToggled(bool toggled)
+    private static void OnShakeToggled(bool toggled)
     {
         AudioSynthManager.ScreenShakeEnabled = toggled;
     }
 
-    private void OnFullscreenToggled(bool toggled)
+    private static void OnFullscreenToggled(bool toggled)
     {
         DisplayServer.WindowSetMode(toggled ? DisplayServer.WindowMode.Fullscreen : DisplayServer.WindowMode.Windowed);
     }

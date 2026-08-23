@@ -69,7 +69,6 @@ offset = Vector2(10, 10)
 flip_v = true
 
 [node name="Camera2D" type="Camera2D" parent="." unique_id=489290889]
-zoom = Vector2(2, 2)
 position_smoothing_enabled = true
 
 [node name="Hurtbox" type="Area2D" parent="." unique_id=153235879]

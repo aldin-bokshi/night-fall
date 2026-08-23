@@ -14,7 +14,7 @@ public partial class ShopTrigger : Area2D
 
     public override void _Ready()
     {
-        _shopScene = GD.Load<PackedScene>("res://Scenes/Shop/Shop.tscn");
+        _shopScene = GD.Load<PackedScene>(GamePaths.Shop);
 
         BodyEntered += OnBodyEntered;
         BodyExited += OnBodyExited;

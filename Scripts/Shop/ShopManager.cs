@@ -3,13 +3,18 @@ using System.Collections.Generic;
 using System.Text.Json;
 using Godot;
 using NightFall.Data.Shop;
+using NightFall.Scripts.Core;
 
 namespace NightFall.Scripts.Shop;
 
 public partial class ShopManager : Node
 {
-    private const string ShopItemsPath = "res://Data/Shop/ShopItems.json";
     private const int ShopItemCount = 3;
+
+    private static readonly JsonSerializerOptions JsonOptions = new()
+    {
+        PropertyNameCaseInsensitive = true
+    };
 
     private List<ItemData>? _allItems;
     private readonly List<ItemData> _currentItems = [];
@@ -28,7 +33,8 @@ public partial class ShopManager : Node
         _leaveButton ??= GetParent().GetNodeOrNull<Button>("Leave");
 
         if (_leaveButton != null) _leaveButton.Pressed += OnLeavePressed;
-        else GD.PushWarning("ShopManager: Leave button could not be found.");
+        GD.PushWarning(
+            "ShopManager: Leave button could not be found.");
     }
 
     private void DisplayShopItems()
@@ -49,37 +55,37 @@ public partial class ShopManager : Node
 
     private void LoadItems()
     {
-        if (!FileAccess.FileExists(ShopItemsPath))
+        if (!FileAccess.FileExists(GamePaths.ShopItems))
         {
             GD.PushError(
-                $"ShopManager: Shop item file not found: {ShopItemsPath}"
-            );
+                $"ShopManager: Shop item file not found: " +
+                $"{GamePaths.ShopItems}");
 
             return;
         }
 
-        string json = FileAccess.GetFileAsString(ShopItemsPath);
+        string json = FileAccess.GetFileAsString(
+            GamePaths.ShopItems);
 
         if (string.IsNullOrWhiteSpace(json))
         {
-            GD.PushError("ShopManager: Shop item file is empty.");
+            GD.PushError(
+                "ShopManager: Shop item file is empty.");
+
             return;
         }
-
-        JsonSerializerOptions options = new(){PropertyNameCaseInsensitive = true};
 
         try
         {
             _allItems = JsonSerializer.Deserialize<List<ItemData>>(
                 json,
-                options
-            );
+                JsonOptions);
         }
         catch (JsonException exception)
         {
             GD.PushError(
-                $"ShopManager: Failed to parse shop items: {exception.Message}"
-            );
+                $"ShopManager: Failed to parse shop items: " +
+                $"{exception.Message}");
         }
     }
 
@@ -89,11 +95,15 @@ public partial class ShopManager : Node
 
         if (_allItems == null || _allItems.Count == 0)
         {
-            GD.PushWarning("ShopManager: No shop items are available.");
+            GD.PushWarning(
+                "ShopManager: No shop items are available.");
+
             return;
         }
 
-        int itemCount = Math.Min(ShopItemCount, _allItems.Count);
+        int itemCount = Math.Min(
+            ShopItemCount,
+            _allItems.Count);
 
         Random random = new();
 
@@ -102,7 +112,9 @@ public partial class ShopManager : Node
             int randomIndex = random.Next(_allItems.Count);
             ItemData item = _allItems[randomIndex];
 
-            if (!_currentItems.Contains(item)) _currentItems.Add(item);
+            if (_currentItems.Contains(item)) continue;
+
+            _currentItems.Add(item);
         }
     }
 

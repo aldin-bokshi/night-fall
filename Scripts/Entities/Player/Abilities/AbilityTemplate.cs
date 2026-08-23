@@ -1,14 +1,8 @@
-using Godot;
-
 namespace NightFall.Scripts.Entities.Player.Abilities;
 
 // Duplicate this file to create a new ability.
 public partial class AbilityTemplate : Ability
 {
-    // Exported settings belong here.
-    // Example:
-    // [Export] public float Damage { get; set; } = 30f;
-
     private Player? _player;
 
     public override void _Ready()
