@@ -1,4 +1,70 @@
 root = true
 
-[*]
-charset = utf-8
+[*.cs]
+
+# ============================================================
+# Microsoft .NET analyzers
+# ============================================================
+
+# Godot owns Node/Resource lifecycle.
+# Do not manually Dispose Godot objects referenced by scripts.
+dotnet_diagnostic.CA2213.severity = none
+dotnet_diagnostic.CA2000.severity = none
+
+# Godot frequently passes framework-managed objects to callbacks.
+dotnet_diagnostic.CA1062.severity = none
+
+# Godot/game randomness is not security-sensitive.
+dotnet_diagnostic.CA5394.severity = none
+
+# ============================================================
+# Naming
+# ============================================================
+
+# These conflict with Godot's natural namespace structure:
+# NightFall.Scripts.Entities.Player.Player
+# NightFall.Scripts.Entities.Enemy.Enemy
+dotnet_diagnostic.CA1724.severity = none
+
+# ============================================================
+# Localization
+# ============================================================
+
+# Game/UI strings generally should not be culture-sensitive.
+dotnet_diagnostic.CA1304.severity = warning
+dotnet_diagnostic.CA1308.severity = warning
+dotnet_diagnostic.CA1311.severity = warning
+
+# ============================================================
+# API/design rules
+# ============================================================
+
+dotnet_diagnostic.CA1024.severity = warning
+dotnet_diagnostic.CA1819.severity = warning
+dotnet_diagnostic.CA1812.severity = none
+
+# ============================================================
+# Meziantou
+# ============================================================
+
+dotnet_diagnostic.MA0016.severity = warning
+dotnet_diagnostic.MA0002.severity = warning
+dotnet_diagnostic.MA0011.severity = warning
+
+# Conflicts with Godot's natural namespace structure:
+# NightFall.Scripts.Entities.Enemy.Enemy
+# NightFall.Scripts.Entities.Player.Player
+# NightFall.Scripts.Game.Game
+dotnet_diagnostic.MA0049.severity = none
+
+dotnet_diagnostic.MA0051.severity = warning
+dotnet_diagnostic.MA0006.severity = warning
+dotnet_diagnostic.MA0074.severity = warning
+
+# ============================================================
+# Performance
+# ============================================================
+
+dotnet_diagnostic.CA1869.severity = warning
+dotnet_diagnostic.CA1834.severity = warning
+dotnet_diagnostic.CA1307.severity = warning

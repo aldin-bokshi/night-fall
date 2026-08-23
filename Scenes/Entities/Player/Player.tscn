@@ -1,13 +1,17 @@
 [gd_scene format=3 uid="uid://bof1fhytmmkh8"]
 
-[ext_resource type="Script" uid="uid://l6hj0ff2626w" path="res://Scripts/Player/Player.cs" id="1"]
+[ext_resource type="Script" uid="uid://l6hj0ff2626w" path="res://Scripts/Entities/Player/Player.cs" id="1"]
 [ext_resource type="Texture2D" uid="uid://0ijbs582lvsf" path="res://icon.svg" id="1_7kpwk"]
-[ext_resource type="Script" uid="uid://b27ru47b1rrqe" path="res://Scripts/Player/PlayerInput.cs" id="2"]
-[ext_resource type="Script" uid="uid://dq2eg4s4hl5ru" path="res://Scripts/Player/PlayerMovement.cs" id="3"]
-[ext_resource type="Script" uid="uid://if02qxt8sylk" path="res://Scripts/Player/PlayerCombat.cs" id="4"]
-[ext_resource type="Script" uid="uid://cip1rwlrwxm8x" path="res://Scripts/Player/PlayerDash.cs" id="5"]
-[ext_resource type="Script" uid="uid://8030dn4cne8s" path="res://Scripts/Player/PlayerStats.cs" id="6"]
-[ext_resource type="Script" uid="uid://c2r7ka3xadser" path="res://Scripts/Player/AttackHitbox.cs" id="8_vgr12"]
+[ext_resource type="Script" uid="uid://b27ru47b1rrqe" path="res://Scripts/Entities/Player/PlayerInput.cs" id="2"]
+[ext_resource type="Script" uid="uid://dq2eg4s4hl5ru" path="res://Scripts/Entities/Player/PlayerMovement.cs" id="3"]
+[ext_resource type="Script" uid="uid://if02qxt8sylk" path="res://Scripts/Entities/Player/PlayerCombat.cs" id="4"]
+[ext_resource type="Script" uid="uid://8030dn4cne8s" path="res://Scripts/Entities/Player/PlayerStats.cs" id="6"]
+[ext_resource type="Script" uid="uid://dgb30b0dbth81" path="res://Scripts/Entities/Player/Abilities/AbilityManager.cs" id="8_446ba"]
+[ext_resource type="Script" uid="uid://c2r7ka3xadser" path="res://Scripts/Entities/Player/AttackHitbox.cs" id="8_vgr12"]
+[ext_resource type="Script" uid="uid://cami5ob051yfi" path="res://Scripts/Entities/Player/Abilities/BlinkAbility.cs" id="9_blink"]
+[ext_resource type="Resource" uid="uid://cka6mlj87qmrp" path="res://Data/Abilities/BlinkAbility.tres" id="10_blink_data"]
+[ext_resource type="Script" uid="uid://dyh4bx07wb64e" path="res://Scripts/Entities/Player/Abilities/GravityWellAbility.cs" id="11_gravity_well"]
+[ext_resource type="Resource" uid="uid://bk7u7rour7ka3" path="res://Data/Abilities/GravityWell.tres" id="12_gravity_well_data"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_hi4ft"]
 size = Vector2(120, 60)
@@ -15,7 +19,7 @@ size = Vector2(120, 60)
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_7eeh3"]
 size = Vector2(105, 96)
 
-[node name="Player" type="CharacterBody2D" groups=["player"] unique_id=2146797552]
+[node name="Player" type="CharacterBody2D" unique_id=2146797552 groups=["player"]]
 collision_layer = 2
 collision_mask = 5
 script = ExtResource("1")
@@ -29,13 +33,20 @@ script = ExtResource("3")
 [node name="PlayerCombat" type="Node" parent="." unique_id=123456791]
 script = ExtResource("4")
 
-[node name="PlayerDash" type="Node" parent="." unique_id=123456792]
-script = ExtResource("5")
-
 [node name="PlayerStats" type="Node" parent="." unique_id=123456793]
 script = ExtResource("6")
 MoveSpeed = 300.0
-DashSpeed = 600.0
+
+[node name="AbilityManager" type="Node" parent="." unique_id=149557888]
+script = ExtResource("8_446ba")
+
+[node name="GravityWellAbility" type="Node" parent="AbilityManager" unique_id=123456794]
+script = ExtResource("11_gravity_well")
+Data = ExtResource("12_gravity_well_data")
+
+[node name="BlinkAbility" type="Node" parent="AbilityManager" unique_id=123456792]
+script = ExtResource("9_blink")
+Data = ExtResource("10_blink_data")
 
 [node name="Sprite2D" type="Sprite2D" parent="." unique_id=527130436]
 texture = ExtResource("1_7kpwk")
@@ -51,8 +62,8 @@ shape = SubResource("RectangleShape2D_hi4ft")
 debug_color = Color(0.96862745, 0, 0, 0.49411765)
 
 [node name="Sprite2D" type="Sprite2D" parent="AttackHitbox/CollisionShape2D" unique_id=432637568]
-position = Vector2(-1, 2.5)
-scale = Vector2(0.5, 0.5)
+position = Vector2(-10.109379, -4.343749)
+scale = Vector2(0.9609375, 0.48437503)
 texture = ExtResource("1_7kpwk")
 offset = Vector2(10, 10)
 flip_v = true

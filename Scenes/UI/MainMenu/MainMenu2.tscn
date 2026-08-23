@@ -1,0 +1,238 @@
+[gd_scene format=3 uid="uid://5dh8nrsb81px"]
+
+[ext_resource type="Script" uid="uid://dc0od1at4av7g" path="res://Scripts/Ui/MainMenu.cs" id="1_les83"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxPanel"]
+bg_color = Color(0.055, 0.045, 0.05, 0.94)
+border_width_left = 1
+border_width_top = 1
+border_width_right = 1
+border_width_bottom = 1
+border_color = Color(0.35, 0.08, 0.08, 0.7)
+corner_radius_top_left = 6
+corner_radius_top_right = 6
+corner_radius_bottom_right = 6
+corner_radius_bottom_left = 6
+shadow_color = Color(0, 0, 0, 0.55)
+shadow_size = 18
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxButtonNormal"]
+bg_color = Color(0.095, 0.08, 0.09, 0.95)
+border_width_left = 1
+border_width_top = 1
+border_width_right = 1
+border_width_bottom = 1
+border_color = Color(0.24, 0.19, 0.2, 0.9)
+corner_radius_top_left = 4
+corner_radius_top_right = 4
+corner_radius_bottom_right = 4
+corner_radius_bottom_left = 4
+content_margin_left = 24.0
+content_margin_right = 24.0
+content_margin_top = 12.0
+content_margin_bottom = 12.0
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxButtonHover"]
+bg_color = Color(0.18, 0.055, 0.06, 1)
+border_width_left = 1
+border_width_top = 1
+border_width_right = 1
+border_width_bottom = 1
+border_color = Color(0.65, 0.12, 0.12, 1)
+corner_radius_top_left = 4
+corner_radius_top_right = 4
+corner_radius_bottom_right = 4
+corner_radius_bottom_left = 4
+content_margin_left = 24.0
+content_margin_right = 24.0
+content_margin_top = 12.0
+content_margin_bottom = 12.0
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxButtonPressed"]
+bg_color = Color(0.28, 0.07, 0.075, 1)
+border_width_left = 2
+border_width_top = 2
+border_width_right = 2
+border_width_bottom = 2
+border_color = Color(0.75, 0.16, 0.16, 1)
+corner_radius_top_left = 4
+corner_radius_top_right = 4
+corner_radius_bottom_right = 4
+corner_radius_bottom_left = 4
+content_margin_left = 23.0
+content_margin_right = 23.0
+content_margin_top = 11.0
+content_margin_bottom = 11.0
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxFocus"]
+
+[node name="MainMenu" type="Control" unique_id=1941353342]
+
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_les83")
+
+[node name="Background" type="ColorRect" parent="." unique_id=746918129]
+
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+color = Color(0.025, 0.022, 0.027, 1)
+
+[node name="TopShade" type="ColorRect" parent="." unique_id=135739421]
+
+layout_mode = 1
+anchors_preset = 10
+anchor_right = 1.0
+offset_bottom = 180.0
+grow_horizontal = 2
+mouse_filter = 2
+color = Color(0.08, 0.025, 0.03, 0.7)
+
+[node name="BottomShade" type="ColorRect" parent="." unique_id=135739422]
+
+layout_mode = 1
+anchors_preset = 12
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_top = -180.0
+grow_horizontal = 2
+grow_vertical = 0
+mouse_filter = 2
+color = Color(0.015, 0.012, 0.018, 0.85)
+
+[node name="MenuPanel" type="Panel" parent="." unique_id=873429521]
+
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -210.0
+offset_top = -250.0
+offset_right = 210.0
+offset_bottom = 250.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_styles/panel = SubResource("StyleBoxPanel")
+
+[node name="Content" type="VBoxContainer" parent="MenuPanel" unique_id=873429522]
+
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 35.0
+offset_top = 35.0
+offset_right = -35.0
+offset_bottom = -35.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/separation = 12
+
+[node name="TopSpacer" type="Control" parent="MenuPanel/Content"]
+
+custom_minimum_size = Vector2(0, 25)
+layout_mode = 2
+
+[node name="Title" type="Label" parent="MenuPanel/Content" unique_id=359369628]
+
+layout_mode = 2
+theme_override_colors/font_color = Color(0.82, 0.12, 0.12, 1)
+theme_override_colors/font_shadow_color = Color(0, 0, 0, 0.8)
+theme_override_constants/shadow_offset_x = 3
+theme_override_constants/shadow_offset_y = 4
+theme_override_font_sizes/font_size = 62
+text = "NIGHT FALL"
+horizontal_alignment = 1
+
+[node name="Subtitle" type="Label" parent="MenuPanel/Content"]
+
+layout_mode = 2
+theme_override_colors/font_color = Color(0.52, 0.48, 0.5, 1)
+theme_override_font_sizes/font_size = 15
+text = "THE NIGHT REMEMBERS"
+horizontal_alignment = 1
+
+[node name="Divider" type="HSeparator" parent="MenuPanel/Content"]
+
+custom_minimum_size = Vector2(0, 2)
+layout_mode = 2
+
+[node name="MenuSpacer" type="Control" parent="MenuPanel/Content"]
+
+custom_minimum_size = Vector2(0, 18)
+layout_mode = 2
+
+[node name="StartButton" type="Button" parent="MenuPanel/Content" unique_id=1346452155]
+
+custom_minimum_size = Vector2(0, 54)
+layout_mode = 2
+mouse_default_cursor_shape = 2
+theme_override_colors/font_color = Color(0.9, 0.88, 0.88, 1)
+theme_override_colors/font_hover_color = Color(1, 0.88, 0.88, 1)
+theme_override_colors/font_pressed_color = Color(1, 1, 1, 1)
+theme_override_colors/font_focus_color = Color(0.9, 0.88, 0.88, 1)
+theme_override_font_sizes/font_size = 22
+theme_override_styles/normal = SubResource("StyleBoxButtonNormal")
+theme_override_styles/hover = SubResource("StyleBoxButtonHover")
+theme_override_styles/pressed = SubResource("StyleBoxButtonPressed")
+theme_override_styles/focus = SubResource("StyleBoxFocus")
+text = "BEGIN DESCENT"
+
+[node name="OptionsButton" type="Button" parent="MenuPanel/Content" unique_id=407700652]
+
+custom_minimum_size = Vector2(0, 54)
+layout_mode = 2
+mouse_default_cursor_shape = 2
+theme_override_colors/font_color = Color(0.72, 0.69, 0.71, 1)
+theme_override_colors/font_hover_color = Color(0.95, 0.88, 0.88, 1)
+theme_override_colors/font_pressed_color = Color(1, 1, 1, 1)
+theme_override_font_sizes/font_size = 20
+theme_override_styles/normal = SubResource("StyleBoxButtonNormal")
+theme_override_styles/hover = SubResource("StyleBoxButtonHover")
+theme_override_styles/pressed = SubResource("StyleBoxButtonPressed")
+theme_override_styles/focus = SubResource("StyleBoxFocus")
+text = "OPTIONS"
+
+[node name="QuitButton" type="Button" parent="MenuPanel/Content" unique_id=194379249]
+
+custom_minimum_size = Vector2(0, 54)
+layout_mode = 2
+mouse_default_cursor_shape = 2
+theme_override_colors/font_color = Color(0.72, 0.69, 0.71, 1)
+theme_override_colors/font_hover_color = Color(0.95, 0.88, 0.88, 1)
+theme_override_colors/font_pressed_color = Color(1, 1, 1, 1)
+theme_override_font_sizes/font_size = 20
+theme_override_styles/normal = SubResource("StyleBoxButtonNormal")
+theme_override_styles/hover = SubResource("StyleBoxButtonHover")
+theme_override_styles/pressed = SubResource("StyleBoxButtonPressed")
+theme_override_styles/focus = SubResource("StyleBoxFocus")
+text = "QUIT"
+
+[node name="BottomSpacer" type="Control" parent="MenuPanel/Content"]
+
+custom_minimum_size = Vector2(0, 20)
+size_flags_vertical = 3
+layout_mode = 2
+
+[node name="Version" type="Label" parent="MenuPanel/Content"]
+
+layout_mode = 2
+theme_override_colors/font_color = Color(0.35, 0.32, 0.34, 1)
+theme_override_font_sizes/font_size = 12
+text = "NIGHTFALL  •  EARLY BUILD"
+horizontal_alignment = 1
+
+[connection signal="pressed" from="MenuPanel/Content/StartButton" to="." method="OnStartButtonPressed"]
+[connection signal="pressed" from="MenuPanel/Content/QuitButton" to="." method="OnQuitButtonPressed"]

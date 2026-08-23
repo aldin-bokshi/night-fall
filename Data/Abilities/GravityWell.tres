@@ -1,0 +1,11 @@
+[gd_resource type="Resource" script_class="AbilityData" format=3 uid="uid://bk7u7rour7ka3"]
+
+[ext_resource type="Texture2D" uid="uid://rxiihyb57klg" path="res://Assets/Sprites/Abilities/GravityWell.png" id="1_8c5tl"]
+[ext_resource type="Script" uid="uid://cetm4n47jw1tm" path="res://Scripts/Entities/Player/Abilities/AbilityData.cs" id="1_l07ft"]
+
+[resource]
+script = ExtResource("1_l07ft")
+AbilityName = "GRAVITY WELL"
+Icon = ExtResource("1_8c5tl")
+CooldownDuration = 8.0
+metadata/_custom_type_script = "uid://cetm4n47jw1tm"

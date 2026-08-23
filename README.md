@@ -1,19 +1,21 @@
 # NightFall
 
-A 2D top-down roguelike made with Godot and C#.
+NightFall is a Godot 4.7 Mono C# top-down roguelike in active development.
 
-Explore rooms, fight enemies, collect upgrades, and survive your run as you
-work toward increasingly difficult encounters.
+The current codebase focuses on:
 
-> 🚧 NightFall is currently in active development.
+- Player movement, combat, stats, and abilities
+- Enemy chase and attack behavior
+- A data-driven shop display
+- HUD, pause, and death overlays
+- Scene-driven dungeon and menu flow
 
-## Running the Project
+## Quick Start
 
-1. Clone the repository.
-2. Open the project in Godot.
-3. Make sure the .NET 8.0 SDK is installed.
-4. Open the project.
-5. Run the main scene.
+1. Open the project in Godot 4.7 with the .NET 8 SDK installed.
+2. Run the project from the editor.
+3. The project starts on the main menu.
+4. Choose Start, configure a run, and start the active gameplay scene.
 
 ## Controls
 
@@ -21,72 +23,30 @@ work toward increasingly difficult encounters.
 |-----|--------|
 | WASD | Move |
 | Left Click | Attack |
-| Left Shift | Dash |
+| Left Shift | Blink ability |
+| Q | Gravity Well |
 | Esc | Pause |
+
+## Documentation
+
+Developer docs live in [`Docs/README.md`](Docs/README.md).
+
+If you are changing gameplay, that is the best place to start.
+
+## Current Notes
+
+- The current playable scene launched by the main menu is `Scenes/Game.tscn`
+- `Scenes/Dungeon/Dev/TestWorld.tscn` remains a standalone developer fixture
+- The player currently has two abilities instantiated in-scene: `BlinkAbility` and `GravityWellAbility`
+- The shop currently displays items from JSON, but purchase handling is not implemented yet
+- Room activation and progression are still partial
 
 ## Built With
 
-- Godot 4
+- Godot 4.7
 - C#
 - .NET 8
-- ReSharper InspectCode
-- Visual Studio Code
 - Git / GitHub
-
-## Current Features
-
-- [x] Player movement
-- [x] Player combat
-- [x] Player dash
-- [x] Player stats
-- [x] Enemy AI
-- [x] Enemy movement
-- [x] Enemy combat
-- [x] Enemy health and death
-- [x] Player damage
-- [x] Room system
-- [x] Shop system
-- [x] Shop item data
-- [x] Stat upgrades
-- [ ] Gold system
-- [x] HUD
-- [x] Dash cooldown UI
-- [x] Pause system
-- [ ] Main menu
-
-## Roadmap
-
-### Core Gameplay
-- [ ] Room activation
-- [ ] Room completion
-- [ ] Room progression
-- [ ] Enemy rewards
-- [ ] Room rewards
-- [ ] Death / restart
-- [ ] Win condition
-
-### Roguelike
-- [ ] Procedural room generation
-- [ ] Random room selection
-- [ ] Run progression
-- [ ] More upgrades
-- [ ] More enemy types
-- [ ] Boss
-- [ ] Boss room
-
-### Polish
-- [ ] Improved pixel art
-- [ ] Attack effects
-- [ ] Hit effects
-- [ ] Enemy death effects
-- [ ] Sound effects
-- [ ] Music
-- [ ] Screen shake
-- [ ] UI polish
-
-## Credits
-
-Created by Aldin Bokshi.
 
 ## License
 

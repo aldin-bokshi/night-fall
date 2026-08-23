@@ -1,11 +1,11 @@
 [gd_scene format=3 uid="uid://dul7167pwxfxl"]
 
 [ext_resource type="Texture2D" uid="uid://0ijbs582lvsf" path="res://icon.svg" id="1_154ox"]
-[ext_resource type="Script" uid="uid://cxwi4prmnlfw0" path="res://Scripts/Enemy/Enemy.cs" id="1_nardh"]
-[ext_resource type="Script" uid="uid://jmtd7arlubcl" path="res://Scripts/Enemy/EnemyAi.cs" id="2_ksb14"]
-[ext_resource type="Script" uid="uid://4ru8jkppc5m1" path="res://Scripts/Enemy/EnemyMovement.cs" id="3_54i7w"]
-[ext_resource type="Script" uid="uid://c88i3kdtfttf7" path="res://Scripts/Enemy/EnemyStats.cs" id="4_odyh0"]
-[ext_resource type="Script" uid="uid://dfkoha87vp076" path="res://Scripts/Enemy/EnemyCombat.cs" id="5_a1r25"]
+[ext_resource type="Script" uid="uid://cxwi4prmnlfw0" path="res://Scripts/Entities/Enemy/Enemy.cs" id="1_nardh"]
+[ext_resource type="Script" uid="uid://jmtd7arlubcl" path="res://Scripts/Entities/Enemy/EnemyAi.cs" id="2_ksb14"]
+[ext_resource type="Script" uid="uid://4ru8jkppc5m1" path="res://Scripts/Entities/Enemy/EnemyMovement.cs" id="3_54i7w"]
+[ext_resource type="Script" uid="uid://c88i3kdtfttf7" path="res://Scripts/Entities/Enemy/EnemyStats.cs" id="4_odyh0"]
+[ext_resource type="Script" uid="uid://dfkoha87vp076" path="res://Scripts/Entities/Enemy/EnemyCombat.cs" id="5_a1r25"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_c7dah"]
 size = Vector2(120, 60)
@@ -13,7 +13,7 @@ size = Vector2(120, 60)
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_xslkb"]
 size = Vector2(156, 163)
 
-[node name="Enemy" type="CharacterBody2D" unique_id=101112059]
+[node name="Enemy" type="CharacterBody2D" unique_id=101112059 groups=["enemy"]]
 collision_layer = 4
 collision_mask = 3
 script = ExtResource("1_nardh")

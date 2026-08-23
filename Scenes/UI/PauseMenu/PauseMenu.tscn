@@ -1,0 +1,273 @@
+[gd_scene format=3 uid="uid://opip11aujstv"]
+
+[ext_resource type="Script" uid="uid://bamcdjxh7j572" path="res://Scripts/Ui/PauseMenu.cs" id="1_pause"]
+
+[sub_resource type="StyleBoxFlat" id="PanelStyle"]
+bg_color = Color(0.045, 0.047, 0.06, 0.97)
+border_width_left = 1
+border_width_top = 1
+border_width_right = 1
+border_width_bottom = 1
+border_color = Color(0.34, 0.22, 0.23, 0.9)
+corner_radius_top_left = 6
+corner_radius_top_right = 6
+corner_radius_bottom_right = 6
+corner_radius_bottom_left = 6
+shadow_color = Color(0, 0, 0, 0.65)
+shadow_size = 24
+
+[sub_resource type="StyleBoxFlat" id="ButtonNormal"]
+content_margin_left = 18.0
+content_margin_top = 9.0
+content_margin_right = 18.0
+content_margin_bottom = 9.0
+bg_color = Color(0.09, 0.085, 0.1, 1)
+border_width_left = 1
+border_width_top = 1
+border_width_right = 1
+border_width_bottom = 1
+border_color = Color(0.24, 0.22, 0.26, 1)
+corner_radius_top_left = 4
+corner_radius_top_right = 4
+corner_radius_bottom_right = 4
+corner_radius_bottom_left = 4
+
+[sub_resource type="StyleBoxFlat" id="ButtonPressed"]
+content_margin_left = 16.0
+content_margin_top = 9.0
+content_margin_right = 18.0
+content_margin_bottom = 9.0
+bg_color = Color(0.3, 0.085, 0.065, 1)
+border_width_left = 3
+border_width_top = 1
+border_width_right = 1
+border_width_bottom = 1
+border_color = Color(1, 0.48, 0.2, 1)
+corner_radius_top_left = 4
+corner_radius_top_right = 4
+corner_radius_bottom_right = 4
+corner_radius_bottom_left = 4
+
+[sub_resource type="StyleBoxFlat" id="ButtonHover"]
+content_margin_left = 16.0
+content_margin_top = 9.0
+content_margin_right = 18.0
+content_margin_bottom = 9.0
+bg_color = Color(0.2, 0.07, 0.065, 1)
+border_width_left = 3
+border_width_top = 1
+border_width_right = 1
+border_width_bottom = 1
+border_color = Color(0.88, 0.28, 0.14, 1)
+corner_radius_top_left = 4
+corner_radius_top_right = 4
+corner_radius_bottom_right = 4
+corner_radius_bottom_left = 4
+
+[sub_resource type="StyleBoxFlat" id="InfoStyle"]
+bg_color = Color(0.06, 0.058, 0.07, 0.9)
+border_width_left = 1
+border_width_top = 1
+border_width_right = 1
+border_width_bottom = 1
+border_color = Color(0.2, 0.19, 0.22, 0.9)
+corner_radius_top_left = 5
+corner_radius_top_right = 5
+corner_radius_bottom_right = 5
+corner_radius_bottom_left = 5
+
+[node name="PauseScreen2" type="CanvasLayer" unique_id=1368277207]
+process_mode = 3
+layer = 10
+script = ExtResource("1_pause")
+
+[node name="Dimmer" type="ColorRect" parent="." unique_id=1779564659]
+offset_right = 1152.0
+offset_bottom = 648.0
+mouse_filter = 2
+color = Color(0.01, 0.012, 0.02, 0.62)
+
+[node name="TopAccent" type="ColorRect" parent="." unique_id=1014105941]
+offset_right = 1152.0
+offset_bottom = 2.0
+mouse_filter = 2
+color = Color(0.72, 0.22, 0.12, 0.85)
+
+[node name="BottomAccent" type="ColorRect" parent="." unique_id=1760181476]
+offset_top = 646.0
+offset_right = 1152.0
+offset_bottom = 648.0
+mouse_filter = 2
+color = Color(0.42, 0.13, 0.08, 0.5)
+
+[node name="Panel" type="Panel" parent="." unique_id=1096686670]
+offset_left = 196.0
+offset_top = 79.0
+offset_right = 956.0
+offset_bottom = 569.0
+theme_override_styles/panel = SubResource("PanelStyle")
+
+[node name="Content" type="HBoxContainer" parent="Panel" unique_id=105311285]
+layout_mode = 0
+offset_left = 32.0
+offset_top = 30.0
+offset_right = 728.0
+offset_bottom = 460.0
+theme_override_constants/separation = 24
+
+[node name="ActionColumn" type="VBoxContainer" parent="Panel/Content" unique_id=692676851]
+custom_minimum_size = Vector2(390, 0)
+layout_mode = 2
+size_flags_horizontal = 0
+theme_override_constants/separation = 9
+
+[node name="Eyebrow" type="Label" parent="Panel/Content/ActionColumn" unique_id=1560553369]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.86, 0.32, 0.16, 1)
+theme_override_font_sizes/font_size = 11
+text = "THE DESCENT IS PAUSED"
+
+[node name="Title" type="Label" parent="Panel/Content/ActionColumn" unique_id=418961274]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.95, 0.92, 0.87, 1)
+theme_override_colors/font_shadow_color = Color(0, 0, 0, 0.8)
+theme_override_constants/shadow_offset_x = 2
+theme_override_constants/shadow_offset_y = 3
+theme_override_font_sizes/font_size = 46
+text = "PAUSED"
+
+[node name="TitleRule" type="ColorRect" parent="Panel/Content/ActionColumn" unique_id=307787161]
+custom_minimum_size = Vector2(0, 2)
+layout_mode = 2
+color = Color(0.78, 0.23, 0.12, 0.9)
+
+[node name="Subtitle" type="Label" parent="Panel/Content/ActionColumn" unique_id=149515074]
+custom_minimum_size = Vector2(0, 42)
+layout_mode = 2
+theme_override_colors/font_color = Color(0.55, 0.57, 0.62, 1)
+theme_override_font_sizes/font_size = 14
+text = "The night waits.
+Your run is still alive."
+
+[node name="ActionSpacer" type="Control" parent="Panel/Content/ActionColumn" unique_id=1350311117]
+custom_minimum_size = Vector2(0, 10)
+layout_mode = 2
+
+[node name="ContinueButton" type="Button" parent="Panel/Content/ActionColumn" unique_id=1186977612]
+custom_minimum_size = Vector2(0, 50)
+layout_mode = 2
+mouse_default_cursor_shape = 2
+theme_override_colors/font_color = Color(0.98, 0.94, 0.89, 1)
+theme_override_colors/font_pressed_color = Color(1, 1, 1, 1)
+theme_override_colors/font_hover_color = Color(1, 0.94, 0.84, 1)
+theme_override_font_sizes/font_size = 17
+theme_override_styles/normal = SubResource("ButtonNormal")
+theme_override_styles/pressed = SubResource("ButtonPressed")
+theme_override_styles/hover = SubResource("ButtonHover")
+text = "CONTINUE"
+
+[node name="OptionsButton" type="Button" parent="Panel/Content/ActionColumn" unique_id=167913075]
+custom_minimum_size = Vector2(0, 44)
+layout_mode = 2
+mouse_default_cursor_shape = 2
+theme_override_colors/font_color = Color(0.64, 0.65, 0.7, 1)
+theme_override_colors/font_pressed_color = Color(1, 1, 1, 1)
+theme_override_colors/font_hover_color = Color(0.92, 0.77, 0.66, 1)
+theme_override_font_sizes/font_size = 15
+theme_override_styles/normal = SubResource("ButtonNormal")
+theme_override_styles/pressed = SubResource("ButtonPressed")
+theme_override_styles/hover = SubResource("ButtonHover")
+text = "OPTIONS"
+
+[node name="QuitButton" type="Button" parent="Panel/Content/ActionColumn" unique_id=229573592]
+custom_minimum_size = Vector2(0, 44)
+layout_mode = 2
+mouse_default_cursor_shape = 2
+theme_override_colors/font_color = Color(0.64, 0.65, 0.7, 1)
+theme_override_colors/font_pressed_color = Color(1, 1, 1, 1)
+theme_override_colors/font_hover_color = Color(0.92, 0.77, 0.66, 1)
+theme_override_font_sizes/font_size = 15
+theme_override_styles/normal = SubResource("ButtonNormal")
+theme_override_styles/pressed = SubResource("ButtonPressed")
+theme_override_styles/hover = SubResource("ButtonHover")
+text = "QUIT TO MENU"
+
+[node name="FooterSpacer" type="Control" parent="Panel/Content/ActionColumn" unique_id=654566345]
+layout_mode = 2
+size_flags_vertical = 3
+
+[node name="Footer" type="Label" parent="Panel/Content/ActionColumn" unique_id=9898651]
+custom_minimum_size = Vector2(0, 20)
+layout_mode = 2
+theme_override_colors/font_color = Color(0.32, 0.34, 0.39, 1)
+theme_override_font_sizes/font_size = 10
+text = "NIGHTFALL // RUN IN PROGRESS"
+vertical_alignment = 2
+
+[node name="InfoColumn" type="Panel" parent="Panel/Content" unique_id=1590427960]
+custom_minimum_size = Vector2(250, 0)
+layout_mode = 2
+size_flags_horizontal = 0
+theme_override_styles/panel = SubResource("InfoStyle")
+
+[node name="Info" type="VBoxContainer" parent="Panel/Content/InfoColumn" unique_id=1155233993]
+layout_mode = 0
+offset_left = 18.0
+offset_top = 18.0
+offset_right = 232.0
+offset_bottom = 296.0
+theme_override_constants/separation = 10
+
+[node name="Label" type="Label" parent="Panel/Content/InfoColumn/Info" unique_id=1853174362]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.84, 0.32, 0.17, 1)
+theme_override_font_sizes/font_size = 10
+text = "CURRENT RUN"
+
+[node name="RunTitle" type="Label" parent="Panel/Content/InfoColumn/Info" unique_id=1773173441]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.9, 0.89, 0.86, 1)
+theme_override_font_sizes/font_size = 19
+text = "THE HALLS
+REMEMBER"
+
+[node name="Rule" type="ColorRect" parent="Panel/Content/InfoColumn/Info" unique_id=1487852089]
+custom_minimum_size = Vector2(0, 1)
+layout_mode = 2
+color = Color(0.34, 0.22, 0.21, 0.8)
+
+[node name="Body" type="Label" parent="Panel/Content/InfoColumn/Info" unique_id=1019949550]
+custom_minimum_size = Vector2(0, 62)
+layout_mode = 2
+theme_override_colors/font_color = Color(0.52, 0.55, 0.61, 1)
+theme_override_font_sizes/font_size = 13
+text = "Your progress is held
+in the dark, waiting
+for your next step."
+
+[node name="Hint" type="Label" parent="Panel/Content/InfoColumn/Info" unique_id=682027673]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.64, 0.65, 0.69, 1)
+theme_override_font_sizes/font_size = 10
+text = "PAUSE STATE"
+
+[node name="Status" type="Label" parent="Panel/Content/InfoColumn/Info" unique_id=597810717]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.82, 0.29, 0.16, 1)
+theme_override_font_sizes/font_size = 14
+text = "●  STABLE"
+
+[node name="BottomSpace" type="Control" parent="Panel/Content/InfoColumn/Info" unique_id=246214340]
+layout_mode = 2
+size_flags_vertical = 3
+
+[node name="Mark" type="Label" parent="Panel/Content/InfoColumn/Info" unique_id=1485432806]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.33, 0.35, 0.4, 1)
+theme_override_font_sizes/font_size = 10
+text = "NF / 02"
+horizontal_alignment = 2
+
+[connection signal="pressed" from="Panel/Content/ActionColumn/ContinueButton" to="." method="OnContinueButtonPressed"]
+[connection signal="pressed" from="Panel/Content/ActionColumn/OptionsButton" to="." method="OnOptionsButtonPressed"]
+[connection signal="pressed" from="Panel/Content/ActionColumn/QuitButton" to="." method="OnQuitButtonPressed"]

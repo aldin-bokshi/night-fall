@@ -1,0 +1,100 @@
+[gd_scene format=3 uid="uid://6g1hp5ari348"]
+
+[ext_resource type="Script" uid="uid://bqadv5hh65daf" path="res://Scripts/Entities/Player/Abilities/AbilityUi.cs" id="1_ability_ui"]
+[ext_resource type="Texture2D" uid="uid://cbkiy7aw010vm" path="res://Assets/Vfx/DashCd/CircleEmpty.svg" id="2_circle_empty"]
+[ext_resource type="Texture2D" uid="uid://ccax8xs8hkbgw" path="res://Assets/Vfx/DashCd/CircleFull.svg" id="3_circle_full"]
+
+[sub_resource type="StyleBoxFlat" id="PanelStyle"]
+bg_color = Color(0.02, 0.024, 0.034, 0.94)
+border_width_left = 1
+border_width_top = 1
+border_width_right = 1
+border_width_bottom = 1
+border_color = Color(0.2, 0.23, 0.29, 0.9)
+corner_radius_top_left = 6
+corner_radius_top_right = 6
+corner_radius_bottom_right = 6
+corner_radius_bottom_left = 6
+shadow_color = Color(0, 0, 0, 0.55)
+shadow_size = 10
+
+[node name="AbilityUi" type="Panel" unique_id=650855565]
+custom_minimum_size = Vector2(115, 145)
+theme_override_styles/panel = SubResource("PanelStyle")
+script = ExtResource("1_ability_ui")
+
+[node name="MarginContainer" type="MarginContainer" parent="." unique_id=1609328764]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/margin_left = 10
+theme_override_constants/margin_top = 9
+theme_override_constants/margin_right = 10
+theme_override_constants/margin_bottom = 9
+
+[node name="VBoxContainer" type="VBoxContainer" parent="MarginContainer" unique_id=111996030]
+layout_mode = 2
+theme_override_constants/separation = 5
+
+[node name="Header" type="HBoxContainer" parent="MarginContainer/VBoxContainer" unique_id=1351613603]
+layout_mode = 2
+theme_override_constants/separation = 6
+
+[node name="Name" type="Label" parent="MarginContainer/VBoxContainer/Header" unique_id=606460438]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_colors/font_color = Color(0.92, 0.94, 0.98, 1)
+theme_override_font_sizes/font_size = 11
+text = "BLINK"
+vertical_alignment = 1
+
+[node name="Separator" type="Label" parent="MarginContainer/VBoxContainer/Header" unique_id=771235621]
+layout_mode = 2
+offset_transform_enabled = true
+offset_transform_position = Vector2(-7, 0)
+theme_override_colors/font_color = Color(0.4, 0.44, 0.51, 1)
+theme_override_font_sizes/font_size = 10
+text = "//"
+vertical_alignment = 1
+
+[node name="Input" type="Label" parent="MarginContainer/VBoxContainer/Header" unique_id=799997827]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.96, 0.42, 0.2, 1)
+theme_override_font_sizes/font_size = 10
+text = "SHIFT"
+vertical_alignment = 1
+
+[node name="Icon" type="TextureRect" parent="MarginContainer/VBoxContainer" unique_id=58119243]
+visible = false
+custom_minimum_size = Vector2(32, 32)
+layout_mode = 2
+size_flags_horizontal = 4
+mouse_filter = 2
+expand_mode = 1
+stretch_mode = 5
+
+[node name="Cooldown" type="TextureProgressBar" parent="MarginContainer/VBoxContainer" unique_id=51130675]
+custom_minimum_size = Vector2(76, 76)
+custom_maximum_size = Vector2(76, 76)
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 4
+offset_transform_enabled = true
+offset_transform_position = Vector2(7, 2)
+mouse_filter = 2
+step = 0.1
+value = 100.0
+fill_mode = 4
+radial_initial_angle = 270.0
+texture_under = ExtResource("2_circle_empty")
+texture_progress = ExtResource("3_circle_full")
+
+[node name="CooldownText" type="Label" parent="MarginContainer/VBoxContainer" unique_id=511718977]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.55, 0.59, 0.67, 1)
+theme_override_font_sizes/font_size = 13
+text = "READY"
+horizontal_alignment = 1

@@ -1,0 +1,533 @@
+[gd_scene format=3 uid="uid://ohop7kki1vse"]
+
+[ext_resource type="Script" uid="uid://lkf8n1rjr0er" path="res://Scripts/Ui/DungeonSetup.cs" id="1_setup"]
+[ext_resource type="Script" uid="uid://t3n311e03xwp" path="res://Scripts/Ui/DungeonButtons.cs" id="2_buttons"]
+[ext_resource type="Script" uid="uid://bw7ny6clow116" path="res://Scripts/Ui/DungeonSetupAnimation.cs" id="3_animation"]
+
+[sub_resource type="StyleBoxFlat" id="Panel"]
+bg_color = Color(0.055, 0.052, 0.06, 0.96)
+border_width_left = 1
+border_width_top = 1
+border_width_right = 1
+border_width_bottom = 1
+border_color = Color(0.3, 0.25, 0.28, 0.9)
+corner_radius_top_left = 3
+corner_radius_top_right = 3
+corner_radius_bottom_right = 3
+corner_radius_bottom_left = 3
+shadow_color = Color(0, 0, 0, 0.5)
+shadow_size = 20
+
+[sub_resource type="StyleBoxFlat" id="Input"]
+content_margin_left = 16.0
+content_margin_top = 11.0
+content_margin_right = 16.0
+content_margin_bottom = 11.0
+bg_color = Color(0.07, 0.068, 0.078, 1)
+border_width_left = 1
+border_width_top = 1
+border_width_right = 1
+border_width_bottom = 1
+border_color = Color(0.22, 0.2, 0.24, 1)
+corner_radius_top_left = 2
+corner_radius_top_right = 2
+corner_radius_bottom_right = 2
+corner_radius_bottom_left = 2
+
+[sub_resource type="StyleBoxFlat" id="InputFocus"]
+content_margin_left = 16.0
+content_margin_top = 11.0
+content_margin_right = 16.0
+content_margin_bottom = 11.0
+bg_color = Color(0.085, 0.078, 0.09, 1)
+border_width_left = 2
+border_width_top = 1
+border_width_right = 1
+border_width_bottom = 1
+border_color = Color(0.85, 0.3, 0.17, 1)
+corner_radius_top_left = 2
+corner_radius_top_right = 2
+corner_radius_bottom_right = 2
+corner_radius_bottom_left = 2
+
+[sub_resource type="StyleBoxFlat" id="PreviewPanel"]
+bg_color = Color(0.048, 0.046, 0.053, 0.96)
+border_width_left = 1
+border_width_top = 1
+border_width_right = 1
+border_width_bottom = 1
+border_color = Color(0.22, 0.2, 0.24, 0.9)
+corner_radius_top_left = 3
+corner_radius_top_right = 3
+corner_radius_bottom_right = 3
+corner_radius_bottom_left = 3
+
+[sub_resource type="StyleBoxFlat" id="ModifierNormal"]
+content_margin_left = 12.0
+bg_color = Color(0.075, 0.07, 0.082, 1)
+border_width_left = 2
+border_color = Color(0.22, 0.2, 0.24, 1)
+corner_radius_top_left = 2
+corner_radius_top_right = 2
+corner_radius_bottom_right = 2
+corner_radius_bottom_left = 2
+
+[sub_resource type="StyleBoxFlat" id="ModifierPressed"]
+content_margin_left = 12.0
+bg_color = Color(0.22, 0.075, 0.07, 1)
+border_width_left = 3
+border_color = Color(1, 0.52, 0.24, 1)
+corner_radius_top_left = 2
+corner_radius_top_right = 2
+corner_radius_bottom_right = 2
+corner_radius_bottom_left = 2
+
+[sub_resource type="StyleBoxFlat" id="ModifierHover"]
+content_margin_left = 12.0
+bg_color = Color(0.13, 0.08, 0.085, 1)
+border_width_left = 2
+border_color = Color(0.73, 0.27, 0.18, 1)
+corner_radius_top_left = 2
+corner_radius_top_right = 2
+corner_radius_bottom_right = 2
+corner_radius_bottom_left = 2
+
+[sub_resource type="StyleBoxEmpty" id="Focus"]
+
+[sub_resource type="StyleBoxFlat" id="ButtonNormal"]
+content_margin_left = 18.0
+content_margin_top = 12.0
+content_margin_right = 18.0
+content_margin_bottom = 12.0
+bg_color = Color(0.095, 0.085, 0.1, 0.98)
+border_width_left = 1
+border_width_top = 1
+border_width_right = 1
+border_width_bottom = 1
+border_color = Color(0.25, 0.22, 0.26, 1)
+corner_radius_top_left = 2
+corner_radius_top_right = 2
+corner_radius_bottom_right = 2
+corner_radius_bottom_left = 2
+
+[sub_resource type="StyleBoxFlat" id="ButtonPressed"]
+content_margin_left = 18.0
+content_margin_top = 11.0
+content_margin_right = 18.0
+content_margin_bottom = 11.0
+bg_color = Color(0.33, 0.1, 0.08, 1)
+border_width_left = 3
+border_color = Color(1, 0.52, 0.24, 1)
+corner_radius_top_left = 2
+corner_radius_top_right = 2
+corner_radius_bottom_right = 2
+corner_radius_bottom_left = 2
+
+[sub_resource type="StyleBoxFlat" id="ButtonHover"]
+content_margin_left = 18.0
+content_margin_top = 12.0
+content_margin_right = 18.0
+content_margin_bottom = 12.0
+bg_color = Color(0.22, 0.075, 0.07, 1)
+border_width_left = 3
+border_color = Color(0.9, 0.3, 0.16, 1)
+corner_radius_top_left = 2
+corner_radius_top_right = 2
+corner_radius_bottom_right = 2
+corner_radius_bottom_left = 2
+
+[node name="DungeonSetup" type="Control" unique_id=95563353]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_setup")
+
+[node name="Animation" type="Control" parent="." unique_id=480011153]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+script = ExtResource("3_animation")
+
+[node name="Backdrop" type="ColorRect" parent="." unique_id=773464052]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+color = Color(0.018, 0.022, 0.031, 1)
+
+[node name="HorizonGlow" type="ColorRect" parent="." unique_id=1025930765]
+layout_mode = 1
+anchors_preset = 12
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_top = -230.0
+grow_horizontal = 2
+grow_vertical = 0
+mouse_filter = 2
+color = Color(0.18, 0.038, 0.028, 0.22)
+
+[node name="TopLine" type="ColorRect" parent="." unique_id=693007741]
+layout_mode = 1
+anchors_preset = 10
+anchor_right = 1.0
+offset_bottom = 3.0
+grow_horizontal = 2
+mouse_filter = 2
+color = Color(0.75, 0.23, 0.12, 0.9)
+
+[node name="SideRule" type="ColorRect" parent="." unique_id=2109927797]
+layout_mode = 1
+anchors_preset = 4
+anchor_top = 0.5
+anchor_bottom = 0.5
+offset_left = 35.0
+offset_top = -250.0
+offset_right = 36.0
+offset_bottom = 250.0
+grow_vertical = 2
+mouse_filter = 2
+color = Color(0.65, 0.22, 0.14, 0.5)
+
+[node name="CenterContainer" type="CenterContainer" parent="." unique_id=1904699938]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="MainLayout" type="HBoxContainer" parent="CenterContainer" unique_id=460039289]
+custom_minimum_size = Vector2(1050, 552)
+layout_mode = 2
+theme_override_constants/separation = 24
+
+[node name="SetupPanel" type="Panel" parent="CenterContainer/MainLayout" unique_id=428936738]
+custom_minimum_size = Vector2(620, 552)
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_styles/panel = SubResource("Panel")
+
+[node name="Content" type="VBoxContainer" parent="CenterContainer/MainLayout/SetupPanel" unique_id=539954219]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 38.0
+offset_top = 30.0
+offset_right = -38.0
+offset_bottom = -30.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/separation = 8
+
+[node name="Eyebrow" type="Label" parent="CenterContainer/MainLayout/SetupPanel/Content" unique_id=955607200]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.91, 0.38, 0.2, 1)
+theme_override_font_sizes/font_size = 12
+text = "PREPARE YOUR DESCENT"
+
+[node name="Title" type="Label" parent="CenterContainer/MainLayout/SetupPanel/Content" unique_id=1802421996]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.95, 0.91, 0.84, 1)
+theme_override_colors/font_shadow_color = Color(0, 0, 0, 0.8)
+theme_override_constants/shadow_offset_x = 3
+theme_override_constants/shadow_offset_y = 4
+theme_override_font_sizes/font_size = 42
+text = "DUNGEON SETUP"
+
+[node name="TitleRule" type="ColorRect" parent="CenterContainer/MainLayout/SetupPanel/Content" unique_id=1039390780]
+custom_minimum_size = Vector2(0, 2)
+layout_mode = 2
+color = Color(0.84, 0.26, 0.13, 0.9)
+
+[node name="Description" type="Label" parent="CenterContainer/MainLayout/SetupPanel/Content" unique_id=2123541859]
+custom_minimum_size = Vector2(0, 38)
+layout_mode = 2
+theme_override_colors/font_color = Color(0.57, 0.59, 0.63, 1)
+theme_override_font_sizes/font_size = 14
+text = "Choose how the next descent begins.
+Leave the seed blank for a fresh random run."
+
+[node name="SeedLabel" type="Label" parent="CenterContainer/MainLayout/SetupPanel/Content" unique_id=592990037]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.69, 0.7, 0.73, 1)
+theme_override_font_sizes/font_size = 12
+text = "DUNGEON SEED"
+
+[node name="SeedInput" type="LineEdit" parent="CenterContainer/MainLayout/SetupPanel/Content" unique_id=1151236514]
+custom_minimum_size = Vector2(0, 50)
+layout_mode = 2
+mouse_default_cursor_shape = 2
+theme_override_colors/font_color = Color(0.91, 0.89, 0.86, 1)
+theme_override_colors/font_placeholder_color = Color(0.42, 0.43, 0.47, 1)
+theme_override_font_sizes/font_size = 16
+theme_override_styles/normal = SubResource("Input")
+theme_override_styles/focus = SubResource("InputFocus")
+placeholder_text = "Leave blank for a random seed"
+max_length = 12
+
+[node name="SeedHint" type="Label" parent="CenterContainer/MainLayout/SetupPanel/Content" unique_id=1871800683]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.38, 0.4, 0.45, 1)
+theme_override_font_sizes/font_size = 11
+text = "A-Z, 0-9  /  Up to 12 characters  /  Blank = random"
+
+[node name="ModifierLabel" type="Label" parent="CenterContainer/MainLayout/SetupPanel/Content" unique_id=1373848617]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.69, 0.7, 0.73, 1)
+theme_override_font_sizes/font_size = 12
+text = "MODIFIERS"
+
+[node name="ModifierPanel" type="PanelContainer" parent="CenterContainer/MainLayout/SetupPanel/Content" unique_id=823435945]
+custom_minimum_size = Vector2(0, 190)
+layout_mode = 2
+theme_override_styles/panel = SubResource("PreviewPanel")
+
+[node name="ModifierMargin" type="MarginContainer" parent="CenterContainer/MainLayout/SetupPanel/Content/ModifierPanel" unique_id=665051534]
+layout_mode = 2
+theme_override_constants/margin_left = 12
+theme_override_constants/margin_top = 10
+theme_override_constants/margin_right = 12
+theme_override_constants/margin_bottom = 10
+
+[node name="ModifierList" type="VBoxContainer" parent="CenterContainer/MainLayout/SetupPanel/Content/ModifierPanel/ModifierMargin" unique_id=1984119237]
+layout_mode = 2
+theme_override_constants/separation = 4
+
+[node name="BloodMoon" type="Button" parent="CenterContainer/MainLayout/SetupPanel/Content/ModifierPanel/ModifierMargin/ModifierList" unique_id=2136601988]
+custom_minimum_size = Vector2(0, 30)
+layout_mode = 2
+mouse_default_cursor_shape = 2
+theme_override_colors/font_color = Color(0.67, 0.68, 0.72, 1)
+theme_override_colors/font_pressed_color = Color(1, 0.88, 0.77, 1)
+theme_override_colors/font_hover_color = Color(0.94, 0.78, 0.67, 1)
+theme_override_font_sizes/font_size = 13
+theme_override_styles/normal = SubResource("ModifierNormal")
+theme_override_styles/pressed = SubResource("ModifierPressed")
+theme_override_styles/hover = SubResource("ModifierHover")
+theme_override_styles/focus = SubResource("Focus")
+toggle_mode = true
+text = "BLOOD MOON     More enemies, better rewards."
+script = ExtResource("2_buttons")
+
+[node name="GlassCannon" type="Button" parent="CenterContainer/MainLayout/SetupPanel/Content/ModifierPanel/ModifierMargin/ModifierList" unique_id=1690727466]
+custom_minimum_size = Vector2(0, 30)
+layout_mode = 2
+mouse_default_cursor_shape = 2
+theme_override_colors/font_color = Color(0.67, 0.68, 0.72, 1)
+theme_override_colors/font_pressed_color = Color(1, 0.88, 0.77, 1)
+theme_override_colors/font_hover_color = Color(0.94, 0.78, 0.67, 1)
+theme_override_font_sizes/font_size = 13
+theme_override_styles/normal = SubResource("ModifierNormal")
+theme_override_styles/pressed = SubResource("ModifierPressed")
+theme_override_styles/hover = SubResource("ModifierHover")
+theme_override_styles/focus = SubResource("Focus")
+toggle_mode = true
+text = "GLASS CANNON   More damage dealt, less health."
+script = ExtResource("2_buttons")
+
+[node name="HardNight" type="Button" parent="CenterContainer/MainLayout/SetupPanel/Content/ModifierPanel/ModifierMargin/ModifierList" unique_id=1601498327]
+custom_minimum_size = Vector2(0, 30)
+layout_mode = 2
+mouse_default_cursor_shape = 2
+theme_override_colors/font_color = Color(0.67, 0.68, 0.72, 1)
+theme_override_colors/font_pressed_color = Color(1, 0.88, 0.77, 1)
+theme_override_font_sizes/font_size = 13
+theme_override_styles/normal = SubResource("ModifierNormal")
+theme_override_styles/pressed = SubResource("ModifierPressed")
+theme_override_styles/hover = SubResource("ModifierHover")
+theme_override_styles/focus = SubResource("Focus")
+toggle_mode = true
+text = "HARD NIGHT       Stronger, more aggressive enemies."
+script = ExtResource("2_buttons")
+
+[node name="Greed" type="Button" parent="CenterContainer/MainLayout/SetupPanel/Content/ModifierPanel/ModifierMargin/ModifierList" unique_id=580264190]
+custom_minimum_size = Vector2(0, 30)
+layout_mode = 2
+mouse_default_cursor_shape = 2
+theme_override_colors/font_color = Color(0.67, 0.68, 0.72, 1)
+theme_override_colors/font_pressed_color = Color(1, 0.88, 0.77, 1)
+theme_override_font_sizes/font_size = 13
+theme_override_styles/normal = SubResource("ModifierNormal")
+theme_override_styles/pressed = SubResource("ModifierPressed")
+theme_override_styles/hover = SubResource("ModifierHover")
+theme_override_styles/focus = SubResource("Focus")
+toggle_mode = true
+text = "GREED            More gold, stronger enemies."
+script = ExtResource("2_buttons")
+
+[node name="Fragile" type="Button" parent="CenterContainer/MainLayout/SetupPanel/Content/ModifierPanel/ModifierMargin/ModifierList" unique_id=510663327]
+custom_minimum_size = Vector2(0, 30)
+layout_mode = 2
+mouse_default_cursor_shape = 2
+theme_override_colors/font_color = Color(0.67, 0.68, 0.72, 1)
+theme_override_colors/font_pressed_color = Color(1, 0.88, 0.77, 1)
+theme_override_font_sizes/font_size = 13
+theme_override_styles/normal = SubResource("ModifierNormal")
+theme_override_styles/pressed = SubResource("ModifierPressed")
+theme_override_styles/hover = SubResource("ModifierHover")
+theme_override_styles/focus = SubResource("Focus")
+toggle_mode = true
+text = "FRAGILE          Reduced healing, increased gold."
+script = ExtResource("2_buttons")
+
+[node name="Spacer" type="Control" parent="CenterContainer/MainLayout/SetupPanel/Content" unique_id=543525684]
+layout_mode = 2
+size_flags_vertical = 3
+
+[node name="Buttons" type="HBoxContainer" parent="CenterContainer/MainLayout/SetupPanel/Content" unique_id=158156297]
+custom_minimum_size = Vector2(0, 52)
+layout_mode = 2
+theme_override_constants/separation = 12
+
+[node name="BackButton" type="Button" parent="CenterContainer/MainLayout/SetupPanel/Content/Buttons" unique_id=1239679315]
+custom_minimum_size = Vector2(0, 52)
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_colors/font_color = Color(0.64, 0.65, 0.69, 1)
+theme_override_colors/font_hover_color = Color(0.94, 0.78, 0.67, 1)
+theme_override_font_sizes/font_size = 16
+theme_override_styles/normal = SubResource("ButtonNormal")
+theme_override_styles/pressed = SubResource("ButtonPressed")
+theme_override_styles/hover = SubResource("ButtonHover")
+theme_override_styles/focus = SubResource("Focus")
+text = "BACK"
+script = ExtResource("2_buttons")
+
+[node name="StartButton" type="Button" parent="CenterContainer/MainLayout/SetupPanel/Content/Buttons" unique_id=2089563351]
+custom_minimum_size = Vector2(0, 52)
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_colors/font_color = Color(0.98, 0.94, 0.89, 1)
+theme_override_colors/font_hover_color = Color(1, 0.94, 0.84, 1)
+theme_override_font_sizes/font_size = 18
+theme_override_styles/normal = SubResource("ButtonNormal")
+theme_override_styles/pressed = SubResource("ButtonPressed")
+theme_override_styles/hover = SubResource("ButtonHover")
+theme_override_styles/focus = SubResource("Focus")
+text = "START RUN"
+script = ExtResource("2_buttons")
+
+[node name="PreviewPanel" type="Panel" parent="CenterContainer/MainLayout" unique_id=187796548]
+custom_minimum_size = Vector2(406, 470)
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_styles/panel = SubResource("PreviewPanel")
+
+[node name="Content" type="VBoxContainer" parent="CenterContainer/MainLayout/PreviewPanel" unique_id=64743295]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 30.0
+offset_top = 30.0
+offset_right = -30.0
+offset_bottom = -30.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/separation = 12
+
+[node name="Eyebrow" type="Label" parent="CenterContainer/MainLayout/PreviewPanel/Content" unique_id=2080977156]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.88, 0.36, 0.2, 1)
+theme_override_font_sizes/font_size = 12
+text = "RUN CONFIG"
+
+[node name="Title" type="Label" parent="CenterContainer/MainLayout/PreviewPanel/Content" unique_id=1353201017]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.9, 0.89, 0.86, 1)
+theme_override_font_sizes/font_size = 25
+text = "THE DESCENT AWAITS"
+
+[node name="Rule" type="ColorRect" parent="CenterContainer/MainLayout/PreviewPanel/Content" unique_id=275311897]
+custom_minimum_size = Vector2(0, 1)
+layout_mode = 2
+color = Color(0.38, 0.24, 0.22, 0.8)
+
+[node name="SeedLabel" type="Label" parent="CenterContainer/MainLayout/PreviewPanel/Content" unique_id=560469231]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.45, 0.47, 0.52, 1)
+theme_override_font_sizes/font_size = 11
+text = "SEED"
+
+[node name="SeedPreview" type="Label" parent="CenterContainer/MainLayout/PreviewPanel/Content" unique_id=1712338447]
+custom_minimum_size = Vector2(0, 40)
+layout_mode = 2
+theme_override_colors/font_color = Color(1, 0.52, 0.24, 1)
+theme_override_font_sizes/font_size = 18
+text = "RANDOM / GENERATED ON START"
+
+[node name="ModifierLabel" type="Label" parent="CenterContainer/MainLayout/PreviewPanel/Content" unique_id=451983261]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.45, 0.47, 0.52, 1)
+theme_override_font_sizes/font_size = 11
+text = "ACTIVE MODIFIERS"
+
+[node name="ModifierPreview" type="Label" parent="CenterContainer/MainLayout/PreviewPanel/Content" unique_id=1385495669]
+custom_minimum_size = Vector2(0, 110)
+layout_mode = 2
+theme_override_colors/font_color = Color(0.91, 0.38, 0.2, 1)
+theme_override_font_sizes/font_size = 15
+text = "NO MODIFIERS"
+
+[node name="PreviewCopy" type="Label" parent="CenterContainer/MainLayout/PreviewPanel/Content" unique_id=435976688]
+layout_mode = 2
+size_flags_vertical = 3
+theme_override_colors/font_color = Color(0.45, 0.47, 0.52, 1)
+theme_override_font_sizes/font_size = 13
+text = "A chosen seed makes the descent repeatable.
+Modifiers reshape the risk and reward of the run."
+
+[node name="Footer" type="Label" parent="CenterContainer/MainLayout/PreviewPanel/Content" unique_id=99272473]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.38, 0.4, 0.45, 1)
+theme_override_font_sizes/font_size = 11
+text = "NIGHTFALL // RUN CONFIGURATION"
+horizontal_alignment = 2
+
+[node name="CornerMark" type="Label" parent="." unique_id=1402924629]
+layout_mode = 1
+anchors_preset = 3
+anchor_left = 1.0
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = -165.0
+offset_top = -48.0
+offset_right = -51.0
+offset_bottom = -21.0
+grow_horizontal = 0
+grow_vertical = 0
+theme_override_colors/font_color = Color(0.38, 0.4, 0.45, 1)
+theme_override_font_sizes/font_size = 11
+text = "NF / DEV"
+horizontal_alignment = 2
+
+[node name="SkipHint" type="Label" parent="."]
+
+layout_mode = 1
+anchors_preset = 12
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_top = -45.0
+offset_bottom = -20.0
+grow_horizontal = 2
+grow_vertical = 0
+
+theme_override_colors/font_color = Color(0.38, 0.4, 0.45, 1)
+theme_override_font_sizes/font_size = 11
+
+text = "PRESS ENTER TO SKIP"
+horizontal_alignment = 1

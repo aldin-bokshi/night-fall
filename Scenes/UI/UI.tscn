@@ -1,0 +1,13 @@
+[gd_scene format=3 uid="uid://240oi6ehi442"]
+
+[ext_resource type="PackedScene" uid="uid://ctwyo4gehslxi" path="res://Scenes/UI/PlayerUi/PlayerUi.tscn" id="1_s86y4"]
+[ext_resource type="PackedScene" uid="uid://opip11aujstv" path="res://Scenes/UI/PauseMenu/PauseMenu.tscn" id="3_akgwn"]
+[ext_resource type="PackedScene" uid="uid://dac2x8uetcxks" path="res://Scenes/UI/DeathScreen/DeathScreen.tscn" id="3_death"]
+
+[node name="HUD" type="CanvasLayer" unique_id=1476447925]
+
+[node name="DeathScreen" parent="." unique_id=1970651558 instance=ExtResource("3_death")]
+
+[node name="PauseScreen2" parent="." unique_id=1368277207 instance=ExtResource("3_akgwn")]
+
+[node name="PlayerUi" parent="." unique_id=1522940395 instance=ExtResource("1_s86y4")]

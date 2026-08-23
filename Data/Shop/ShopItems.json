@@ -1,84 +1,2042 @@
 [
   {
-    "id": "health_potion",
-    "name": "Health Potion",
-    "price": 25,
+    "id": "vital_core",
+    "name": "Vital Core",
+    "type": "vitality",
+    "rarity": "common",
+    "price": 30,
     "statUpgrades": {
-      "max_health": 20
+      "max_health": 15
     }
   },
   {
-    "id": "iron_ring",
-    "name": "Iron Ring",
+    "id": "reinforced_plating",
+    "name": "Reinforced Plating",
+    "type": "defense",
+    "rarity": "common",
     "price": 40,
     "statUpgrades": {
       "defense": 2
     }
   },
   {
-    "id": "sharp_blade",
-    "name": "Sharp Blade",
+    "id": "fractured_edge",
+    "name": "Fractured Edge",
+    "type": "strength",
+    "rarity": "common",
     "price": 50,
     "statUpgrades": {
       "damage": 3
     }
   },
   {
-    "id": "swift_boots",
-    "name": "Swift Boots",
+    "id": "servo_actuator",
+    "name": "Servo Actuator",
+    "type": "agility",
+    "rarity": "common",
     "price": 45,
+    "statUpgrades": {
+      "move_speed": 10
+    }
+  },
+  {
+    "id": "overclock_module",
+    "name": "Overclock Module",
+    "type": "agility",
+    "rarity": "common",
+    "price": 50,
+    "statUpgrades": {
+      "attack_speed": 8
+    }
+  },
+  {
+    "id": "void_shard",
+    "name": "Void Shard",
+    "type": "luck",
+    "rarity": "common",
+    "price": 45,
+    "statUpgrades": {
+      "luck": 5
+    }
+  },
+  {
+    "id": "reactive_plating",
+    "name": "Reactive Plating",
+    "type": "defense",
+    "rarity": "common",
+    "price": 55,
+    "statUpgrades": {
+      "defense": 3
+    }
+  },
+  {
+    "id": "kinetic_injector",
+    "name": "Kinetic Injector",
+    "type": "strength",
+    "rarity": "common",
+    "price": 60,
+    "statUpgrades": {
+      "damage": 2,
+      "move_speed": 5
+    }
+  },
+  {
+    "id": "neural_accelerator",
+    "name": "Neural Accelerator",
+    "type": "agility",
+    "rarity": "uncommon",
+    "price": 70,
+    "statUpgrades": {
+      "attack_speed": 12
+    }
+  },
+  {
+    "id": "gravity_regulator",
+    "name": "Gravity Regulator",
+    "type": "agility",
+    "rarity": "uncommon",
+    "price": 65,
     "statUpgrades": {
       "move_speed": 15
     }
   },
   {
-    "id": "hunter_gloves",
-    "name": "Hunter Gloves",
-    "price": 55,
+    "id": "auxiliary_core",
+    "name": "Auxiliary Core",
+    "type": "vitality",
+    "rarity": "uncommon",
+    "price": 70,
     "statUpgrades": {
-      "attack_speed": 10
+      "max_health": 25
     }
   },
   {
-    "id": "lucky_coin",
-    "name": "Lucky Coin",
-    "price": 60,
+    "id": "combat_processor",
+    "name": "Combat Processor",
+    "type": "strength",
+    "rarity": "uncommon",
+    "price": 65,
     "statUpgrades": {
-      "luck": 10
+      "damage": 4
     }
   },
   {
-    "id": "vampiric_charm",
-    "name": "Vampiric Charm",
+    "id": "phase_capacitor",
+    "name": "Phase Capacitor",
+    "type": "utility",
+    "rarity": "uncommon",
     "price": 75,
+    "statUpgrades": {
+      "cooldown": -10
+    }
+  },
+  {
+    "id": "entropy_lens",
+    "name": "Entropy Lens",
+    "type": "luck",
+    "rarity": "uncommon",
+    "price": 70,
+    "statUpgrades": {
+      "luck": 12
+    }
+  },
+  {
+    "id": "synthetic_marrow",
+    "name": "Synthetic Marrow",
+    "type": "vitality",
+    "rarity": "uncommon",
+    "price": 80,
+    "statUpgrades": {
+      "max_health": 20,
+      "defense": 1
+    }
+  },
+  {
+    "id": "void_siphon",
+    "name": "Void Siphon",
+    "type": "vampirism",
+    "rarity": "rare",
+    "price": 90,
     "statUpgrades": {
       "lifesteal": 3
     }
   },
   {
-    "id": "heavy_armor",
-    "name": "Heavy Armor",
+    "id": "singularity_core",
+    "name": "Singularity Core",
+    "type": "strength",
+    "rarity": "rare",
+    "price": 100,
+    "statUpgrades": {
+      "damage": 7
+    }
+  },
+  {
+    "id": "temporal_accelerator",
+    "name": "Temporal Accelerator",
+    "type": "agility",
+    "rarity": "rare",
+    "price": 105,
+    "statUpgrades": {
+      "attack_speed": 18
+    }
+  },
+  {
+    "id": "phase_engine",
+    "name": "Phase Engine",
+    "type": "utility",
+    "rarity": "rare",
+    "price": 100,
+    "statUpgrades": {
+      "cooldown": -20
+    }
+  },
+  {
+    "id": "graviton_drive",
+    "name": "Graviton Drive",
+    "type": "agility",
+    "rarity": "rare",
+    "price": 100,
+    "statUpgrades": {
+      "move_speed": 25
+    }
+  },
+  {
+    "id": "blacksite_armor",
+    "name": "Blacksite Armor",
+    "type": "defense",
+    "rarity": "rare",
+    "price": 110,
+    "statUpgrades": {
+      "defense": 7,
+      "move_speed": -8
+    }
+  },
+  {
+    "id": "overload_implant",
+    "name": "Overload Implant",
+    "type": "strength",
+    "rarity": "rare",
+    "price": 105,
+    "statUpgrades": {
+      "damage": 10,
+      "max_health": -15
+    }
+  },
+  {
+    "id": "void_heart",
+    "name": "Void Heart",
+    "type": "vitality",
+    "rarity": "rare",
+    "price": 115,
+    "statUpgrades": {
+      "max_health": 35,
+      "lifesteal": 2
+    }
+  },
+  {
+    "id": "entropy_reactor",
+    "name": "Entropy Reactor",
+    "type": "strength",
+    "rarity": "epic",
+    "price": 135,
+    "statUpgrades": {
+      "damage": 8,
+      "attack_speed": 10
+    }
+  },
+  {
+    "id": "collapsed_star",
+    "name": "Collapsed Star",
+    "type": "strength",
+    "rarity": "epic",
+    "price": 140,
+    "statUpgrades": {
+      "damage": 15,
+      "move_speed": -10
+    }
+  },
+  {
+    "id": "chronos_core",
+    "name": "Chronos Core",
+    "type": "utility",
+    "rarity": "epic",
+    "price": 145,
+    "statUpgrades": {
+      "cooldown": -30,
+      "attack_speed": 10
+    }
+  },
+  {
+    "id": "abyssal_engine",
+    "name": "Abyssal Engine",
+    "type": "vitality",
+    "rarity": "epic",
+    "price": 150,
+    "statUpgrades": {
+      "max_health": 40,
+      "defense": 5,
+      "move_speed": -10
+    }
+  },
+  {
+    "id": "singularity_heart",
+    "name": "Singularity Heart",
+    "type": "strength",
+    "rarity": "legendary",
+    "price": 200,
+    "statUpgrades": {
+      "damage": 15,
+      "max_health": 25
+    }
+  },
+  {
+    "id": "event_horizon",
+    "name": "Event Horizon",
+    "type": "utility",
+    "rarity": "legendary",
+    "price": 210,
+    "statUpgrades": {
+      "cooldown": -40,
+      "move_speed": 20
+    }
+  },
+  {
+    "id": "voidborn_core",
+    "name": "Voidborn Core",
+    "type": "strength",
+    "rarity": "legendary",
+    "price": 220,
+    "statUpgrades": {
+      "damage": 10,
+      "lifesteal": 5,
+      "max_health": -20
+    }
+  },
+  {
+    "id": "hollow_circuit",
+    "name": "Hollow Circuit",
+    "type": "agility",
+    "rarity": "common",
+    "price": 35,
+    "statUpgrades": {
+      "attack_speed": 5
+    }
+  },
+  {
+    "id": "carbon_fiber_lining",
+    "name": "Carbon Fiber Lining",
+    "type": "defense",
+    "rarity": "common",
+    "price": 40,
+    "statUpgrades": {
+      "defense": 2,
+      "move_speed": 3
+    }
+  },
+  {
+    "id": "damaged_power_cell",
+    "name": "Damaged Power Cell",
+    "type": "strength",
+    "rarity": "common",
+    "price": 35,
+    "statUpgrades": {
+      "damage": 2
+    }
+  },
+  {
+    "id": "auxiliary_servo",
+    "name": "Auxiliary Servo",
+    "type": "agility",
+    "rarity": "common",
+    "price": 45,
+    "statUpgrades": {
+      "move_speed": 8
+    }
+  },
+  {
+    "id": "combat_stim",
+    "name": "Combat Stim",
+    "type": "agility",
+    "rarity": "common",
+    "price": 50,
+    "statUpgrades": {
+      "attack_speed": 7
+    }
+  },
+  {
+    "id": "fractured_lens",
+    "name": "Fractured Lens",
+    "type": "luck",
+    "rarity": "common",
+    "price": 40,
+    "statUpgrades": {
+      "luck": 6
+    }
+  },
+  {
+    "id": "nano_mesh",
+    "name": "Nano Mesh",
+    "type": "vitality",
+    "rarity": "common",
+    "price": 50,
+    "statUpgrades": {
+      "max_health": 10,
+      "defense": 1
+    }
+  },
+  {
+    "id": "kinetic_cell",
+    "name": "Kinetic Cell",
+    "type": "strength",
+    "rarity": "common",
+    "price": 45,
+    "statUpgrades": {
+      "damage": 3
+    }
+  },
+  {
+    "id": "stabilizer_coil",
+    "name": "Stabilizer Coil",
+    "type": "utility",
+    "rarity": "common",
+    "price": 50,
+    "statUpgrades": {
+      "cooldown": -5
+    }
+  },
+  {
+    "id": "synthetic_nerve",
+    "name": "Synthetic Nerve",
+    "type": "agility",
+    "rarity": "common",
+    "price": 55,
+    "statUpgrades": {
+      "attack_speed": 6,
+      "move_speed": 4
+    }
+  },
+  {
+    "id": "sealed_bloodpack",
+    "name": "Sealed Bloodpack",
+    "type": "vitality",
+    "rarity": "common",
+    "price": 40,
+    "statUpgrades": {
+      "max_health": 15
+    }
+  },
+  {
+    "id": "scrap_reactor",
+    "name": "Scrap Reactor",
+    "type": "strength",
+    "rarity": "common",
+    "price": 45,
+    "statUpgrades": {
+      "damage": 2,
+      "max_health": 5
+    }
+  },
+  {
+    "id": "targeting_array",
+    "name": "Targeting Array",
+    "type": "strength",
+    "rarity": "uncommon",
+    "price": 70,
+    "statUpgrades": {
+      "damage": 5,
+      "luck": 5
+    }
+  },
+  {
+    "id": "reflex_processor",
+    "name": "Reflex Processor",
+    "type": "agility",
+    "rarity": "uncommon",
+    "price": 75,
+    "statUpgrades": {
+      "attack_speed": 12,
+      "move_speed": 5
+    }
+  },
+  {
+    "id": "density_regulator",
+    "name": "Density Regulator",
+    "type": "vitality",
+    "rarity": "uncommon",
+    "price": 75,
+    "statUpgrades": {
+      "max_health": 25
+    }
+  },
+  {
+    "id": "impact_dampener",
+    "name": "Impact Dampener",
+    "type": "defense",
+    "rarity": "uncommon",
+    "price": 70,
+    "statUpgrades": {
+      "defense": 4
+    }
+  },
+  {
+    "id": "phase_stabilizer",
+    "name": "Phase Stabilizer",
+    "type": "utility",
+    "rarity": "uncommon",
     "price": 80,
+    "statUpgrades": {
+      "cooldown": -12
+    }
+  },
+  {
+    "id": "dark_matter_fragment",
+    "name": "Dark Matter Fragment",
+    "type": "strength",
+    "rarity": "uncommon",
+    "price": 85,
+    "statUpgrades": {
+      "damage": 5,
+      "max_health": -5
+    }
+  },
+  {
+    "id": "neural_lattice",
+    "name": "Neural Lattice",
+    "type": "agility",
+    "rarity": "uncommon",
+    "price": 80,
+    "statUpgrades": {
+      "attack_speed": 10,
+      "luck": 5
+    }
+  },
+  {
+    "id": "gravity_anchor",
+    "name": "Gravity Anchor",
+    "type": "defense",
+    "rarity": "uncommon",
+    "price": 75,
     "statUpgrades": {
       "defense": 5,
       "move_speed": -5
     }
   },
   {
-    "id": "berserker_belt",
-    "name": "Berserker Belt",
-    "price": 70,
+    "id": "pulse_amplifier",
+    "name": "Pulse Amplifier",
+    "type": "strength",
+    "rarity": "uncommon",
+    "price": 85,
     "statUpgrades": {
-      "damage": 5,
+      "damage": 6
+    }
+  },
+  {
+    "id": "void_resonator",
+    "name": "Void Resonator",
+    "type": "luck",
+    "rarity": "uncommon",
+    "price": 90,
+    "statUpgrades": {
+      "luck": 15
+    }
+  },
+  {
+    "id": "adrenal_core",
+    "name": "Adrenal Core",
+    "type": "agility",
+    "rarity": "uncommon",
+    "price": 80,
+    "statUpgrades": {
+      "max_health": 15,
+      "attack_speed": 8
+    }
+  },
+  {
+    "id": "plasma_conduit",
+    "name": "Plasma Conduit",
+    "type": "agility",
+    "rarity": "uncommon",
+    "price": 85,
+    "statUpgrades": {
+      "damage": 4,
+      "attack_speed": 8
+    }
+  },
+  {
+    "id": "spectral_battery",
+    "name": "Spectral Battery",
+    "type": "utility",
+    "rarity": "uncommon",
+    "price": 80,
+    "statUpgrades": {
+      "cooldown": -8,
+      "move_speed": 8
+    }
+  },
+  {
+    "id": "ferrofluid_implant",
+    "name": "Ferrofluid Implant",
+    "type": "defense",
+    "rarity": "rare",
+    "price": 105,
+    "statUpgrades": {
+      "defense": 8,
+      "max_health": 15
+    }
+  },
+  {
+    "id": "accelerated_synapse",
+    "name": "Accelerated Synapse",
+    "type": "agility",
+    "rarity": "rare",
+    "price": 110,
+    "statUpgrades": {
+      "attack_speed": 20
+    }
+  },
+  {
+    "id": "void_pressure",
+    "name": "Void Pressure",
+    "type": "strength",
+    "rarity": "rare",
+    "price": 105,
+    "statUpgrades": {
+      "damage": 8,
+      "move_speed": 8
+    }
+  },
+  {
+    "id": "quantum_actuator",
+    "name": "Quantum Actuator",
+    "type": "utility",
+    "rarity": "rare",
+    "price": 115,
+    "statUpgrades": {
+      "cooldown": -22,
+      "move_speed": 10
+    }
+  },
+  {
+    "id": "black_ice_processor",
+    "name": "Black Ice Processor",
+    "type": "strength",
+    "rarity": "rare",
+    "price": 110,
+    "statUpgrades": {
+      "damage": 7,
+      "attack_speed": 12
+    }
+  },
+  {
+    "id": "neural_overdrive",
+    "name": "Neural Overdrive",
+    "type": "agility",
+    "rarity": "rare",
+    "price": 120,
+    "statUpgrades": {
+      "attack_speed": 22,
       "max_health": -10
     }
   },
   {
-    "id": "dash_core",
-    "name": "Dash Core",
+    "id": "gravitic_shell",
+    "name": "Gravitic Shell",
+    "type": "defense",
+    "rarity": "rare",
+    "price": 115,
+    "statUpgrades": {
+      "defense": 10,
+      "move_speed": -10
+    }
+  },
+  {
+    "id": "blood_reactor",
+    "name": "Blood Reactor",
+    "type": "vampirism",
+    "rarity": "rare",
+    "price": 125,
+    "statUpgrades": {
+      "lifesteal": 4,
+      "damage": 5
+    }
+  },
+  {
+    "id": "entropy_driver",
+    "name": "Entropy Driver",
+    "type": "luck",
+    "rarity": "rare",
+    "price": 120,
+    "statUpgrades": {
+      "luck": 20,
+      "damage": 5
+    }
+  },
+  {
+    "id": "phase_matrix",
+    "name": "Phase Matrix",
+    "type": "utility",
+    "rarity": "rare",
+    "price": 125,
+    "statUpgrades": {
+      "cooldown": -25
+    }
+  },
+  {
+    "id": "reactive_core",
+    "name": "Reactive Core",
+    "type": "vitality",
+    "rarity": "rare",
+    "price": 120,
+    "statUpgrades": {
+      "max_health": 30,
+      "defense": 4
+    }
+  },
+  {
+    "id": "plasma_heart",
+    "name": "Plasma Heart",
+    "type": "strength",
+    "rarity": "rare",
+    "price": 130,
+    "statUpgrades": {
+      "damage": 10,
+      "max_health": -10
+    }
+  },
+  {
+    "id": "null_generator",
+    "name": "Null Generator",
+    "type": "defense",
+    "rarity": "rare",
+    "price": 125,
+    "statUpgrades": {
+      "cooldown": -15,
+      "defense": 5
+    }
+  },
+  {
+    "id": "temporal_lattice",
+    "name": "Temporal Lattice",
+    "type": "agility",
+    "rarity": "epic",
+    "price": 150,
+    "statUpgrades": {
+      "attack_speed": 20,
+      "cooldown": -15
+    }
+  },
+  {
+    "id": "dark_matter_engine",
+    "name": "Dark Matter Engine",
+    "type": "strength",
+    "rarity": "epic",
+    "price": 155,
+    "statUpgrades": {
+      "damage": 12,
+      "move_speed": 10
+    }
+  },
+  {
+    "id": "void_reactor",
+    "name": "Void Reactor",
+    "type": "vitality",
+    "rarity": "epic",
+    "price": 160,
+    "statUpgrades": {
+      "max_health": 45,
+      "defense": 5
+    }
+  },
+  {
+    "id": "quantum_heart",
+    "name": "Quantum Heart",
+    "type": "vitality",
+    "rarity": "epic",
+    "price": 165,
+    "statUpgrades": {
+      "max_health": 30,
+      "attack_speed": 15
+    }
+  },
+  {
+    "id": "graviton_core",
+    "name": "Graviton Core",
+    "type": "agility",
+    "rarity": "epic",
+    "price": 155,
+    "statUpgrades": {
+      "move_speed": 30,
+      "cooldown": -15
+    }
+  },
+  {
+    "id": "entropy_core",
+    "name": "Entropy Core",
+    "type": "luck",
+    "rarity": "epic",
+    "price": 165,
+    "statUpgrades": {
+      "damage": 12,
+      "luck": 20
+    }
+  },
+  {
+    "id": "blackstar_implant",
+    "name": "Blackstar Implant",
+    "type": "strength",
+    "rarity": "epic",
+    "price": 170,
+    "statUpgrades": {
+      "damage": 15,
+      "max_health": -15
+    }
+  },
+  {
+    "id": "void_singularity",
+    "name": "Void Singularity",
+    "type": "strength",
+    "rarity": "epic",
+    "price": 175,
+    "statUpgrades": {
+      "damage": 10,
+      "lifesteal": 4,
+      "max_health": -10
+    }
+  },
+  {
+    "id": "chronal_engine",
+    "name": "Chronal Engine",
+    "type": "utility",
+    "rarity": "epic",
+    "price": 170,
+    "statUpgrades": {
+      "cooldown": -35,
+      "attack_speed": 12
+    }
+  },
+  {
+    "id": "abyss_core",
+    "name": "Abyss Core",
+    "type": "defense",
+    "rarity": "epic",
+    "price": 175,
+    "statUpgrades": {
+      "defense": 10,
+      "max_health": 35,
+      "move_speed": -8
+    }
+  },
+  {
+    "id": "event_horizon_core",
+    "name": "Event Horizon Core",
+    "type": "strength",
+    "rarity": "legendary",
+    "price": 225,
+    "statUpgrades": {
+      "damage": 15,
+      "attack_speed": 15,
+      "max_health": -20
+    }
+  },
+  {
+    "id": "dead_star",
+    "name": "Dead Star",
+    "type": "strength",
+    "rarity": "legendary",
+    "price": 230,
+    "statUpgrades": {
+      "damage": 20,
+      "move_speed": -15
+    }
+  },
+  {
+    "id": "void_engine",
+    "name": "Void Engine",
+    "type": "strength",
+    "rarity": "legendary",
+    "price": 240,
+    "statUpgrades": {
+      "damage": 12,
+      "attack_speed": 15,
+      "cooldown": -20
+    }
+  },
+  {
+    "id": "singularity_drive",
+    "name": "Singularity Drive",
+    "type": "agility",
+    "rarity": "legendary",
+    "price": 250,
+    "statUpgrades": {
+      "move_speed": 25,
+      "cooldown": -35
+    }
+  },
+  {
+    "id": "abyssal_heart",
+    "name": "Abyssal Heart",
+    "type": "vitality",
+    "rarity": "legendary",
+    "price": 250,
+    "statUpgrades": {
+      "max_health": 60,
+      "defense": 8,
+      "move_speed": -10
+    }
+  },
+  {
+    "id": "entropy_singularity",
+    "name": "Entropy Singularity",
+    "type": "luck",
+    "rarity": "legendary",
+    "price": 260,
+    "statUpgrades": {
+      "damage": 18,
+      "luck": 25,
+      "max_health": -15
+    }
+  },
+  {
+    "id": "chronos_heart",
+    "name": "Chronos Heart",
+    "type": "agility",
+    "rarity": "legendary",
+    "price": 255,
+    "statUpgrades": {
+      "attack_speed": 20,
+      "cooldown": -40
+    }
+  },
+  {
+    "id": "black_hole_fragment",
+    "name": "Black Hole Fragment",
+    "type": "strength",
+    "rarity": "legendary",
+    "price": 275,
+    "statUpgrades": {
+      "damage": 20,
+      "lifesteal": 5,
+      "move_speed": -15
+    }
+  },
+  {
+    "id": "titanium_bone",
+    "name": "Titanium Bone",
+    "type": "vitality",
+    "rarity": "common",
+    "price": 35,
+    "statUpgrades": {
+      "max_health": 12
+    }
+  },
+  {
+    "id": "rusted_actuator",
+    "name": "Rusted Actuator",
+    "type": "agility",
+    "rarity": "common",
+    "price": 35,
+    "statUpgrades": {
+      "move_speed": 7
+    }
+  },
+  {
+    "id": "burnt_circuit",
+    "name": "Burnt Circuit",
+    "type": "strength",
+    "rarity": "common",
+    "price": 30,
+    "statUpgrades": {
+      "damage": 2
+    }
+  },
+  {
+    "id": "cracked_battery",
+    "name": "Cracked Battery",
+    "type": "agility",
+    "rarity": "common",
+    "price": 35,
+    "statUpgrades": {
+      "attack_speed": 5
+    }
+  },
+  {
+    "id": "steel_tendon",
+    "name": "Steel Tendon",
+    "type": "defense",
+    "rarity": "common",
+    "price": 40,
+    "statUpgrades": {
+      "defense": 2
+    }
+  },
+  {
+    "id": "dead_sensor",
+    "name": "Dead Sensor",
+    "type": "luck",
+    "rarity": "common",
+    "price": 35,
+    "statUpgrades": {
+      "luck": 5
+    }
+  },
+  {
+    "id": "combat_wire",
+    "name": "Combat Wire",
+    "type": "strength",
+    "rarity": "common",
+    "price": 45,
+    "statUpgrades": {
+      "damage": 2,
+      "attack_speed": 4
+    }
+  },
+  {
+    "id": "pulse_cell",
+    "name": "Pulse Cell",
+    "type": "vitality",
+    "rarity": "common",
+    "price": 45,
+    "statUpgrades": {
+      "max_health": 8,
+      "attack_speed": 4
+    }
+  },
+  {
+    "id": "magnetic_brace",
+    "name": "Magnetic Brace",
+    "type": "defense",
+    "rarity": "common",
+    "price": 45,
+    "statUpgrades": {
+      "defense": 2,
+      "move_speed": 3
+    }
+  },
+  {
+    "id": "failing_reactor",
+    "name": "Failing Reactor",
+    "type": "strength",
+    "rarity": "common",
+    "price": 40,
+    "statUpgrades": {
+      "damage": 4,
+      "max_health": -5
+    }
+  },
+  {
+    "id": "old_targeter",
+    "name": "Old Targeter",
+    "type": "luck",
+    "rarity": "common",
+    "price": 40,
+    "statUpgrades": {
+      "luck": 8
+    }
+  },
+  {
+    "id": "micro_servo",
+    "name": "Micro Servo",
+    "type": "agility",
+    "rarity": "common",
+    "price": 45,
+    "statUpgrades": {
+      "move_speed": 8
+    }
+  },
+  {
+    "id": "ceramic_plating",
+    "name": "Ceramic Plating",
+    "type": "defense",
+    "rarity": "common",
+    "price": 50,
+    "statUpgrades": {
+      "defense": 3
+    }
+  },
+  {
+    "id": "blood_filter",
+    "name": "Blood Filter",
+    "type": "vitality",
+    "rarity": "common",
+    "price": 45,
+    "statUpgrades": {
+      "max_health": 15
+    }
+  },
+  {
+    "id": "kinetic_fuse",
+    "name": "Kinetic Fuse",
+    "type": "strength",
+    "rarity": "common",
+    "price": 50,
+    "statUpgrades": {
+      "damage": 3,
+      "move_speed": 3
+    }
+  },
+  {
+    "id": "coolant_injector",
+    "name": "Coolant Injector",
+    "type": "agility",
+    "rarity": "common",
+    "price": 45,
+    "statUpgrades": {
+      "attack_speed": 7
+    }
+  },
+  {
+    "id": "fractured_relay",
+    "name": "Fractured Relay",
+    "type": "utility",
+    "rarity": "common",
+    "price": 45,
+    "statUpgrades": {
+      "cooldown": -5
+    }
+  },
+  {
+    "id": "weak_void_cell",
+    "name": "Weak Void Cell",
+    "type": "luck",
+    "rarity": "common",
+    "price": 50,
+    "statUpgrades": {
+      "luck": 7,
+      "max_health": -5
+    }
+  },
+  {
+    "id": "synthetic_muscle",
+    "name": "Synthetic Muscle",
+    "type": "agility",
+    "rarity": "common",
+    "price": 50,
+    "statUpgrades": {
+      "move_speed": 6,
+      "max_health": 8
+    }
+  },
+  {
+    "id": "shock_absorber",
+    "name": "Shock Absorber",
+    "type": "defense",
+    "rarity": "common",
+    "price": 50,
+    "statUpgrades": {
+      "defense": 3,
+      "move_speed": -2
+    }
+  },
+  {
+    "id": "redline_chip",
+    "name": "Redline Chip",
+    "type": "strength",
+    "rarity": "uncommon",
     "price": 65,
     "statUpgrades": {
-      "dash_cooldown": -15
+      "damage": 5
+    }
+  },
+  {
+    "id": "reflex_chip",
+    "name": "Reflex Chip",
+    "type": "agility",
+    "rarity": "uncommon",
+    "price": 70,
+    "statUpgrades": {
+      "attack_speed": 11
+    }
+  },
+  {
+    "id": "reinforced_spine",
+    "name": "Reinforced Spine",
+    "type": "vitality",
+    "rarity": "uncommon",
+    "price": 70,
+    "statUpgrades": {
+      "max_health": 20
+    }
+  },
+  {
+    "id": "kinetic_armor",
+    "name": "Kinetic Armor",
+    "type": "defense",
+    "rarity": "uncommon",
+    "price": 75,
+    "statUpgrades": {
+      "defense": 5
+    }
+  },
+  {
+    "id": "phase_coil",
+    "name": "Phase Coil",
+    "type": "utility",
+    "rarity": "uncommon",
+    "price": 70,
+    "statUpgrades": {
+      "cooldown": -10
+    }
+  },
+  {
+    "id": "void_detector",
+    "name": "Void Detector",
+    "type": "luck",
+    "rarity": "uncommon",
+    "price": 65,
+    "statUpgrades": {
+      "luck": 12
+    }
+  },
+  {
+    "id": "plasma_vein",
+    "name": "Plasma Vein",
+    "type": "strength",
+    "rarity": "uncommon",
+    "price": 75,
+    "statUpgrades": {
+      "damage": 4,
+      "attack_speed": 7
+    }
+  },
+  {
+    "id": "gravity_boot",
+    "name": "Gravity Boot",
+    "type": "agility",
+    "rarity": "uncommon",
+    "price": 70,
+    "statUpgrades": {
+      "move_speed": 14
+    }
+  },
+  {
+    "id": "nerve_amplifier",
+    "name": "Nerve Amplifier",
+    "type": "agility",
+    "rarity": "uncommon",
+    "price": 75,
+    "statUpgrades": {
+      "attack_speed": 9,
+      "move_speed": 6
+    }
+  },
+  {
+    "id": "hardened_tissue",
+    "name": "Hardened Tissue",
+    "type": "vitality",
+    "rarity": "uncommon",
+    "price": 75,
+    "statUpgrades": {
+      "max_health": 15,
+      "defense": 2
+    }
+  },
+  {
+    "id": "unstable_core",
+    "name": "Unstable Core",
+    "type": "strength",
+    "rarity": "uncommon",
+    "price": 80,
+    "statUpgrades": {
+      "damage": 7,
+      "max_health": -10
+    }
+  },
+  {
+    "id": "phase_relay",
+    "name": "Phase Relay",
+    "type": "utility",
+    "rarity": "uncommon",
+    "price": 80,
+    "statUpgrades": {
+      "cooldown": -8,
+      "move_speed": 7
+    }
+  },
+  {
+    "id": "optic_array",
+    "name": "Optic Array",
+    "type": "luck",
+    "rarity": "uncommon",
+    "price": 70,
+    "statUpgrades": {
+      "luck": 10,
+      "damage": 3
+    }
+  },
+  {
+    "id": "thermal_regulator",
+    "name": "Thermal Regulator",
+    "type": "defense",
+    "rarity": "uncommon",
+    "price": 75,
+    "statUpgrades": {
+      "defense": 4,
+      "max_health": 10
+    }
+  },
+  {
+    "id": "adrenal_pump",
+    "name": "Adrenal Pump",
+    "type": "agility",
+    "rarity": "uncommon",
+    "price": 80,
+    "statUpgrades": {
+      "attack_speed": 10,
+      "max_health": 10
+    }
+  },
+  {
+    "id": "null_chip",
+    "name": "Null Chip",
+    "type": "defense",
+    "rarity": "uncommon",
+    "price": 75,
+    "statUpgrades": {
+      "cooldown": -10,
+      "defense": 2
+    }
+  },
+  {
+    "id": "dark_energy_cell",
+    "name": "Dark Energy Cell",
+    "type": "strength",
+    "rarity": "uncommon",
+    "price": 85,
+    "statUpgrades": {
+      "damage": 6,
+      "luck": 6
+    }
+  },
+  {
+    "id": "combat_serum",
+    "name": "Combat Serum",
+    "type": "strength",
+    "rarity": "uncommon",
+    "price": 80,
+    "statUpgrades": {
+      "damage": 4,
+      "move_speed": 8
+    }
+  },
+  {
+    "id": "reinforced_lung",
+    "name": "Reinforced Lung",
+    "type": "vitality",
+    "rarity": "uncommon",
+    "price": 75,
+    "statUpgrades": {
+      "max_health": 25,
+      "move_speed": -3
+    }
+  },
+  {
+    "id": "arc_reactor_fragment",
+    "name": "Arc Reactor Fragment",
+    "type": "agility",
+    "rarity": "uncommon",
+    "price": 85,
+    "statUpgrades": {
+      "attack_speed": 12,
+      "damage": 3
+    }
+  },
+  {
+    "id": "phase_battery",
+    "name": "Phase Battery",
+    "type": "utility",
+    "rarity": "rare",
+    "price": 100,
+    "statUpgrades": {
+      "cooldown": -18
+    }
+  },
+  {
+    "id": "titanium_heart",
+    "name": "Titanium Heart",
+    "type": "vitality",
+    "rarity": "rare",
+    "price": 105,
+    "statUpgrades": {
+      "max_health": 35,
+      "defense": 3
+    }
+  },
+  {
+    "id": "plasma_blade_core",
+    "name": "Plasma Blade Core",
+    "type": "strength",
+    "rarity": "rare",
+    "price": 105,
+    "statUpgrades": {
+      "damage": 9
+    }
+  },
+  {
+    "id": "neural_engine",
+    "name": "Neural Engine",
+    "type": "agility",
+    "rarity": "rare",
+    "price": 110,
+    "statUpgrades": {
+      "attack_speed": 18,
+      "move_speed": 5
+    }
+  },
+  {
+    "id": "void_implant",
+    "name": "Void Implant",
+    "type": "vampirism",
+    "rarity": "rare",
+    "price": 115,
+    "statUpgrades": {
+      "lifesteal": 3,
+      "damage": 5
+    }
+  },
+  {
+    "id": "gravity_core",
+    "name": "Gravity Core",
+    "type": "agility",
+    "rarity": "rare",
+    "price": 105,
+    "statUpgrades": {
+      "move_speed": 22
+    }
+  },
+  {
+    "id": "temporal_shard",
+    "name": "Temporal Shard",
+    "type": "utility",
+    "rarity": "rare",
+    "price": 115,
+    "statUpgrades": {
+      "cooldown": -20,
+      "attack_speed": 8
+    }
+  },
+  {
+    "id": "blacksteel_frame",
+    "name": "Blacksteel Frame",
+    "type": "defense",
+    "rarity": "rare",
+    "price": 110,
+    "statUpgrades": {
+      "defense": 8,
+      "max_health": 20,
+      "move_speed": -5
+    }
+  },
+  {
+    "id": "overclocked_heart",
+    "name": "Overclocked Heart",
+    "type": "agility",
+    "rarity": "rare",
+    "price": 120,
+    "statUpgrades": {
+      "attack_speed": 20,
+      "max_health": -10
+    }
+  },
+  {
+    "id": "void_lens",
+    "name": "Void Lens",
+    "type": "luck",
+    "rarity": "rare",
+    "price": 110,
+    "statUpgrades": {
+      "luck": 20
+    }
+  },
+  {
+    "id": "singularity_shard",
+    "name": "Singularity Shard",
+    "type": "strength",
+    "rarity": "rare",
+    "price": 120,
+    "statUpgrades": {
+      "damage": 8,
+      "cooldown": -10
+    }
+  },
+  {
+    "id": "gravitic_implant",
+    "name": "Gravitic Implant",
+    "type": "agility",
+    "rarity": "rare",
+    "price": 115,
+    "statUpgrades": {
+      "move_speed": 15,
+      "defense": 5
+    }
+  },
+  {
+    "id": "blood_circuit",
+    "name": "Blood Circuit",
+    "type": "vampirism",
+    "rarity": "rare",
+    "price": 120,
+    "statUpgrades": {
+      "lifesteal": 4,
+      "attack_speed": 8
+    }
+  },
+  {
+    "id": "entropy_processor",
+    "name": "Entropy Processor",
+    "type": "luck",
+    "rarity": "rare",
+    "price": 125,
+    "statUpgrades": {
+      "luck": 15,
+      "damage": 7
+    }
+  },
+  {
+    "id": "dark_matter_heart",
+    "name": "Dark Matter Heart",
+    "type": "vitality",
+    "rarity": "rare",
+    "price": 125,
+    "statUpgrades": {
+      "max_health": 30,
+      "damage": 6
+    }
+  },
+  {
+    "id": "phase_armor",
+    "name": "Phase Armor",
+    "type": "defense",
+    "rarity": "rare",
+    "price": 125,
+    "statUpgrades": {
+      "defense": 7,
+      "cooldown": -15
+    }
+  },
+  {
+    "id": "quantum_nerve",
+    "name": "Quantum Nerve",
+    "type": "agility",
+    "rarity": "rare",
+    "price": 120,
+    "statUpgrades": {
+      "attack_speed": 15,
+      "move_speed": 10
+    }
+  },
+  {
+    "id": "reactor_blood",
+    "name": "Reactor Blood",
+    "type": "strength",
+    "rarity": "rare",
+    "price": 130,
+    "statUpgrades": {
+      "damage": 10,
+      "lifesteal": 2,
+      "max_health": -10
+    }
+  },
+  {
+    "id": "null_field",
+    "name": "Null Field",
+    "type": "defense",
+    "rarity": "rare",
+    "price": 125,
+    "statUpgrades": {
+      "defense": 8,
+      "cooldown": -10
+    }
+  },
+  {
+    "id": "blacksite_core",
+    "name": "Blacksite Core",
+    "type": "strength",
+    "rarity": "rare",
+    "price": 130,
+    "statUpgrades": {
+      "damage": 7,
+      "defense": 6
+    }
+  },
+  {
+    "id": "astral_battery",
+    "name": "Astral Battery",
+    "type": "luck",
+    "rarity": "rare",
+    "price": 120,
+    "statUpgrades": {
+      "luck": 18,
+      "max_health": 10
+    }
+  },
+  {
+    "id": "phase_heart",
+    "name": "Phase Heart",
+    "type": "utility",
+    "rarity": "rare",
+    "price": 130,
+    "statUpgrades": {
+      "cooldown": -25,
+      "max_health": 15
+    }
+  },
+  {
+    "id": "void_plating",
+    "name": "Void Plating",
+    "type": "defense",
+    "rarity": "rare",
+    "price": 125,
+    "statUpgrades": {
+      "defense": 9,
+      "move_speed": -5
+    }
+  },
+  {
+    "id": "hyperion_drive",
+    "name": "Hyperion Drive",
+    "type": "strength",
+    "rarity": "epic",
+    "price": 150,
+    "statUpgrades": {
+      "damage": 12,
+      "move_speed": 15
+    }
+  },
+  {
+    "id": "void_matrix",
+    "name": "Void Matrix",
+    "type": "luck",
+    "rarity": "epic",
+    "price": 155,
+    "statUpgrades": {
+      "luck": 25,
+      "damage": 8
+    }
+  },
+  {
+    "id": "titan_reactor",
+    "name": "Titan Reactor",
+    "type": "vitality",
+    "rarity": "epic",
+    "price": 160,
+    "statUpgrades": {
+      "max_health": 50,
+      "defense": 6
+    }
+  },
+  {
+    "id": "temporal_drive",
+    "name": "Temporal Drive",
+    "type": "utility",
+    "rarity": "epic",
+    "price": 165,
+    "statUpgrades": {
+      "cooldown": -30,
+      "move_speed": 15
+    }
+  },
+  {
+    "id": "plasma_singularity",
+    "name": "Plasma Singularity",
+    "type": "strength",
+    "rarity": "epic",
+    "price": 165,
+    "statUpgrades": {
+      "damage": 14,
+      "attack_speed": 10
+    }
+  },
+  {
+    "id": "abyssal_processor",
+    "name": "Abyssal Processor",
+    "type": "agility",
+    "rarity": "epic",
+    "price": 155,
+    "statUpgrades": {
+      "attack_speed": 18,
+      "luck": 12
+    }
+  },
+  {
+    "id": "graviton_heart",
+    "name": "Graviton Heart",
+    "type": "agility",
+    "rarity": "epic",
+    "price": 160,
+    "statUpgrades": {
+      "move_speed": 30,
+      "max_health": 20
+    }
+  },
+  {
+    "id": "black_matter",
+    "name": "Black Matter",
+    "type": "strength",
+    "rarity": "epic",
+    "price": 170,
+    "statUpgrades": {
+      "damage": 16,
+      "max_health": -15
+    }
+  },
+  {
+    "id": "quantum_shell",
+    "name": "Quantum Shell",
+    "type": "defense",
+    "rarity": "epic",
+    "price": 165,
+    "statUpgrades": {
+      "defense": 12,
+      "cooldown": -15
+    }
+  },
+  {
+    "id": "void_blood",
+    "name": "Void Blood",
+    "type": "vampirism",
+    "rarity": "epic",
+    "price": 175,
+    "statUpgrades": {
+      "lifesteal": 5,
+      "damage": 10,
+      "max_health": -10
+    }
+  },
+  {
+    "id": "entropy_drive",
+    "name": "Entropy Drive",
+    "type": "luck",
+    "rarity": "epic",
+    "price": 170,
+    "statUpgrades": {
+      "damage": 12,
+      "luck": 25
+    }
+  },
+  {
+    "id": "neural_singularity",
+    "name": "Neural Singularity",
+    "type": "agility",
+    "rarity": "epic",
+    "price": 175,
+    "statUpgrades": {
+      "attack_speed": 25,
+      "move_speed": 10
+    }
+  },
+  {
+    "id": "dead_signal",
+    "name": "Dead Signal",
+    "type": "luck",
+    "rarity": "epic",
+    "price": 155,
+    "statUpgrades": {
+      "luck": 30,
+      "max_health": -10
+    }
+  },
+  {
+    "id": "darkstar_core",
+    "name": "Darkstar Core",
+    "type": "strength",
+    "rarity": "epic",
+    "price": 180,
+    "statUpgrades": {
+      "damage": 15,
+      "defense": 6
+    }
+  },
+  {
+    "id": "phase_singularity",
+    "name": "Phase Singularity",
+    "type": "utility",
+    "rarity": "epic",
+    "price": 175,
+    "statUpgrades": {
+      "cooldown": -35,
+      "move_speed": 20
+    }
+  },
+  {
+    "id": "astral_reactor",
+    "name": "Astral Reactor",
+    "type": "vitality",
+    "rarity": "epic",
+    "price": 175,
+    "statUpgrades": {
+      "max_health": 35,
+      "attack_speed": 15
+    }
+  },
+  {
+    "id": "void_crown",
+    "name": "Void Crown",
+    "type": "strength",
+    "rarity": "epic",
+    "price": 180,
+    "statUpgrades": {
+      "damage": 10,
+      "luck": 20,
+      "max_health": 20
+    }
+  },
+  {
+    "id": "collapsed_core",
+    "name": "Collapsed Core",
+    "type": "strength",
+    "rarity": "epic",
+    "price": 180,
+    "statUpgrades": {
+      "damage": 18,
+      "move_speed": -10
+    }
+  },
+  {
+    "id": "omega_actuator",
+    "name": "Omega Actuator",
+    "type": "agility",
+    "rarity": "epic",
+    "price": 175,
+    "statUpgrades": {
+      "attack_speed": 22,
+      "cooldown": -15
+    }
+  },
+  {
+    "id": "event_horizon_shard",
+    "name": "Event Horizon Shard",
+    "type": "strength",
+    "rarity": "legendary",
+    "price": 220,
+    "statUpgrades": {
+      "damage": 18,
+      "cooldown": -25
+    }
+  },
+  {
+    "id": "blackstar_heart",
+    "name": "Blackstar Heart",
+    "type": "defense",
+    "rarity": "legendary",
+    "price": 230,
+    "statUpgrades": {
+      "max_health": 60,
+      "defense": 10,
+      "move_speed": -10
+    }
+  },
+  {
+    "id": "void_crown_core",
+    "name": "Void Crown Core",
+    "type": "strength",
+    "rarity": "legendary",
+    "price": 235,
+    "statUpgrades": {
+      "damage": 15,
+      "attack_speed": 20
+    }
+  },
+  {
+    "id": "chronal_singularity",
+    "name": "Chronal Singularity",
+    "type": "utility",
+    "rarity": "legendary",
+    "price": 240,
+    "statUpgrades": {
+      "cooldown": -45,
+      "attack_speed": 15
+    }
+  },
+  {
+    "id": "abyssal_reactor",
+    "name": "Abyssal Reactor",
+    "type": "vitality",
+    "rarity": "legendary",
+    "price": 245,
+    "statUpgrades": {
+      "damage": 12,
+      "max_health": 45,
+      "move_speed": -10
+    }
+  },
+  {
+    "id": "dark_matter_heart",
+    "name": "Dark Matter Heart",
+    "type": "strength",
+    "rarity": "legendary",
+    "price": 250,
+    "statUpgrades": {
+      "damage": 18,
+      "lifesteal": 4,
+      "max_health": -15
+    }
+  },
+  {
+    "id": "zero_point_core",
+    "name": "Zero Point Core",
+    "type": "strength",
+    "rarity": "legendary",
+    "price": 260,
+    "statUpgrades": {
+      "damage": 20,
+      "attack_speed": 15,
+      "max_health": -20
+    }
+  },
+  {
+    "id": "omega_heart",
+    "name": "Omega Heart",
+    "type": "vitality",
+    "rarity": "legendary",
+    "price": 255,
+    "statUpgrades": {
+      "max_health": 70,
+      "defense": 8
+    }
+  },
+  {
+    "id": "void_prophet",
+    "name": "Void Prophet",
+    "type": "luck",
+    "rarity": "legendary",
+    "price": 250,
+    "statUpgrades": {
+      "luck": 40,
+      "damage": 10,
+      "max_health": -15
+    }
+  },
+  {
+    "id": "singularity_heart_core",
+    "name": "Singularity Heart Core",
+    "type": "strength",
+    "rarity": "legendary",
+    "price": 270,
+    "statUpgrades": {
+      "damage": 20,
+      "max_health": 30,
+      "defense": 5
+    }
+  },
+  {
+    "id": "infinite_drive",
+    "name": "Infinite Drive",
+    "type": "agility",
+    "rarity": "legendary",
+    "price": 275,
+    "statUpgrades": {
+      "move_speed": 30,
+      "attack_speed": 20,
+      "max_health": -15
+    }
+  },
+  {
+    "id": "entropy_heart",
+    "name": "Entropy Heart",
+    "type": "luck",
+    "rarity": "legendary",
+    "price": 265,
+    "statUpgrades": {
+      "damage": 18,
+      "luck": 30,
+      "defense": -3
+    }
+  },
+  {
+    "id": "absolute_zero_core",
+    "name": "Absolute Zero Core",
+    "type": "defense",
+    "rarity": "legendary",
+    "price": 270,
+    "statUpgrades": {
+      "defense": 15,
+      "cooldown": -20,
+      "move_speed": -10
+    }
+  },
+  {
+    "id": "event_horizon_heart",
+    "name": "Event Horizon Heart",
+    "type": "vampirism",
+    "rarity": "legendary",
+    "price": 280,
+    "statUpgrades": {
+      "damage": 15,
+      "lifesteal": 6,
+      "cooldown": -25
+    }
+  },
+  {
+    "id": "voidborn_heart",
+    "name": "Voidborn Heart",
+    "type": "vitality",
+    "rarity": "legendary",
+    "price": 285,
+    "statUpgrades": {
+      "max_health": 50,
+      "damage": 15,
+      "lifesteal": 3
+    }
+  },
+  {
+    "id": "black_horizon",
+    "name": "Black Horizon",
+    "type": "strength",
+    "rarity": "legendary",
+    "price": 290,
+    "statUpgrades": {
+      "damage": 25,
+      "move_speed": -20
+    }
+  },
+  {
+    "id": "false_star",
+    "name": "False Star",
+    "type": "agility",
+    "rarity": "legendary",
+    "price": 280,
+    "statUpgrades": {
+      "attack_speed": 30,
+      "damage": 12,
+      "max_health": -20
+    }
+  },
+  {
+    "id": "last_light",
+    "name": "Last Light",
+    "type": "vitality",
+    "rarity": "legendary",
+    "price": 300,
+    "statUpgrades": {
+      "max_health": 50,
+      "move_speed": 20,
+      "defense": 5
+    }
+  },
+  {
+    "id": "the_null",
+    "name": "The Null",
+    "type": "strength",
+    "rarity": "legendary",
+    "price": 300,
+    "statUpgrades": {
+      "damage": 20,
+      "cooldown": -40,
+      "max_health": -20
+    }
+  },
+  {
+    "id": "void_emperor",
+    "name": "Void Emperor",
+    "type": "strength",
+    "rarity": "legendary",
+    "price": 320,
+    "statUpgrades": {
+      "damage": 30,
+      "attack_speed": 20,
+      "max_health": -25
     }
   }
 ]

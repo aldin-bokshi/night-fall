@@ -1,0 +1,9 @@
+[gd_resource type="Resource" script_class="AbilityData" format=3]
+
+[ext_resource type="Script" path="res://Scripts/Entities/Player/Abilities/AbilityData.cs" id="1_data"]
+
+[resource]
+script = ExtResource("1_data")
+AbilityName = "NEW ABILITY"
+Icon = null
+CooldownDuration = 1.0

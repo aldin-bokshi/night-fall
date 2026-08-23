@@ -3,7 +3,72 @@
 [ext_resource type="PackedScene" uid="uid://b0fg1oe2yvsux" path="res://Scenes/Shop/ShopItem.tscn" id="1_4kyni"]
 [ext_resource type="Script" uid="uid://cuc1qsb0xqeby" path="res://Scripts/Shop/ShopManager.cs" id="2_ora3x"]
 
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_background"]
+bg_color = Color(0.025, 0.027, 0.035, 1)
+border_width_left = 1
+border_width_top = 1
+border_width_right = 1
+border_width_bottom = 1
+border_color = Color(0.18, 0.16, 0.25, 1)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_header"]
+bg_color = Color(0.045, 0.04, 0.065, 1)
+border_width_left = 1
+border_width_top = 1
+border_width_right = 1
+border_width_bottom = 1
+border_color = Color(0.32, 0.25, 0.48, 1)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_reroll"]
+content_margin_left = 18.0
+content_margin_top = 8.0
+content_margin_right = 18.0
+content_margin_bottom = 8.0
+bg_color = Color(0.055, 0.045, 0.075, 1)
+border_width_left = 1
+border_width_top = 1
+border_width_right = 1
+border_width_bottom = 1
+border_color = Color(0.42, 0.31, 0.58, 1)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_reroll_hover"]
+content_margin_left = 18.0
+content_margin_top = 8.0
+content_margin_right = 18.0
+content_margin_bottom = 8.0
+bg_color = Color(0.11, 0.075, 0.15, 1)
+border_width_left = 1
+border_width_top = 1
+border_width_right = 1
+border_width_bottom = 1
+border_color = Color(0.68, 0.46, 0.86, 1)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_leave"]
+content_margin_left = 24.0
+content_margin_top = 10.0
+content_margin_right = 24.0
+content_margin_bottom = 10.0
+bg_color = Color(0.055, 0.045, 0.07, 1)
+border_width_left = 1
+border_width_top = 1
+border_width_right = 1
+border_width_bottom = 1
+border_color = Color(0.35, 0.28, 0.48, 1)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_leave_hover"]
+content_margin_left = 24.0
+content_margin_top = 10.0
+content_margin_right = 24.0
+content_margin_bottom = 10.0
+bg_color = Color(0.1, 0.075, 0.14, 1)
+border_width_left = 1
+border_width_top = 1
+border_width_right = 1
+border_width_bottom = 1
+border_color = Color(0.58, 0.4, 0.78, 1)
+
 [node name="Shop" type="Control" unique_id=80487823]
+process_mode = 3
 layout_mode = 3
 anchors_preset = 8
 anchor_left = 0.5
@@ -24,50 +89,120 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_background")
+
+[node name="TopAccent" type="ColorRect" parent="." unique_id=560627432]
+layout_mode = 1
+anchors_preset = 10
+anchor_right = 1.0
+offset_bottom = 3.0
+grow_horizontal = 2
+color = Color(0.4, 0.25, 0.6, 1)
+
+[node name="HeaderPanel" type="Panel" parent="." unique_id=497068496]
+layout_mode = 1
+anchors_preset = 10
+anchor_right = 1.0
+offset_left = 24.0
+offset_top = 18.0
+offset_right = -24.0
+offset_bottom = 82.0
+grow_horizontal = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_header")
+
+[node name="Title" type="Label" parent="." unique_id=1581827405]
+layout_mode = 1
+anchors_preset = 10
+anchor_right = 1.0
+offset_top = 21.0
+offset_bottom = 53.0
+grow_horizontal = 2
+theme_override_colors/font_color = Color(0.88, 0.82, 0.96, 1)
+theme_override_font_sizes/font_size = 28
+text = "N I G H T F A L L  //  S T A T I O N"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="Subtitle" type="Label" parent="." unique_id=195747830]
+layout_mode = 1
+anchors_preset = 10
+anchor_right = 1.0
+offset_top = 55.0
+offset_bottom = 76.0
+grow_horizontal = 2
+theme_override_colors/font_color = Color(0.42, 0.38, 0.52, 1)
+theme_override_font_sizes/font_size = 11
+text = "BLACK MARKET  //  AUGMENTATION TERMINAL"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="Gold" type="Label" parent="." unique_id=1559394754]
+layout_mode = 1
+offset_left = 42.0
+offset_top = 36.0
+offset_right = 250.0
+offset_bottom = 67.0
+theme_override_colors/font_color = Color(0.88, 0.72, 0.38, 1)
+theme_override_font_sizes/font_size = 19
+text = "CREDITS  000"
+vertical_alignment = 1
+
+[node name="Status" type="Label" parent="." unique_id=666773991]
+layout_mode = 1
+offset_left = 760.0
+offset_top = 39.0
+offset_right = 950.0
+offset_bottom = 65.0
+theme_override_colors/font_color = Color(0.42, 0.65, 0.58, 1)
+theme_override_font_sizes/font_size = 12
+text = "● TERMINAL ONLINE"
+horizontal_alignment = 2
+vertical_alignment = 1
 
 [node name="HeaderLine" type="HSeparator" parent="." unique_id=701271442]
 layout_mode = 1
 anchors_preset = 10
 anchor_right = 1.0
 offset_left = 35.0
-offset_top = 82.0
+offset_top = 92.0
 offset_right = -35.0
-offset_bottom = 84.0
+offset_bottom = 94.0
 grow_horizontal = 2
-
-[node name="Title" type="Label" parent="." unique_id=1581827405]
-layout_mode = 1
-anchors_preset = 10
-anchor_right = 1.0
-offset_top = 20.0
-offset_bottom = 70.0
-grow_horizontal = 2
-theme_override_font_sizes/font_size = 46
-text = "SHOP"
-horizontal_alignment = 1
-vertical_alignment = 1
-
-[node name="Gold" type="Label" parent="." unique_id=1559394754]
-layout_mode = 1
-offset_left = 35.0
-offset_top = 30.0
-offset_right = 220.0
-offset_bottom = 70.0
-theme_override_font_sizes/font_size = 24
-text = "Gold: 0"
-vertical_alignment = 1
 
 [node name="ItemsLabel" type="Label" parent="." unique_id=1459783476]
 layout_mode = 1
 anchors_preset = 10
 anchor_right = 1.0
-offset_top = 98.0
-offset_bottom = 125.0
+offset_top = 105.0
+offset_bottom = 130.0
 grow_horizontal = 2
-theme_override_font_sizes/font_size = 16
-text = "AVAILABLE ITEMS"
+theme_override_colors/font_color = Color(0.48, 0.43, 0.58, 1)
+theme_override_font_sizes/font_size = 13
+text = "AVAILABLE AUGMENTATIONS // SELECT YOUR FATE"
 horizontal_alignment = 1
 vertical_alignment = 1
+
+[node name="LeftBracket" type="Label" parent="." unique_id=542593054]
+layout_mode = 1
+offset_left = 38.0
+offset_top = 137.0
+offset_right = 65.0
+offset_bottom = 165.0
+theme_override_colors/font_color = Color(0.35, 0.27, 0.48, 1)
+theme_override_font_sizes/font_size = 22
+text = "["
+horizontal_alignment = 1
+
+[node name="RightBracket" type="Label" parent="." unique_id=282002781]
+layout_mode = 1
+offset_left = 935.0
+offset_top = 137.0
+offset_right = 962.0
+offset_bottom = 165.0
+theme_override_colors/font_color = Color(0.35, 0.27, 0.48, 1)
+theme_override_font_sizes/font_size = 22
+text = "]"
+horizontal_alignment = 1
 
 [node name="HBoxContainer" type="HBoxContainer" parent="." unique_id=539928142]
 layout_mode = 1
@@ -76,23 +211,26 @@ anchor_left = 0.5
 anchor_top = 0.5
 anchor_right = 0.5
 anchor_bottom = 0.5
-offset_left = -280.0
-offset_top = -55.0
-offset_right = 280.0
+offset_left = -430.0
+offset_top = -60.0
+offset_right = 430.0
 offset_bottom = 145.0
 grow_horizontal = 2
 grow_vertical = 2
-theme_override_constants/separation = 30
+theme_override_constants/separation = 22
 alignment = 1
 
 [node name="ShopItem1" parent="HBoxContainer" unique_id=1771981929 instance=ExtResource("1_4kyni")]
 layout_mode = 2
+size_flags_horizontal = 3
 
 [node name="ShopItem2" parent="HBoxContainer" unique_id=1216808657 instance=ExtResource("1_4kyni")]
 layout_mode = 2
+size_flags_horizontal = 3
 
 [node name="ShopItem3" parent="HBoxContainer" unique_id=1434282810 instance=ExtResource("1_4kyni")]
 layout_mode = 2
+size_flags_horizontal = 3
 
 [node name="FooterLine" type="HSeparator" parent="." unique_id=283415211]
 layout_mode = 1
@@ -102,11 +240,51 @@ anchor_top = 1.0
 anchor_right = 0.5
 anchor_bottom = 1.0
 offset_left = -465.0
-offset_top = -100.0
+offset_top = -85.0
 offset_right = 465.0
-offset_bottom = -98.0
+offset_bottom = -83.0
 grow_horizontal = 2
 grow_vertical = 0
+
+[node name="FooterText" type="Label" parent="." unique_id=2001953471]
+layout_mode = 1
+anchors_preset = 7
+anchor_left = 0.5
+anchor_top = 1.0
+anchor_right = 0.5
+anchor_bottom = 1.0
+offset_left = -300.0
+offset_top = -72.0
+offset_right = 300.0
+offset_bottom = -47.0
+grow_horizontal = 2
+grow_vertical = 0
+theme_override_colors/font_color = Color(0.32, 0.29, 0.38, 1)
+theme_override_font_sizes/font_size = 11
+text = "AUGMENTATION MARKET  //  TRANSACTION TERMINAL"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="Reroll" type="Button" parent="." unique_id=2073916051]
+layout_mode = 1
+anchors_preset = 7
+anchor_left = 0.5
+anchor_top = 1.0
+anchor_right = 0.5
+anchor_bottom = 1.0
+offset_left = 220.0
+offset_top = -52.0
+offset_right = 430.0
+offset_bottom = -16.0
+grow_horizontal = 2
+grow_vertical = 0
+theme_override_colors/font_color = Color(0.68, 0.61, 0.76, 1)
+theme_override_colors/font_hover_color = Color(0.94, 0.87, 1, 1)
+theme_override_font_sizes/font_size = 13
+theme_override_styles/normal = SubResource("StyleBoxFlat_reroll")
+theme_override_styles/pressed = SubResource("StyleBoxFlat_reroll_hover")
+theme_override_styles/hover = SubResource("StyleBoxFlat_reroll_hover")
+text = "↻  REROLL  //  150 CR"
 
 [node name="Leave" type="Button" parent="." unique_id=487853269]
 layout_mode = 1
@@ -116,16 +294,22 @@ anchor_top = 1.0
 anchor_right = 0.5
 anchor_bottom = 1.0
 offset_left = -75.0
-offset_top = -80.0
+offset_top = -48.0
 offset_right = 75.0
-offset_bottom = -30.0
+offset_bottom = -10.0
 grow_horizontal = 2
 grow_vertical = 0
-theme_override_font_sizes/font_size = 22
-text = "Leave"
+theme_override_colors/font_color = Color(0.7, 0.65, 0.76, 1)
+theme_override_colors/font_hover_color = Color(0.92, 0.86, 1, 1)
+theme_override_font_sizes/font_size = 15
+theme_override_styles/normal = SubResource("StyleBoxFlat_leave")
+theme_override_styles/pressed = SubResource("StyleBoxFlat_leave_hover")
+theme_override_styles/hover = SubResource("StyleBoxFlat_leave_hover")
+text = "LEAVE"
 
-[node name="ShopManager" type="Node" parent="." unique_id=1373668460 node_paths=PackedStringArray("_shopItem1", "_shopItem2", "_shopItem3")]
+[node name="ShopManager" type="Node" parent="." unique_id=1373668460 node_paths=PackedStringArray("_shopItem1", "_shopItem2", "_shopItem3", "_leaveButton")]
 script = ExtResource("2_ora3x")
 _shopItem1 = NodePath("../HBoxContainer/ShopItem1")
 _shopItem2 = NodePath("../HBoxContainer/ShopItem2")
 _shopItem3 = NodePath("../HBoxContainer/ShopItem3")
+_leaveButton = NodePath("../Leave")
