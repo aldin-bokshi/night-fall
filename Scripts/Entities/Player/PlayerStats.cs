@@ -6,10 +6,7 @@ public partial class PlayerStats : Node
 {
     [Export] public float MaxHealth { get; set; } = 100f;
 
-    public bool IsDead
-    {
-        get { return Health <= 0f; }
-    }
+    public bool IsDead => Health <= 0f;
 
     [Export] public float MoveSpeed { get; set; } = 150f;
 
@@ -32,10 +29,7 @@ public partial class PlayerStats : Node
 
     private float _health;
 
-    public float Health
-    {
-        get { return _health; }
-    }
+    public float Health => _health;
 
     public void AddGold(int amount)
     {
@@ -49,10 +43,7 @@ public partial class PlayerStats : Node
 
     public bool SpendGold(int amount)
     {
-        if (!CanAfford(amount))
-        {
-            return false;
-        }
+        if (!CanAfford(amount)) return false;
 
         Gold -= amount;
         return true;
@@ -112,7 +103,7 @@ public partial class PlayerStats : Node
             case "COOLDOWN":
                 AttackCooldown = Mathf.Max(
                     0.15f,
-                    AttackCooldown * 0.85f);
+                    AttackCooldown * (1.0f + amount / 100.0f));
                 break;
 
             default:

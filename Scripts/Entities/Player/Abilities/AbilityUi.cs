@@ -76,19 +76,13 @@ public partial class AbilityUi : Panel
         _icon.Visible = data.Icon != null;
 
         if (_cooldown == null) return;
-
         _cooldown.Value = _ability.CooldownProgress;
-
-        if (_ability.IsReady) return;
-        GD.Print(
-            $"{_ability.Data?.AbilityName}: " +
-            $"{_ability.CooldownProgress:0.0}%"
-        );
 
         bool currentlyReady = _ability.IsReady;
 
-        if (!currentlyReady || _wasReady){
-            // Flash ready pulse
+        if (currentlyReady && !_wasReady)
+        {
+            // Flash ready pulse — fires once, on the transition into "ready"
             Tween tween = CreateTween();
             tween.TweenProperty(this, "scale", new Vector2(1.08f, 1.08f), 0.08f);
             tween.TweenProperty(this, "scale", Vector2.One, 0.12f);
