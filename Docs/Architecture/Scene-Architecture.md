@@ -52,7 +52,7 @@ The active gameplay composition root:
 ```text
 Game (Scripts/Game/Game.cs)
 ├── World (Node2D)
-│   ├── Dungeon (Scenes/Dungeon/Hub/Hub.tscn)
+│   ├── Dungeon (generated room sequence)
 │   ├── Player (Scenes/Entities/Player/Player.tscn)
 │   ├── Enemies
 │   ├── WorldObjects
@@ -62,12 +62,9 @@ Game (Scripts/Game/Game.cs)
     └── HUD (Scenes/UI/UI.tscn)
 ```
 
-`Game.cs` is limited to scene-level coordination. The Player keeps its camera and ability manager, while the reused HUD supplies health, gold, abilities, pause, and death overlays.
+`Game.cs` coordinates scene-level setup and generates the deterministic room sequence from `RunConfig.Seed`. It loads the room scenes listed in `GamePaths.RoomScenes`, removes the legacy hub instance, and places the rooms in order under `Dungeon`. The Player keeps its camera and ability manager, while the reused HUD supplies health, gold, abilities, pause, and death overlays.
 
-`Game.cs` reads the active `RunSession` during `_EnterTree`, seeds Godot's random
-number generator for the run, and validates the required composition nodes during
-`_Ready`. It does not own movement, combat, enemy AI, dungeon progression, ability
-gameplay, or HUD rendering.
+`Game.cs` reads the active `RunSession` during `_EnterTree` and validates the required composition nodes during `_Ready`. `DungeonGenerator` uses a dedicated deterministic RNG for layout generation; it does not seed Godot's global RNG. Game still does not own movement, combat, enemy AI, ability gameplay, or HUD rendering.
 
 The active run is entered as follows:
 

@@ -1,5 +1,3 @@
-using System;
-using System.Security.Cryptography;
 using System.Text;
 using Godot;
 using NightFall.Scripts.Core;
@@ -10,7 +8,7 @@ namespace NightFall.Scripts.Ui;
 public partial class DungeonSetup : Control
 {
     private const string SeedCharacters =
-        "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
+        "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
 
     private const int RandomSeedLength = 8;
 
@@ -26,7 +24,8 @@ public partial class DungeonSetup : Control
     private Button[] _modifierButtons = null!;
     private string[] _modifierNames = null!;
 
-    private bool CanTransition => !_animation.IsTransitioning;
+    private bool CanTransition =>
+        !_animation.IsTransitioning;
 
     public override void _Ready()
     {
@@ -114,19 +113,8 @@ public partial class DungeonSetup : Control
         _startButton.GrabFocus();
     }
 
-    private void OnSeedChanged(string text)
+    private void OnSeedChanged(string _)
     {
-        string filtered = FilterSeed(text);
-
-        if (!string.Equals(filtered, text, StringComparison.Ordinal))
-        {
-            int caretPosition = _seedInput.CaretColumn;
-
-            _seedInput.Text = filtered;
-            _seedInput.CaretColumn =
-                Mathf.Min(caretPosition, filtered.Length);
-        }
-
         UpdatePreview();
     }
 
@@ -143,9 +131,11 @@ public partial class DungeonSetup : Control
 
     private void UpdateSeedPreview()
     {
-        if (string.IsNullOrWhiteSpace(_seedInput.Text))
+        if (string.IsNullOrEmpty(_seedInput.Text))
         {
-            _seedPreview.Text = "RANDOM / GENERATED ON START";
+            _seedPreview.Text =
+                "RANDOM / GENERATED ON START";
+
             return;
         }
 
@@ -156,7 +146,9 @@ public partial class DungeonSetup : Control
     {
         StringBuilder selected = new();
 
-        for (int index = 0; index < _modifierButtons.Length; index++)
+        for (int index = 0;
+             index < _modifierButtons.Length;
+             index++)
         {
             if (!_modifierButtons[index].ButtonPressed)
             {
@@ -195,7 +187,8 @@ public partial class DungeonSetup : Control
 
     private void ReturnToMainMenu()
     {
-        GetTree().ChangeSceneToFile(GamePaths.MainMenu);
+        GetTree().ChangeSceneToFile(
+            GamePaths.MainMenu);
     }
 
     private void OnStartRunPressed()
@@ -205,7 +198,7 @@ public partial class DungeonSetup : Control
             return;
         }
 
-        string seedText = _seedInput.Text.Trim();
+        string seedText = _seedInput.Text;
 
         if (string.IsNullOrEmpty(seedText))
         {
@@ -224,9 +217,8 @@ public partial class DungeonSetup : Control
 
     private RunConfig CreateRunConfig(string seedText)
     {
-        return new RunConfig(
+        return RunConfig.Create(
             seedText,
-            ConvertSeedToNumber(seedText),
             _modifierButtons[0].ButtonPressed,
             _modifierButtons[1].ButtonPressed,
             _modifierButtons[2].ButtonPressed,
@@ -236,7 +228,8 @@ public partial class DungeonSetup : Control
 
     private void StartGame()
     {
-        GetTree().ChangeSceneToFile(GamePaths.GameScene);
+        GetTree().ChangeSceneToFile(
+            GamePaths.GameScene);
     }
 
     private void SetButtonsDisabled(bool disabled)
@@ -252,51 +245,23 @@ public partial class DungeonSetup : Control
         _seedInput.Editable = !disabled;
     }
 
-    private static string FilterSeed(string text)
-    {
-        StringBuilder builder = new(text.Length);
-
-        foreach (char character in text)
-        {
-            bool isAsciiLetter =
-                character is >= 'A' and <= 'Z' ||
-                character is >= 'a' and <= 'z';
-
-            bool isAsciiDigit =
-                character is >= '0' and <= '9';
-
-            if (!isAsciiLetter && !isAsciiDigit)
-            {
-                continue;
-            }
-
-            builder.Append(char.ToUpperInvariant(character));
-        }
-
-        return builder.ToString();
-    }
-
     private static string GenerateRandomSeed()
     {
-        StringBuilder builder = new(RandomSeedLength);
+        StringBuilder builder =
+            new(RandomSeedLength);
 
-        for (int index = 0; index < RandomSeedLength; index++)
+        for (int index = 0;
+             index < RandomSeedLength;
+             index++)
         {
             int randomIndex = GD.RandRange(
                 0,
                 SeedCharacters.Length - 1);
 
-            builder.Append(SeedCharacters[randomIndex]);
+            builder.Append(
+                SeedCharacters[randomIndex]);
         }
 
         return builder.ToString();
-    }
-
-    private static ulong ConvertSeedToNumber(string seedText)
-    {
-        byte[] hash = SHA256.HashData(
-            Encoding.UTF8.GetBytes(seedText));
-
-        return BitConverter.ToUInt64(hash, 0);
     }
 }

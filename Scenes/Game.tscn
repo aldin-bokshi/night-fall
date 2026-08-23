@@ -1,7 +1,6 @@
 [gd_scene format=3 uid="uid://d17e7blbmv52u"]
 
 [ext_resource type="Script" uid="uid://kk8khhud6t6h" path="res://Scripts/Game/Game.cs" id="1_game"]
-[ext_resource type="PackedScene" uid="uid://cwjwdt6xt3sjm" path="res://Scenes/Dungeon/Hub/Hub.tscn" id="2_dungeon"]
 [ext_resource type="PackedScene" uid="uid://dul7167pwxfxl" path="res://Scenes/Entities/Enemies/Enemy.tscn" id="3_b2bpf"]
 [ext_resource type="PackedScene" uid="uid://bof1fhytmmkh8" path="res://Scenes/Entities/Player/Player.tscn" id="3_player"]
 [ext_resource type="PackedScene" uid="uid://240oi6ehi442" path="res://Scenes/UI/UI.tscn" id="4_ui"]
@@ -11,7 +10,7 @@ script = ExtResource("1_game")
 
 [node name="World" type="Node2D" parent="." unique_id=287890331]
 
-[node name="Dungeon" parent="World" unique_id=887567654 instance=ExtResource("2_dungeon")]
+[node name="Dungeon" type="Node2D" parent="World" unique_id=887567654]
 
 [node name="Enemies" type="Node2D" parent="World" unique_id=845108161]
 position = Vector2(-207, 243)

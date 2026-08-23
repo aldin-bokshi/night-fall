@@ -1,5 +1,7 @@
+using System.Collections.Generic;
 using Godot;
 using NightFall.Scripts.Core;
+using NightFall.Scripts.Dungeon;
 using NightFall.Scripts.Entities.Player;
 using NightFall.Scripts.Run;
 
@@ -20,11 +22,11 @@ public partial class Game : Node
     public Player? Player { get; private set; }
     public CanvasLayer? Hud { get; private set; }
     public RunTracker RunTracker { get; private set; } = null!;
+    public IReadOnlyList<RoomType> DungeonLayout { get; private set; } = [];
 
     public override void _EnterTree()
     {
         CurrentRun = RunSession.Current ?? CreateFallbackRun();
-        GD.Seed(CurrentRun.Seed);
     }
 
     public override void _Ready()
@@ -40,7 +42,58 @@ public partial class Game : Node
         RunTracker = new RunTracker();
         AddChild(RunTracker);
 
+        GenerateDungeon();
         ApplyRunModifiers();
+    }
+
+    private void GenerateDungeon()
+    {
+        DungeonLayout = DungeonGenerator.Generate(CurrentRun.Seed);
+
+        GD.Print(
+            $"Dungeon seed: {CurrentRun.SeedText} ({CurrentRun.Seed}), " +
+            $"rooms: {DungeonLayout.Count}, " +
+            $"layout: {string.Join(" -> ", DungeonLayout)}");
+
+        if (Dungeon == null)
+        {
+            return;
+        }
+
+        foreach (Node child in Dungeon.GetChildren())
+        {
+            child.Free();
+        }
+
+        for (int index = 0; index < DungeonLayout.Count; index++)
+        {
+            RoomType roomType = DungeonLayout[index];
+            PackedScene? roomScene = GD.Load<PackedScene>(GetRoomScenePath(roomType));
+
+            if (roomScene == null)
+            {
+                GD.PushError($"Dungeon room scene could not be loaded: {roomType}");
+                continue;
+            }
+
+            Node2D room = roomScene.Instantiate<Node2D>();
+            room.Name = $"{roomType}Room{index + 1}";
+            room.Position = new Vector2(index * 700f - 320f, -180f);
+            Dungeon.AddChild(room);
+        }
+    }
+
+    private static string GetRoomScenePath(RoomType roomType)
+    {
+        return roomType switch
+        {
+            RoomType.Start => GamePaths.RoomScenes.StartRoom,
+            RoomType.Combat => GamePaths.RoomScenes.CombatRoom,
+            RoomType.Elite => GamePaths.RoomScenes.EliteRoom,
+            RoomType.Shop => GamePaths.RoomScenes.ShopRoom,
+            RoomType.Boss => GamePaths.RoomScenes.BossRoom,
+            _ => GamePaths.RoomScenes.HubRoom
+        };
     }
 
     private void ApplyRunModifiers()

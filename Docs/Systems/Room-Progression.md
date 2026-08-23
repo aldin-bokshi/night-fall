@@ -1,6 +1,18 @@
 # Room Progression
 
-The room system is implemented as a wave-based enemy encounter driven by `RoomManager`. There is no multi-room layout or room-chain generation yet; a single `Hub` scene contains the active wave hook.
+NightFall has a deterministic generated room layout plus the existing wave-based encounter hook. `DungeonGenerator` creates the room sequence, `Game` instantiates its scenes, and `RoomManager` continues to own combat waves inside rooms that contain that manager.
+
+## Generated Layout
+
+`DungeonGenerator.Generate(ulong seed)` uses a dedicated `System.Random` initialized from `RunConfig.Seed`. Its rules are separate from RNG setup:
+
+- The sequence starts with `Start`.
+- It contains four to seven choice rooms.
+- Choice rooms are `Combat`, `Elite`, or `Shop`; the first shop has a 20% chance and combat is the common result.
+- A shop is followed by combat or elite rather than another shop.
+- The sequence ends with `Boss`.
+
+The same numeric seed produces the same room count, order, and types. `Game.cs` loads the matching room scenes from `GamePaths.RoomScenes`, removes the legacy hub instance, and places the generated rooms in order under `World/Dungeon`. Room scenes are currently laid out spatially; portals and automatic room-to-room progression are not implemented yet.
 
 ## Current Pieces
 
@@ -57,11 +69,16 @@ Player enters RoomActivationZone
 
 ## What This Means For Developers
 
-If you want to change how rooms progress (drops, portals, next-room spawning, boss rooms), `RoomManager` is the place to start. The current `Scenes/Dungeon/Hub/Hub.tscn` uses one `RoomActivationZone` and no boss/next-room logic.
+If you want to change room generation rules, start with `DungeonGenerator`. If you want to add drops, portals, room completion, or next-room movement, extend the generated-room flow in `Game` and the room-specific scene scripts. `RoomManager` remains the place for wave lifecycle behavior.
 
-## Relevant Scene
+## Relevant Scenes
 
-- `Scenes/Dungeon/Hub/Hub.tscn`
+- `Scenes/Dungeon/StartRoom/StartRoom.tscn`
+- `Scenes/Dungeon/CombatRoom/CombatRoom.tscn`
+- `Scenes/Dungeon/EliteRoom/EliteRoom.tscn`
+- `Scenes/Dungeon/ShopRoom/ShopRoom.tscn`
+- `Scenes/Dungeon/BossRoom/BossRoom.tscn`
+- `Scenes/Dungeon/Hub/Hub.tscn` (legacy source scene)
 
 ## Current Limitations
 

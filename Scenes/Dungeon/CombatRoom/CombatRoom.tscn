@@ -1,0 +1,74 @@
+[gd_scene format=3]
+
+[sub_resource type="RectangleShape2D" id="WallTop"]
+size = Vector2(640, 32)
+
+[sub_resource type="RectangleShape2D" id="WallBottom"]
+size = Vector2(640, 32)
+
+[sub_resource type="RectangleShape2D" id="WallLeft"]
+size = Vector2(32, 360)
+
+[sub_resource type="RectangleShape2D" id="WallRight"]
+size = Vector2(32, 360)
+
+[sub_resource type="CircleShape2D" id="EnemyShape"]
+radius = 24.0
+
+[node name="CombatRoom" type="Node2D"]
+
+[node name="Floor" type="Polygon2D" parent="."]
+polygon = PackedVector2Array(16, 16, 624, 16, 624, 344, 16, 344)
+
+[node name="Walls" type="Node2D" parent="."]
+
+[node name="Top" type="StaticBody2D" parent="Walls"]
+position = Vector2(320, 0)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Walls/Top"]
+shape = SubResource("WallTop")
+
+[node name="Bottom" type="StaticBody2D" parent="Walls"]
+position = Vector2(320, 360)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Walls/Bottom"]
+shape = SubResource("WallBottom")
+
+[node name="Left" type="StaticBody2D" parent="Walls"]
+position = Vector2(0, 180)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Walls/Left"]
+shape = SubResource("WallLeft")
+
+[node name="Right" type="StaticBody2D" parent="Walls"]
+position = Vector2(640, 180)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Walls/Right"]
+shape = SubResource("WallRight")
+
+[node name="Enemies" type="Node2D" parent="."]
+
+[node name="Enemy1" type="Polygon2D" parent="Enemies"]
+polygon = PackedVector2Array(-24, -24, 24, -24, 24, 24, -24, 24)
+position = Vector2(180, 100)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Enemies/Enemy1"]
+shape = SubResource("EnemyShape")
+
+[node name="Enemy2" type="Polygon2D" parent="Enemies"]
+polygon = PackedVector2Array(-24, -24, 24, -24, 24, 24, -24, 24)
+position = Vector2(460, 100)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Enemies/Enemy2"]
+shape = SubResource("EnemyShape")
+
+[node name="Enemy3" type="Polygon2D" parent="Enemies"]
+polygon = PackedVector2Array(-24, -24, 24, -24, 24, 24, -24, 24)
+position = Vector2(320, 270)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Enemies/Enemy3"]
+shape = SubResource("EnemyShape")
+
+[node name="Label" type="Label" parent="."]
+position = Vector2(20, 20)
+text = "COMBAT ROOM"

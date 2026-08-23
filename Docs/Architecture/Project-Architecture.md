@@ -35,7 +35,7 @@ There is also a legacy reusable in-game shell scene:
 Scenes/Core/Game.tscn
 ```
 
-`Scripts/Game/Game.cs` is a thin composition root and does not own player, enemy, dungeon, ability, or UI mechanics. `RunSession` remains the run-data handoff between setup and gameplay.
+`Scripts/Game/Game.cs` is the composition root for scene-level setup. It reads `RunSession`, creates the deterministic dungeon layout through `DungeonGenerator`, and instantiates the selected room scenes; player, enemy, ability, and UI mechanics remain in their feature scripts.
 
 ## Folder Responsibilities
 
@@ -121,7 +121,7 @@ See [Run System](../Systems/Run.md) for the full details and where each modifier
 These are architectural realities of the current codebase, not recommendations:
 
 - `GameManager.cs` and `GameLoader.cs` currently contain no runtime logic.
-- `Scenes/Dungeon/Rooms/`, `Scenes/Dungeon/BossRoom/`, and `Scenes/Dungeon/Shop/` are empty folders; there is no boss fight or multi-room progression.
+- Generated room scenes are currently laid out in order, but portal-based multi-room progression and room-specific boss/shop interactions are not implemented.
 - `Scenes/UI/Win/` is an empty folder; there is no win screen.
 
 See the system-specific docs for the actual implementation details.
