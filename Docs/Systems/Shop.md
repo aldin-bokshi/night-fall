@@ -42,6 +42,17 @@ Current fields:
 
 It lives in `Data/Shop/ItemData.cs` under the `NightFall.Data.Shop` namespace.
 
+## Reroll
+
+The shop supports rerolling its three item slots.
+
+Each shop grants **3 rerolls**, tracked per `ShopManager` instance (`_rerollsRemaining`, reset via field initializer). Since each `ShopTrigger` instantiates and caches its own `Shop` scene the first time it's opened, this means 3 rerolls per distinct shop altar, not per visit if you leave and reopen the same altar — closing/reopening currently doesn't regenerate items or reset rerolls (pre-existing behavior, unchanged by this feature).
+Each reroll costs a fixed **150 credits**, deducted only after confirming `_rerollsRemaining > 0` and `PlayerStats.CanAfford(150)`.
+A successful reroll calls the same `GenerateShopItems()` used on shop entry, so it keeps the existing unique-item-type-per-visit behavior. Duplicate items *across* separate rerolls are allowed.
+`DisplayShopItems()` re-runs after reroll, and `ShopItem.SetItem()` already resets each card's purchased/button state.
+The `Reroll` button's label doubles as the remaining-reroll counter, e.g. `↻ REROLL // 150 CR (2/3)`, and is disabled whenever `_rerollsRemaining` is 0 or the player can't afford 150 credits — this is re-checked every frame (`ProcessMode.Always`, since the shop is open exactly when the tree is paused) so it also disables immediately after spending gold on an item purchase.
+The top-of-shop `Gold`/credits label (previously unused/static) is now kept in sync with `PlayerStats.Gold` on shop open and after each reroll.
+
 ### `ShopManager`
 
 `ShopManager` loads the JSON file, chooses three unique items at random, and pushes them into the three exported shop item slots.
@@ -123,6 +134,7 @@ The file contains item definitions such as:
 There is no inventory/ownership persistence between screens or runs — purchased upgrades apply to the live `PlayerStats` and are lost when the run ends.
 </｜DSML｜tool>
 <task_progress>
+
 - [x] Explore documentation structure
 - [x] Explore source code structure
 - [x] Read existing documentation files

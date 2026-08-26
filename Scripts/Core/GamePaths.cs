@@ -5,6 +5,12 @@ public static class GamePaths
     public const string EnemyScene =
         "res://Scenes/Entities/Enemies/Enemy.tscn";
 
+    public const string FastEnemyScene =
+        "res://Scenes/Entities/Enemies/FastEnemy.tscn";
+
+    public const string TankEnemyScene =
+        "res://Scenes/Entities/Enemies/TankEnemy.tscn";
+
     public const string GameScene =
         "res://Scenes/Game.tscn";
 

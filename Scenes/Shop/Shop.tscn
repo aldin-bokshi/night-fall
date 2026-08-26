@@ -2,8 +2,12 @@
 
 [ext_resource type="PackedScene" uid="uid://b0fg1oe2yvsux" path="res://Scenes/Shop/ShopItem.tscn" id="1_4kyni"]
 [ext_resource type="Script" uid="uid://cuc1qsb0xqeby" path="res://Scripts/Shop/ShopManager.cs" id="2_ora3x"]
+[ext_resource type="Script" path="res://Scripts/Shop/ShopItemManager.cs" id="3_itemmanager"]
+[ext_resource type="Script" path="res://Scripts/Shop/ShopRerollManager.cs" id="4_rerollmanager"]
+[ext_resource type="Script" path="res://Scripts/Shop/RerollButton.cs" id="5_rerollbutton"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_background"]
+
 bg_color = Color(0.025, 0.027, 0.035, 1)
 border_width_left = 1
 border_width_top = 1
@@ -12,6 +16,7 @@ border_width_bottom = 1
 border_color = Color(0.18, 0.16, 0.25, 1)
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_header"]
+
 bg_color = Color(0.045, 0.04, 0.065, 1)
 border_width_left = 1
 border_width_top = 1
@@ -20,6 +25,7 @@ border_width_bottom = 1
 border_color = Color(0.32, 0.25, 0.48, 1)
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_reroll"]
+
 content_margin_left = 18.0
 content_margin_top = 8.0
 content_margin_right = 18.0
@@ -32,6 +38,7 @@ border_width_bottom = 1
 border_color = Color(0.42, 0.31, 0.58, 1)
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_reroll_hover"]
+
 content_margin_left = 18.0
 content_margin_top = 8.0
 content_margin_right = 18.0
@@ -44,6 +51,7 @@ border_width_bottom = 1
 border_color = Color(0.68, 0.46, 0.86, 1)
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_leave"]
+
 content_margin_left = 24.0
 content_margin_top = 10.0
 content_margin_right = 24.0
@@ -56,6 +64,7 @@ border_width_bottom = 1
 border_color = Color(0.35, 0.28, 0.48, 1)
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_leave_hover"]
+
 content_margin_left = 24.0
 content_margin_top = 10.0
 content_margin_right = 24.0
@@ -68,6 +77,7 @@ border_width_bottom = 1
 border_color = Color(0.58, 0.4, 0.78, 1)
 
 [node name="Shop" type="Control" unique_id=80487823]
+
 process_mode = 3
 layout_mode = 3
 anchors_preset = 8
@@ -83,6 +93,7 @@ grow_horizontal = 2
 grow_vertical = 2
 
 [node name="Panel" type="Panel" parent="." unique_id=141489275]
+
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
@@ -92,6 +103,7 @@ grow_vertical = 2
 theme_override_styles/panel = SubResource("StyleBoxFlat_background")
 
 [node name="TopAccent" type="ColorRect" parent="." unique_id=560627432]
+
 layout_mode = 1
 anchors_preset = 10
 anchor_right = 1.0
@@ -100,6 +112,7 @@ grow_horizontal = 2
 color = Color(0.4, 0.25, 0.6, 1)
 
 [node name="HeaderPanel" type="Panel" parent="." unique_id=497068496]
+
 layout_mode = 1
 anchors_preset = 10
 anchor_right = 1.0
@@ -111,6 +124,7 @@ grow_horizontal = 2
 theme_override_styles/panel = SubResource("StyleBoxFlat_header")
 
 [node name="Title" type="Label" parent="." unique_id=1581827405]
+
 layout_mode = 1
 anchors_preset = 10
 anchor_right = 1.0
@@ -124,6 +138,7 @@ horizontal_alignment = 1
 vertical_alignment = 1
 
 [node name="Subtitle" type="Label" parent="." unique_id=195747830]
+
 layout_mode = 1
 anchors_preset = 10
 anchor_right = 1.0
@@ -137,6 +152,7 @@ horizontal_alignment = 1
 vertical_alignment = 1
 
 [node name="Gold" type="Label" parent="." unique_id=1559394754]
+
 layout_mode = 1
 offset_left = 42.0
 offset_top = 36.0
@@ -148,6 +164,7 @@ text = "CREDITS  000"
 vertical_alignment = 1
 
 [node name="Status" type="Label" parent="." unique_id=666773991]
+
 layout_mode = 1
 offset_left = 760.0
 offset_top = 39.0
@@ -160,6 +177,7 @@ horizontal_alignment = 2
 vertical_alignment = 1
 
 [node name="HeaderLine" type="HSeparator" parent="." unique_id=701271442]
+
 layout_mode = 1
 anchors_preset = 10
 anchor_right = 1.0
@@ -170,6 +188,7 @@ offset_bottom = 94.0
 grow_horizontal = 2
 
 [node name="ItemsLabel" type="Label" parent="." unique_id=1459783476]
+
 layout_mode = 1
 anchors_preset = 10
 anchor_right = 1.0
@@ -183,6 +202,7 @@ horizontal_alignment = 1
 vertical_alignment = 1
 
 [node name="LeftBracket" type="Label" parent="." unique_id=542593054]
+
 layout_mode = 1
 offset_left = 38.0
 offset_top = 137.0
@@ -194,6 +214,7 @@ text = "["
 horizontal_alignment = 1
 
 [node name="RightBracket" type="Label" parent="." unique_id=282002781]
+
 layout_mode = 1
 offset_left = 935.0
 offset_top = 137.0
@@ -205,6 +226,7 @@ text = "]"
 horizontal_alignment = 1
 
 [node name="HBoxContainer" type="HBoxContainer" parent="." unique_id=539928142]
+
 layout_mode = 1
 anchors_preset = 8
 anchor_left = 0.5
@@ -221,18 +243,22 @@ theme_override_constants/separation = 22
 alignment = 1
 
 [node name="ShopItem1" parent="HBoxContainer" unique_id=1771981929 instance=ExtResource("1_4kyni")]
+
 layout_mode = 2
 size_flags_horizontal = 3
 
 [node name="ShopItem2" parent="HBoxContainer" unique_id=1216808657 instance=ExtResource("1_4kyni")]
+
 layout_mode = 2
 size_flags_horizontal = 3
 
 [node name="ShopItem3" parent="HBoxContainer" unique_id=1434282810 instance=ExtResource("1_4kyni")]
+
 layout_mode = 2
 size_flags_horizontal = 3
 
 [node name="FooterLine" type="HSeparator" parent="." unique_id=283415211]
+
 layout_mode = 1
 anchors_preset = 7
 anchor_left = 0.5
@@ -247,6 +273,7 @@ grow_horizontal = 2
 grow_vertical = 0
 
 [node name="FooterText" type="Label" parent="." unique_id=2001953471]
+
 layout_mode = 1
 anchors_preset = 7
 anchor_left = 0.5
@@ -266,6 +293,7 @@ horizontal_alignment = 1
 vertical_alignment = 1
 
 [node name="Reroll" type="Button" parent="." unique_id=2073916051]
+
 layout_mode = 1
 anchors_preset = 7
 anchor_left = 0.5
@@ -285,8 +313,10 @@ theme_override_styles/normal = SubResource("StyleBoxFlat_reroll")
 theme_override_styles/pressed = SubResource("StyleBoxFlat_reroll_hover")
 theme_override_styles/hover = SubResource("StyleBoxFlat_reroll_hover")
 text = "↻  REROLL  //  150 CR"
+script = ExtResource("5_rerollbutton")
 
 [node name="Leave" type="Button" parent="." unique_id=487853269]
+
 layout_mode = 1
 anchors_preset = 7
 anchor_left = 0.5
@@ -307,9 +337,22 @@ theme_override_styles/pressed = SubResource("StyleBoxFlat_leave_hover")
 theme_override_styles/hover = SubResource("StyleBoxFlat_leave_hover")
 text = "LEAVE"
 
-[node name="ShopManager" type="Node" parent="." unique_id=1373668460 node_paths=PackedStringArray("_shopItem1", "_shopItem2", "_shopItem3", "_leaveButton")]
+[node name="ShopManager" type="Node" parent="." unique_id=1373668460 node_paths=PackedStringArray("_itemManager", "_rerollManager", "_leaveButton", "_rerollButton", "_creditsLabel")]
+
 script = ExtResource("2_ora3x")
+_itemManager = NodePath("../ShopItemManager")
+_rerollManager = NodePath("../ShopRerollManager")
+_leaveButton = NodePath("../Leave")
+_rerollButton = NodePath("../Reroll")
+_creditsLabel = NodePath("../Gold")
+
+[node name="ShopItemManager" type="Node" parent="." node_paths=PackedStringArray("_shopItem1", "_shopItem2", "_shopItem3")]
+
+script = ExtResource("3_itemmanager")
 _shopItem1 = NodePath("../HBoxContainer/ShopItem1")
 _shopItem2 = NodePath("../HBoxContainer/ShopItem2")
 _shopItem3 = NodePath("../HBoxContainer/ShopItem3")
-_leaveButton = NodePath("../Leave")
+
+[node name="ShopRerollManager" type="Node" parent="."]
+
+script = ExtResource("4_rerollmanager")

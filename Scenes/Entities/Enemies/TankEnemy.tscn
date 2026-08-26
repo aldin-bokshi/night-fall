@@ -1,0 +1,8 @@
+[gd_scene load_steps=2 format=3]
+
+[ext_resource type="PackedScene" path="res://Scenes/Entities/Enemies/Enemy.tscn" id="1_enemy"]
+
+[node name="TankEnemy" instance=ExtResource("1_enemy")]
+
+[node name="EnemyStats" parent="." index="2"]
+Variant = 2

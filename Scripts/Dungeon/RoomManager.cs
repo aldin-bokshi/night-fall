@@ -13,6 +13,8 @@ public partial class RoomManager : Node
     [Export] public Area2D? RoomActivationZone { get; set; }
     [Export] public Node2D? Room { get; set; }
     [Export] public PackedScene? EnemyScene { get; set; }
+    [Export] public PackedScene? FastEnemyScene { get; set; }
+    [Export] public PackedScene? TankEnemyScene { get; set; }
 
     private bool _waveActive;
     private readonly List<Enemy> _activeEnemies = [];
@@ -22,6 +24,8 @@ public partial class RoomManager : Node
     {
         RoomActivationZone ??= GetNodeOrNull<Area2D>(".") ?? GetNodeOrNull<Area2D>("RoomActivationZone");
         EnemyScene ??= GD.Load<PackedScene>(GamePaths.EnemyScene);
+        FastEnemyScene ??= GD.Load<PackedScene>(GamePaths.FastEnemyScene);
+        TankEnemyScene ??= GD.Load<PackedScene>(GamePaths.TankEnemyScene);
 
         if (RoomActivationZone != null)
         {
@@ -68,9 +72,10 @@ public partial class RoomManager : Node
 
         for (int i = 0; i < spawnCount; i++)
         {
-            if (EnemyScene == null) break;
+            PackedScene? enemyScene = GetEnemyScene(i);
+            if (enemyScene == null) break;
 
-            Enemy enemy = EnemyScene.Instantiate<Enemy>();
+            Enemy enemy = enemyScene.Instantiate<Enemy>();
             float angle = (float)(i * 2.0 * Mathf.Pi / spawnCount);
             Vector2 spawnOffset = new Vector2(Mathf.Cos(angle), Mathf.Sin(angle)) * (160f + GD.RandRange(-20, 40));
 
@@ -82,6 +87,30 @@ public partial class RoomManager : Node
         }
 
         FloatingText.Spawn(parent, origin, $"WAVE {_currentWave} STARTED!", new Color(1.0f, 0.3f, 0.2f), 20f);
+    }
+
+    private PackedScene? GetEnemyScene(int spawnIndex)
+    {
+        if (_currentWave <= 1 || FastEnemyScene == null || TankEnemyScene == null)
+        {
+            return EnemyScene;
+        }
+
+        ulong seed = RunSession.Current?.Seed ?? 0UL;
+        int variantRoll = (int)(
+            (seed + (ulong)_currentWave * 31UL + (ulong)spawnIndex * 17UL) % 100UL);
+
+        if (variantRoll < 20 && TankEnemyScene != null)
+        {
+            return TankEnemyScene;
+        }
+
+        if (variantRoll < 55 && FastEnemyScene != null)
+        {
+            return FastEnemyScene;
+        }
+
+        return EnemyScene;
     }
 
     private void OnWaveCleared()

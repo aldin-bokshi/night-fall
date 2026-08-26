@@ -10,30 +10,22 @@ namespace NightFall.Scripts.Game;
 public partial class Game : Node
 {
     [Export] private NodePath _worldPath = "World";
-
     [Export] private NodePath _uiPath = "UI";
-
     [Export] private NodePath _dungeonPath = "World/Dungeon";
-
     [Export] private NodePath _playerPath = "World/Player";
-
     [Export] private NodePath _hudPath = "UI/HUD";
 
     public RunConfig CurrentRun { get; private set; } = null!;
 
     public Node2D? World { get; private set; }
-
     public CanvasLayer? Ui { get; private set; }
-
     public Node2D? Dungeon { get; private set; }
-
     public Player? Player { get; private set; }
-
     public CanvasLayer? Hud { get; private set; }
 
     public RunTracker RunTracker { get; private set; } = null!;
 
-    public IReadOnlyList<RoomType> DungeonLayout { get; private set; } = [];
+    public IReadOnlyList<DungeonRoom> DungeonLayout { get; private set; } = [];
 
     public override void _EnterTree()
     {
@@ -45,25 +37,33 @@ public partial class Game : Node
     public override void _Ready()
     {
         World =
-            GetNodeOrNull<Node2D>(_worldPath);
+            GetNodeOrNull<Node2D>(
+                _worldPath);
 
         Ui =
-            GetNodeOrNull<CanvasLayer>(_uiPath);
+            GetNodeOrNull<CanvasLayer>(
+                _uiPath);
 
         Dungeon =
-            GetNodeOrNull<Node2D>(_dungeonPath);
+            GetNodeOrNull<Node2D>(
+                _dungeonPath);
 
         Player =
-            GetNodeOrNull<Player>(_playerPath);
+            GetNodeOrNull<Player>(
+                _playerPath);
 
         Hud =
-            GetNodeOrNull<CanvasLayer>(_hudPath);
+            GetNodeOrNull<CanvasLayer>(
+                _hudPath);
 
-        AudioSynthManager.EnsureInstance(this);
+        AudioSynthManager.EnsureInstance(
+            this);
 
-        RunTracker = new RunTracker();
+        RunTracker =
+            new RunTracker();
 
-        AddChild(RunTracker);
+        AddChild(
+            RunTracker);
 
         GenerateDungeon();
 
@@ -72,64 +72,148 @@ public partial class Game : Node
 
     private void GenerateDungeon()
     {
+        Dictionary<RoomType, (int Width, int Height)> sizes =
+            GetRoomSizes();
+
         DungeonLayout =
             DungeonGenerator.Generate(
-                CurrentRun.Seed);
+                CurrentRun.Seed,
+                sizes);
 
         GD.Print($"Dungeon seed: [{CurrentRun.SeedText}]");
 
         GD.Print($"Numeric seed: {CurrentRun.Seed}");
 
-        GD.Print($"Dungeon layout: " + $"{string.Join(" -> ", DungeonLayout)}");
+        GD.Print("Dungeon layout: " +string.Join(" -> ", DungeonLayout));
 
         if (Dungeon == null)
         {
-            GD.PushError(
-                "Dungeon node could not be found.");
+            GD.PushError("Dungeon node could not be found.");
 
             return;
         }
 
-        foreach (Node child in Dungeon.GetChildren())
-        {
-            child.QueueFree();
-        }
+        foreach (Node child in Dungeon.GetChildren()) child.QueueFree();
+
+        const float tileSize = 32f;
 
         for (int index = 0;
              index < DungeonLayout.Count;
              index++)
         {
-            RoomType roomType =
+            DungeonRoom dungeonRoom =
                 DungeonLayout[index];
 
             string scenePath =
-                GetRoomScenePath(roomType);
+                GetRoomScenePath(
+                    dungeonRoom.Type);
 
             PackedScene? roomScene =
-                GD.Load<PackedScene>(scenePath);
+                GD.Load<PackedScene>(
+                    scenePath);
 
             if (roomScene == null)
             {
                 GD.PushError(
                     $"Could not load dungeon room: " +
-                    $"{roomType}\nPath: {scenePath}");
+                    $"{dungeonRoom.Type}\n" +
+                    $"Path: {scenePath}");
 
                 continue;
             }
 
-            Node2D room =
-                roomScene.Instantiate<Node2D>();
+            Node2D room = roomScene.Instantiate<Node2D>();
 
-            room.Name =
-                $"{roomType}Room{index + 1}";
+            room.Name = $"{dungeonRoom.Type}Room{index + 1}";
 
-            room.Position =
-                new Vector2(
-                    index * 700f - 320f,
-                    -180f);
+            room.Position = new Vector2(dungeonRoom.Position.X * tileSize, dungeonRoom.Position.Y * tileSize);
 
             Dungeon.AddChild(room);
         }
+    }
+
+    private static Dictionary<RoomType, (int Width, int Height)>
+        GetRoomSizes()
+    {
+        Dictionary<RoomType, (int Width, int Height)> sizes = [];
+
+        AddRoomSize(
+            sizes,
+            RoomType.Start,
+            GamePaths.RoomScenes.StartRoom);
+
+        AddRoomSize(
+            sizes,
+            RoomType.Combat,
+            GamePaths.RoomScenes.CombatRoom);
+
+        AddRoomSize(
+            sizes,
+            RoomType.Elite,
+            GamePaths.RoomScenes.EliteRoom);
+
+        AddRoomSize(
+            sizes,
+            RoomType.Shop,
+            GamePaths.RoomScenes.ShopRoom);
+
+        AddRoomSize(
+            sizes,
+            RoomType.Boss,
+            GamePaths.RoomScenes.BossRoom);
+
+        AddRoomSize(
+            sizes,
+            RoomType.Hub,
+            GamePaths.RoomScenes.HubRoom);
+
+        return sizes;
+    }
+
+    private static void AddRoomSize(
+        Dictionary<RoomType, (int Width, int Height)> sizes,
+        RoomType type,
+        string scenePath)
+    {
+        PackedScene? scene =
+            GD.Load<PackedScene>(
+                scenePath);
+
+        if (scene == null)
+        {
+            GD.PushError(
+                $"Could not load room scene: {scenePath}");
+
+            return;
+        }
+
+        Node instance =
+            scene.Instantiate();
+
+        Room? room =
+            instance as Room ??
+            instance.FindChild(
+                "Room",
+                true,
+                false) as Room;
+
+        if (room == null)
+        {
+            instance.QueueFree();
+
+            GD.PushError(
+                $"Room scene {type} does not contain a Room node.");
+
+            return;
+        }
+
+        sizes[type] =
+        (
+            room.WidthInTiles,
+            room.HeightInTiles
+        );
+
+        instance.QueueFree();
     }
 
     private static string GetRoomScenePath(
@@ -155,7 +239,8 @@ public partial class Game : Node
             RoomType.Hub =>
                 GamePaths.RoomScenes.HubRoom,
 
-            _ => GamePaths.RoomScenes.HubRoom
+            _ =>
+                GamePaths.RoomScenes.HubRoom
         };
     }
 
@@ -163,11 +248,13 @@ public partial class Game : Node
     {
         if (Player != null)
         {
-            var stats = Player.Stats;
+            var stats =
+                Player.Stats;
 
             if (CurrentRun.GlassCannon)
             {
-                stats.AttackDamage *= 2.0f;
+                stats.AttackDamage *=
+                    2.0f;
 
                 stats.MaxHealth =
                     Mathf.Max(
@@ -192,7 +279,8 @@ public partial class Game : Node
                             1.0f)
                 };
 
-            World.AddChild(bloodTint);
+            World.AddChild(
+                bloodTint);
         }
     }
 

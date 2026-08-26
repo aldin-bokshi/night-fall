@@ -18,9 +18,9 @@ Enemy
 
 ## Recommended Workflow
 
-### 1. Duplicate The Enemy Scene
+### 1. Use The Shared Base Scene
 
-Use `Scenes/Entities/Enemies/Enemy.tscn` as the template.
+Use `Scenes/Entities/Enemies/Enemy.tscn` as the shared base. Existing variants inherit it instead of duplicating its node tree or scripts.
 
 ### 2. Keep The Expected Node Names
 
@@ -35,7 +35,13 @@ The current scripts expect these names:
 
 If you rename them, update the scripts too.
 
-### 3. Adjust Stats In The Inspector
+### 3. Add A Variant Preset
+
+For a reusable stat variant, add an enum member to `EnemyVariant` and a matching preset in `EnemyStats.ApplyVariant()`. Keep the preset focused on meaningful gameplay values rather than adding variant checks throughout movement, AI, and combat.
+
+Create a thin inherited scene when the variant needs its own spawn path. The existing examples are `FastEnemy.tscn` and `TankEnemy.tscn`; each only sets `EnemyStats.Variant`.
+
+### 4. Adjust Stats In The Inspector
 
 Tune the exported values on `EnemyStats`:
 
@@ -47,13 +53,13 @@ Tune the exported values on `EnemyStats`:
 - Attack range
 - Detection range
 
-### 4. Assign Collision Layers Correctly
+### 5. Assign Collision Layers Correctly
 
 The combat pipeline depends on collision setup.
 
 Match the current enemy scene unless you are intentionally changing the interaction model.
 
-### 5. Decide Whether The Enemy Uses The Existing AI
+### 6. Decide Whether The Enemy Uses The Existing AI
 
 The current `EnemyAi` is distance-based:
 
@@ -63,11 +69,11 @@ The current `EnemyAi` is distance-based:
 
 If your new enemy needs different behavior, replace or extend that script.
 
-### 6. Spawn Or Place The Enemy In A Scene
+### 7. Spawn Or Place The Enemy In A Scene
 
 Two options exist today:
 
-- **Wave spawning (active runs)**: `RoomManager` spawns `Scenes/Entities/Enemies/Enemy.tscn` in waves. If you duplicate the enemy scene, either update `RoomManager`'s `EnemyScene` export or keep the original path.
+- **Wave spawning (active runs)**: `RoomManager` uses the standard, fast, and tank scenes. Add a new scene export and deterministic selection rule there if the new variant should appear in generated waves.
 - **Manual placement**: place the scene directly in a test level (`Scenes/Dungeon/Dev/TestWorld.tscn`) or instantiate it from your own scene logic.
 
 ## Targeting And Damage

@@ -65,6 +65,16 @@ Current fields:
 - `AttackRange`
 - `DetectionRange`
 
+`EnemyStats.Variant` selects a shared-code preset without changing the enemy scene composition:
+
+| Variant | Health | Speed | Damage | Gameplay role |
+| --- | ---: | ---: | ---: | --- |
+| `Standard` | 100 | 150 | 20 | Baseline melee enemy |
+| `Fast` | 65 | 260 | 14 | Quickly closes distance and attacks more often |
+| `Tank` | 240 | 90 | 30 | Slow, durable threat with a heavier attack |
+
+`FastEnemy.tscn` and `TankEnemy.tscn` inherit `Enemy.tscn` and only select the corresponding enum value. New variants should follow this pattern: add a preset to `EnemyStats`, then create a thin inherited scene if a distinct spawnable scene is needed. The base `Enemy`, AI, movement, combat, collision, and death code remains shared.
+
 ### `EnemyCombat`
 
 `EnemyCombat` owns enemy attack timing and hitbox activation.
@@ -106,7 +116,7 @@ When an enemy dies:
 
 ## Wave Spawning
 
-Enemies are spawned by `RoomManager` in waves (see [Room Progression](Room-Progression.md)). There is no other spawn manager yet.
+Enemies are spawned by `RoomManager` in waves (see [Room Progression](Room-Progression.md)). Wave one uses the standard scene. Later waves choose standard, fast, or tank scenes using a deterministic roll derived from the active run seed and wave number, so the same run produces the same variant pattern. There is no other spawn manager yet.
 
 ## Current Limitations
 
@@ -116,7 +126,8 @@ The enemy does not currently have:
 - Fleeing
 - Full state machines (distance-based only)
 - Loot drops beyond flat gold
-- Boss variants
+- ranged attacks or projectile-specific combat
+- boss-specific behavior beyond the available stat variant pattern
 
 ## Creating A New Enemy
 
